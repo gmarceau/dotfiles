@@ -46,6 +46,10 @@
   (join-line -1)
   (indent-for-tab-command))
 
+(defun switch-to-compilation ()
+  (interactive)
+  (switch-to-buffer "*compilation*"))
+
 (global-set-key [(control down)] 'gcm-scroll-down)
 (global-set-key [(control up)]   'gcm-scroll-up)
 
@@ -55,14 +59,19 @@
 (global-set-key "\C-ca" 'magit-status)
 (global-set-key "\C-co" 'occur)
 (global-set-key "\C-ci" 'set-fill-column)
-(global-set-key [f3] 'ido-switch-buffer)
+(global-set-key [f3] 'next-buffer)
+(global-set-key [S-f3] 'previous-buffer)
+(global-set-key [M-S-f3] 'bury-buffer)
 (global-set-key [f9] 'recompile)
+(global-set-key [M-f9] 'switch-to-compilation)
 (global-set-key "\C-j" 'join-line-backward)
 (global-set-key [M-S-up] 'move-text-up)
 (global-set-key [M-S-down] 'move-text-down)
-
+(global-set-key "\M-o" 'other-window)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (ido-mode)
+(show-paren-mode 1)
+
 
 (setq magit-last-seen-setup-instructions "1.4.0")
 (delete-selection-mode)
@@ -71,7 +80,7 @@
 (blink-cursor-mode 0)
 (setq mac-command-modifier 'control)
 (setq inhibit-splash-screen t)
-(setq visible-bell 1)
+(setq visible-bell nil)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed nil)
 
@@ -93,6 +102,7 @@
  '(compilation-ask-about-save nil)
  '(custom-enabled-themes (quote (tango-dark)))
  '(ispell-program-name "/usr/local/bin/ispell")
+ '(sr-speedbar-right-side nil)
  '(traad-server-program (quote ("/Users/gmarceau/miniconda/bin/traad"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
