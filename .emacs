@@ -29,7 +29,7 @@
 (define-key elpy-mode-map [(control up)] nil)
 (define-key elpy-mode-map "\M-]" 'elpy-goto-definition)
 (define-key elpy-mode-map "\M-[" 'pop-tag-mark)
-
+(define-key elpy-mode-map "\C-c\C-e" 'elpy-multiedit)
 (defun gcm-scroll-down ()
   (interactive)
   (scroll-up 3))
@@ -50,9 +50,31 @@
   (interactive)
   (switch-to-buffer "*compilation*"))
 
+(defun duplicate-current-line-or-region (arg)
+  "Duplicates the current line or region ARG times.
+If there's no region, the current line will be duplicated. However, if
+there's a region, all lines that region covers will be duplicated."
+  (interactive "p")
+  (let (beg end (origin (point)))
+    (if (and mark-active (> (point) (mark)))
+        (exchange-point-and-mark))
+    (setq beg (line-beginning-position))
+    (if mark-active
+        (exchange-point-and-mark))
+    (setq end (line-end-position))
+    (let ((region (buffer-substring-no-properties beg end)))
+      (dotimes (i arg)
+        (goto-char end)
+        (newline)
+        (insert region)
+        (setq end (point)))
+      (goto-char (+ origin (* (length region) arg) arg)))))
+
+
 (global-set-key [(control down)] 'gcm-scroll-down)
 (global-set-key [(control up)]   'gcm-scroll-up)
 
+(global-set-key "\C-cd" 'duplicate-current-line-or-region)
 (global-set-key "\C-cc" 'calculator)
 (global-set-key "\C-cp" 'compile)
 (global-set-key "\C-cr" 'revert-buffer)
@@ -68,6 +90,7 @@
 (global-set-key [M-S-up] 'move-text-up)
 (global-set-key [M-S-down] 'move-text-down)
 (global-set-key "\M-o" 'other-window)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (ido-mode)
 (show-paren-mode 1)
@@ -100,6 +123,8 @@
  '(autopair-blink-delay 0.05)
  '(autopair-global-mode t)
  '(compilation-ask-about-save nil)
+ '(compilation-scroll-output t)
+ '(compile-command "nose2 ")
  '(custom-enabled-themes (quote (tango-dark)))
  '(ispell-program-name "/usr/local/bin/ispell")
  '(sr-speedbar-right-side nil)
@@ -111,10 +136,14 @@
  ;; If there is more than one, they won't work right.
  )
 
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 
 (add-hook 'python-mode-hook 'eldoc-mode)
+;(global-flycheck-mode)
 (eval-after-load "company"
  '(progn
    (add-to-list 'company-backends 'company-anaconda)))
 
+;;
