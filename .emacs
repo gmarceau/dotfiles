@@ -23,7 +23,12 @@
 	 ":"
 	 (getenv "PATH")))
 
+(add-to-list 'load-path "~/dotfiles/lisp")
+
 (package-initialize)
+(require 'save-packages)
+(save-packages)
+
 (elpy-enable)
 (define-key elpy-mode-map [(control down)] nil)
 (define-key elpy-mode-map [(control up)] nil)
@@ -267,6 +272,7 @@ there's a region, all lines that region covers will be duplicated."
  '(custom-enabled-themes (quote (tango-dark)))
  '(indent-tabs-mode nil)
  '(ispell-program-name "/usr/local/bin/ispell")
+ '(save-packages-file "~/dotfiles/save-packages")
  '(sr-speedbar-right-side nil)
  '(traad-server-program (quote ("/Users/gmarceau/miniconda/bin/traad"))))
 (custom-set-faces
