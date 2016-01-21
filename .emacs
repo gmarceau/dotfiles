@@ -185,7 +185,8 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key [M-S-up] 'move-text-up)
 (global-set-key [M-S-down] 'move-text-down)
 (global-set-key "\M-o" 'other-window)
-
+(global-set-key "\M-=" 'er/expand-region)
+(global-set-key "\M-+" 'er/contract-region)
 
 (defvar personal-map (make-sparse-keymap))
 (define-key global-map [(control c)] personal-map)
@@ -198,13 +199,13 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "i" 'set-fill-column)
 (define-key personal-map "r" (lambda () (interactive) (revert-buffer t t)))
 (define-key personal-map "a" 'magit-status)
-(define-key personal-map "g" 'lgrep)
+(define-key personal-map "fg" 'lgrep)
 (define-key personal-map "\C-q" 'fill-region)
 (define-key personal-map "q" 'unfill)
 (define-key personal-map "mb" 'bind-last-kdb-macro)
 (define-key personal-map "md" 'global-unset-key)
 (define-key personal-map "l" 'font-lock-fontify-buffer)
-(define-key personal-map "f" 'find-file-at-point)
+(define-key personal-map "ff" 'find-file-at-point)
 (define-key personal-map "t" 'insert-time-stamp)
 (define-key personal-map "v" 'view-mode)
 (define-key personal-map "y" '(lambda () (interactive) (flyspell-mode) (flyspell-buffer)))
@@ -216,6 +217,9 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map [tab] 'set-tab-width)
 (define-key personal-map "h" 'highlight-phrase)
 (define-key personal-map "\C-h" 'highlight-regexp)
+(define-key personal-map "fd" 'find-name-dired)
+(define-key personal-map "fa" 'ack)
+(define-key personal-map "c" 'calculator)
 
 (fset 'indent-riffle [tab down])
 (if window-system (define-key global-map "\C-z" 'indent-riffle))
@@ -239,6 +243,7 @@ there's a region, all lines that region covers will be duplicated."
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq ring-bell-function '(lambda () ))
 (column-number-mode t)
+(global-linum-mode t)
 
 (require 'compile)
 (add-to-list
@@ -251,14 +256,16 @@ there's a region, all lines that region covers will be duplicated."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ack-prompt-for-directory t)
  '(auto-revert-interval 0.5)
  '(autopair-blink t)
  '(autopair-blink-delay 0.05)
  '(autopair-global-mode t)
  '(compilation-ask-about-save nil)
- '(compilation-scroll-output t)
+ '(compilation-scroll-output (quote first-error))
  '(compile-command "nose2 ")
  '(custom-enabled-themes (quote (tango-dark)))
+ '(indent-tabs-mode nil)
  '(ispell-program-name "/usr/local/bin/ispell")
  '(sr-speedbar-right-side nil)
  '(traad-server-program (quote ("/Users/gmarceau/miniconda/bin/traad"))))
