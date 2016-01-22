@@ -166,6 +166,23 @@ there's a region, all lines that region covers will be duplicated."
     (goto-char (car up-list-stack))
     (setq up-list-stack (cdr up-list-stack))))
 
+(defun visit-project-tags ()
+  (interactive)
+  (require 'repository-root)
+  (let ((tags-file (concat (repository-root default-directory) "TAGS")))
+    (visit-tags-table tags-file)
+    (message (concat "Loaded " tags-file))))
+
+(defun build-project-tags ()
+  (interactive)
+  (require 'repository-root)
+  (message "Building project tags")
+  (let ((tags-table-list '())
+        (root (repository-root default-directory))
+        (cmd "ctags -e -R --extra=+fq --exclude=.idea --exclude=node_modules --exclude=.git -f "))
+    (shell-command (concat cmd root "TAGS " root)))
+  (visit-project-tags))
+
 (defun find-tag-at-point ()
   "Jump to the tag at point without prompting"
   (interactive)
@@ -274,6 +291,7 @@ there's a region, all lines that region covers will be duplicated."
  '(ispell-program-name "/usr/local/bin/ispell")
  '(save-packages-file "~/dotfiles/save-packages")
  '(sr-speedbar-right-side nil)
+ '(tags-revert-without-query t)
  '(traad-server-program (quote ("/Users/gmarceau/miniconda/bin/traad"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
