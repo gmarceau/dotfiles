@@ -168,19 +168,19 @@ there's a region, all lines that region covers will be duplicated."
 
 (defun visit-project-tags ()
   (interactive)
-  (require 'repository-root)
-  (let ((tags-file (concat (repository-root default-directory) "TAGS")))
+  (require 'full-ack)
+  (let ((tags-file (concat (ack-guess-project-root) "TAGS")))
     (visit-tags-table tags-file)
     (message (concat "Loaded " tags-file))))
 
 (defun build-project-tags ()
   (interactive)
-  (require 'repository-root)
+  (require 'full-ack)
   (message "Building project tags")
   (let ((tags-table-list '())
-        (root (repository-root default-directory))
-        (cmd "ctags -e -R --extra=+fq --exclude=.idea --exclude=node_modules --exclude=.git -f "))
-    (shell-command (concat cmd root "TAGS " root)))
+        (root (ack-guess-project-root))
+        (cmd "ctags -e -R --extra=+fq --exclude=.idea --exclude=node_modules --exclude=.git -o "))
+    (shell-command (concat cmd "TAGS " root)))
   (visit-project-tags))
 
 (defun find-tag-at-point ()
@@ -199,6 +199,7 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key [f3] 'next-buffer)
 (global-set-key [S-f3] 'previous-buffer)
 (global-set-key [M-S-f3] 'bury-buffer)
+(global-set-key [M-f6] 'iedit-mode)
 (global-set-key [f9] 'recompile)
 (global-set-key [M-f9] 'switch-to-compilation)
 (global-set-key "\C-j" 'join-line-backward)
@@ -278,7 +279,7 @@ there's a region, all lines that region covers will be duplicated."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ack-prompt-for-directory t)
+ '(ack-prompt-for-directory (quote unless-guessed))
  '(auto-revert-interval 0.5)
  '(autopair-blink t)
  '(autopair-blink-delay 0.05)
@@ -289,6 +290,7 @@ there's a region, all lines that region covers will be duplicated."
  '(custom-enabled-themes (quote (tango-dark)))
  '(indent-tabs-mode nil)
  '(ispell-program-name "/usr/local/bin/ispell")
+ '(repository-root-matchers (quote (repository-root-matcher/git)))
  '(save-packages-file "~/dotfiles/save-packages")
  '(sr-speedbar-right-side nil)
  '(tags-revert-without-query t)
@@ -319,5 +321,9 @@ there's a region, all lines that region covers will be duplicated."
 (eval-after-load "company"
  '(progn
    (add-to-list 'company-backends 'company-anaconda)))
+(eval-after-load "iedit"
+  '(progn
+     (define-key iedit-mode-keymap "\r" 'iedit-mode)))
+
 
 ;;
