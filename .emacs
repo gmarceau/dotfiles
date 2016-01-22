@@ -29,12 +29,6 @@
 (require 'save-packages)
 (save-packages)
 
-(elpy-enable)
-(define-key elpy-mode-map [(control down)] nil)
-(define-key elpy-mode-map [(control up)] nil)
-(define-key elpy-mode-map "\M-]" 'elpy-goto-definition)
-(define-key elpy-mode-map "\M-[" 'pop-tag-mark)
-(define-key elpy-mode-map "\C-c\C-e" 'elpy-multiedit)
 (defun gcm-scroll-down ()
   (interactive)
   (scroll-up 3))
@@ -79,11 +73,11 @@ there's a region, all lines that region covers will be duplicated."
   "Maximally undo the effect of a fill"
   (interactive)
 
-  (let ((left (save-excursion 
+  (let ((left (save-excursion
 		(min (progn (beginning-of-line) (point))
 		     (progn (backward-paragraph) (point)))))
 	(right (make-marker)))
-    (save-excursion 
+    (save-excursion
       (set-marker right (max (progn (end-of-line) (point))
 			     (progn (forward-paragraph) (point))))
       (goto-char left) (forward-line 1)
@@ -97,12 +91,12 @@ there's a region, all lines that region covers will be duplicated."
     (if (< (mark) (point)) (exchange-point-and-mark))
     (let ((end (mark)))
       (message "%d words"
-               (while-break ((i 0)) 
+               (while-break ((i 0))
                  (if (not (re-search-forward "\\<" end t)) (break i)
                    (setq i (+ 1 i))
                    (forward-char 1)))))))
 
-(defun debug-on-error () 
+(defun debug-on-error ()
   (interactive)
   (setq debug-on-error (not debug-on-error))
   (message "debug-on-error is now %s" (if debug-on-error "ON" "OFF")))
@@ -136,7 +130,7 @@ there's a region, all lines that region covers will be duplicated."
 
 (defadvice kill-buffer (around immortal-scratch-buffer activate)
   (let* ((buf-or-name (ad-get-arg 0))
-         (buffer (if buf-or-name 
+         (buffer (if buf-or-name
                      (get-buffer-create buf-or-name)
                    (current-buffer)))
          (name (buffer-name buffer))
@@ -172,6 +166,10 @@ there's a region, all lines that region covers will be duplicated."
     (goto-char (car up-list-stack))
     (setq up-list-stack (cdr up-list-stack))))
 
+(defun find-tag-at-point ()
+  "Jump to the tag at point without prompting"
+  (interactive)
+  (find-tag (find-tag-default)))
 
 (global-set-key [(control down)] 'gcm-scroll-down)
 (global-set-key [(control up)]   'gcm-scroll-up)
@@ -192,6 +190,8 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key "\M-o" 'other-window)
 (global-set-key "\M-=" 'er/expand-region)
 (global-set-key "\M-+" 'er/contract-region)
+(global-set-key "\M-]" 'find-tag-at-point)
+(global-set-key "\M-[" 'pop-tag-mark)
 
 (defvar personal-map (make-sparse-keymap))
 (define-key global-map [(control c)] personal-map)
@@ -296,6 +296,7 @@ there's a region, all lines that region covers will be duplicated."
 
 
 (add-hook 'python-mode-hook 'eldoc-mode)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;(global-flycheck-mode)
 (eval-after-load "company"
  '(progn
