@@ -1,0 +1,10 @@
+set completion-ignore-case on
+set editing-mode emacs
+
+# Macros that are convenient for shell interaction
+$if Bash
+
+# edit the path
+"\C-xp": "PATH=${PATH}\e\C-e\C-a\ef\C-f"
+
+#endif
