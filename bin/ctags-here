@@ -1,0 +1,2 @@
+#!/bin/sh
+ctags -e -R --extra=+fq --exclude=@$HOME/dotfiles/ctags-excludes -o TAGS .
