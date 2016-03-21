@@ -269,17 +269,27 @@ there's a region, all lines that region covers will be duplicated."
 (global-linum-mode t)
 
 (require 'compile)
-(add-to-list
- 'compilation-error-regexp-alist
- '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
-   1 2 nil (3 . 4)))
+
+;(add-to-list
+; 'compilation-error-regexp-alist
+; '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
+;   1 2 nil (3 . 4)))
+
+;; Add NodeJS error format
+(add-to-list 'compilation-error-regexp-alist-alist
+             '(node "^[  ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
+                    1 ;; file
+                    2 ;; line
+                    3 ;; column
+                    ))
+(add-to-list 'compilation-error-regexp-alist 'node)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ack-prompt-for-directory (quote unless-guessed))
+ '(ack-prompt-for-directory t)
  '(auto-revert-interval 0.5)
  '(autopair-blink t)
  '(autopair-blink-delay 0.05)
@@ -317,6 +327,7 @@ there's a region, all lines that region covers will be duplicated."
 
 (add-hook 'python-mode-hook 'eldoc-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+;(remove-hook 'before-save-hook 'delete-trailing-whitespace)
 ;(global-flycheck-mode)
 (eval-after-load "company"
  '(progn
