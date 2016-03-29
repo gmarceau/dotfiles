@@ -11,4 +11,8 @@ function ffl {
     find . -name \*$1\*
 }
 
+function ffe {
+    find . -name \*.$1
+}
+
 alias e='emacsclient -n'
