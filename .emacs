@@ -131,6 +131,18 @@ there's a region, all lines that region covers will be duplicated."
          ((current-column) (+ (current-column) 1))
          (t 1))))
 
+(defun bring-sexp (p)
+  "Bring the sexp on the right of the current enclosing sexp to this location"
+  (interactive "d")
+  (let ((to-insert
+         (save-excursion
+           (up-list)
+           (let ((left (point)))
+             (forward-sexp)
+             (string-trim (delete-and-extract-region left (point)))))))
+    (insert to-insert)
+    (indent-region p (point))))
+
 (defadvice kill-buffer (around immortal-scratch-buffer activate)
   (let* ((buf-or-name (ad-get-arg 0))
          (buffer (if buf-or-name
@@ -192,6 +204,11 @@ there's a region, all lines that region covers will be duplicated."
   (interactive)
   (find-tag (find-tag-default)))
 
+(defun json-reformat-region ()
+  "Send the region through `python -m json.tool`"
+  (interactive)
+  (shell-command-on-region (region-beginning) (region-end) "python -m json.tool" t t))
+
 (global-set-key [(control down)] 'gcm-scroll-down)
 (global-set-key [(control up)]   'gcm-scroll-up)
 
@@ -215,6 +232,7 @@ there's a region, all lines that region covers will be duplicated."
 ;; (global-set-key "\M-]" 'find-tag-at-point)
 (global-set-key [M-down-mouse-1] 'ggtags-find-tag-mouse)
 (global-set-key "\M-[" 'pop-tag-mark)
+(global-set-key "\M-B" 'bring-sexp)
 
 (defvar personal-map (make-sparse-keymap))
 (define-key global-map [(control c)] personal-map)
@@ -225,6 +243,7 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "a" 'magit-status)
 (define-key personal-map "o" 'occur)
 (define-key personal-map "i" 'set-fill-column)
+(define-key personal-map "j" 'json-reformat-region)
 (define-key personal-map "r" (lambda () (interactive) (revert-buffer t t)))
 (define-key personal-map "a" 'magit-status)
 (define-key personal-map "fg" 'lgrep)
@@ -294,13 +313,14 @@ there's a region, all lines that region covers will be duplicated."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ack-context 1)
  '(ack-prompt-for-directory t)
  '(auto-revert-interval 0.5)
  '(autopair-blink t)
  '(autopair-blink-delay 0.05)
  '(autopair-global-mode t)
  '(compilation-ask-about-save nil)
- '(compilation-scroll-output (quote first-error))
+ '(compilation-scroll-output nil)
  '(compile-command "nose2 ")
  '(custom-enabled-themes (quote (tango-dark)))
  '(indent-tabs-mode nil)
