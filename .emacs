@@ -60,7 +60,8 @@ there's a region, all lines that region covers will be duplicated."
     (setq beg (line-beginning-position))
     (if mark-active
         (exchange-point-and-mark))
-    (if (= (current-column) 0)
+    (if (and (= (current-column) 0)
+             (/= (line-beginning-position) beg))
         (setq end (line-beginning-position))
       (setq end (line-end-position)))
     (let ((region (buffer-substring beg end)))
@@ -320,7 +321,7 @@ there's a region, all lines that region covers will be duplicated."
  '(autopair-blink-delay 0.05)
  '(autopair-global-mode t)
  '(compilation-ask-about-save nil)
- '(compilation-scroll-output nil)
+ '(compilation-scroll-output (quote first-error))
  '(compile-command "nose2 ")
  '(custom-enabled-themes (quote (tango-dark)))
  '(indent-tabs-mode nil)
