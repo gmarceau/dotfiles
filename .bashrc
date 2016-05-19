@@ -1,7 +1,7 @@
 
 
 export PATH=$HOME/bin:$PATH
-export EDITOR="emacsclient -c"
+export EDITOR="emacsclient -ca"
 
 function ff {
     find . -name $1
