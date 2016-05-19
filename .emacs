@@ -29,6 +29,8 @@
 (require 'save-packages)
 (save-packages)
 
+(add-to-list 'auto-mode-alist '("\\.hjson\\'" . js-mode) t)
+
 (defun gcm-scroll-down ()
   (interactive)
   (scroll-up 3))
@@ -210,6 +212,14 @@ there's a region, all lines that region covers will be duplicated."
   (interactive)
   (shell-command-on-region (region-beginning) (region-end) "python -m json.tool" t t))
 
+(defun insert-console-log ()
+  (interactive)
+  (beginning-of-line)
+  (open-line 1)
+  (insert (format "console.log('--%d', );" (line-number-at-pos)))
+  (backward-char 2)
+  (indent-for-tab-command))
+
 (global-set-key [(control down)] 'gcm-scroll-down)
 (global-set-key [(control up)]   'gcm-scroll-up)
 
@@ -221,6 +231,7 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key [f3] 'next-buffer)
 (global-set-key [S-f3] 'previous-buffer)
 (global-set-key [M-S-f3] 'bury-buffer)
+(global-set-key [f4] 'projectile-ag)
 (global-set-key [M-f6] 'iedit-mode)
 (global-set-key [f9] 'recompile)
 (global-set-key [M-f9] 'switch-to-compilation)
@@ -239,10 +250,11 @@ there's a region, all lines that region covers will be duplicated."
 (define-key global-map [(control c)] personal-map)
 
 (define-key personal-map "d" 'duplicate-current-line-or-region)
-(define-key personal-map "p" 'compile)
+(define-key personal-map "\C-p" 'compile)
 (define-key personal-map "r" 'revert-buffer)
 (define-key personal-map "a" 'magit-status)
 (define-key personal-map "o" 'occur)
+(define-key personal-map "0" 'insert-console-log)
 (define-key personal-map "i" 'set-fill-column)
 (define-key personal-map "j" 'json-reformat-region)
 (define-key personal-map "r" (lambda () (interactive) (revert-buffer t t)))
@@ -266,7 +278,7 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "h" 'highlight-phrase)
 (define-key personal-map "\C-h" 'highlight-regexp)
 (define-key personal-map "fd" 'find-name-dired)
-(define-key personal-map "fa" 'ack)
+(define-key personal-map "fa" 'ag)
 (define-key personal-map "c" 'calculator)
 
 (fset 'indent-riffle [tab down])
@@ -292,6 +304,7 @@ there's a region, all lines that region covers will be duplicated."
 (setq ring-bell-function '(lambda () ))
 (column-number-mode t)
 (global-linum-mode t)
+(setq backupq-directory-alist `(("." . "~/.emacs.d/autosaves")))
 
 (require 'compile)
 
@@ -323,11 +336,40 @@ there's a region, all lines that region covers will be duplicated."
  '(compilation-ask-about-save nil)
  '(compilation-scroll-output (quote first-error))
  '(compile-command "nose2 ")
+ '(create-lockfiles nil)
  '(custom-enabled-themes (quote (tango-dark)))
+ '(ido-auto-merge-work-directories-length -1)
  '(indent-tabs-mode nil)
+ '(initial-scratch-message "")
  '(ispell-program-name "/usr/local/bin/ispell")
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules")))
+ '(projectile-other-file-alist
+   (quote
+    (("spec.js" "js" "impl.js")
+     ("impl.js" "spec.js" "js")
+     ("js" "impl.js" "spec.js")
+     ("cpp" "h" "hpp" "ipp")
+     ("ipp" "h" "hpp" "cpp")
+     ("hpp" "h" "ipp" "cpp" "cc")
+     ("cxx" "h" "hxx" "ixx")
+     ("ixx" "h" "hxx" "cxx")
+     ("hxx" "h" "ixx" "cxx")
+     ("c" "h")
+     ("m" "h")
+     ("mm" "h")
+     ("h" "c" "cpp" "ipp" "hpp" "cxx" "ixx" "hxx" "m" "mm")
+     ("cc" "hh" "hpp")
+     ("hh" "cc")
+     ("vert" "frag")
+     ("frag" "vert")
+     (nil "lock" "gpg")
+     ("lock" "")
+     ("gpg" ""))))
  '(repository-root-matchers (quote (repository-root-matcher/git)))
  '(save-packages-file "~/dotfiles/save-packages")
+ '(split-width-threshold 260)
  '(sr-speedbar-right-side nil)
  '(tags-revert-without-query t)
  '(traad-server-program (quote ("/Users/gmarceau/miniconda/bin/traad"))))
@@ -336,7 +378,7 @@ there's a region, all lines that region covers will be duplicated."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(ack-match ((t (:background "orange" :foreground "black")))))
 
 (put 'eval-expression 'disabled nil)
 (put 'erase-buffer 'disabled nil)
@@ -346,6 +388,9 @@ there's a region, all lines that region covers will be duplicated."
 (put 'downcase-word 'disabled nil)
 (put 'edit-kbd-macro 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
+
+(projectile-global-mode t)
+(projectile-register-project-type 'npm '("package.json") "npm run lint" "npm run test" "npm start")
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
@@ -360,6 +405,14 @@ there's a region, all lines that region covers will be duplicated."
 (add-hook 'python-mode-hook 'ggtags-mode)
 (add-hook 'js-mode-hook 'ggtags-mode)
 
+
+(add-hook 'find-file-hook 'package-json-hook)
+(defun package-json-hook ()
+  (when (string= (file-name-nondirectory (buffer-file-name)) "package.json")
+    (setq-local js-indent-level 2)))
+
+
+
 (eval-after-load "company"
  '(progn
    (add-to-list 'company-backends 'company-anaconda)))
@@ -369,5 +422,7 @@ there's a region, all lines that region covers will be duplicated."
 (eval-after-load "ggtags"
   '(progn
      (define-key ggtags-mode-map [M-down-mouse-1] 'ggtags-find-tag-mouse)))
-
+(eval-after-load "json-mode"
+  '(progn
+     (define-key json-mode-map "\C-c\C-p" 'compile)))
 ;;
