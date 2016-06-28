@@ -129,6 +129,8 @@ there's a region, all lines that region covers will be duplicated."
   (let ((to-insert
          (save-excursion
            (up-list)
+           (when (char-equal (following-char) ?\;)
+             (forward-char))
            (let ((left (point)))
              (forward-sexp)
              (string-trim (delete-and-extract-region left (point)))))))
