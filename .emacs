@@ -391,6 +391,13 @@ there's a region, all lines that region covers will be duplicated."
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;(remove-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(add-hook
+ 'after-save-hook
+ (lambda ()
+   (when (string-match
+          "[.]spread[.]js$"
+          (buffer-file-name))
+     (shell-command (concat "spread.js " (buffer-file-name) " &")))))
 
 
 (add-hook 'python-mode-hook 'ggtags-mode)
@@ -403,6 +410,14 @@ there's a region, all lines that region covers will be duplicated."
     (setq-local js-indent-level 2)))
 
 
+(eval-after-load "js"
+  '(progn
+     (define-key js-mode-map
+       "\C-c>"
+       (lambda () (interactive)
+         (progn
+           (end-of-line)
+           (insert " //-> 0 "))))))
 
 (eval-after-load "company"
  '(progn
