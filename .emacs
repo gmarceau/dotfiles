@@ -295,7 +295,7 @@ there's a region, all lines that region covers will be duplicated."
 (setq ring-bell-function '(lambda () ))
 (column-number-mode t)
 (global-linum-mode t)
-(setq backupq-directory-alist `(("." . "~/.emacs.d/autosaves")))
+(setq backup-directory-alist `(("." . "~/.emacs.d/autosaves")))
 
 (require 'compile)
 
