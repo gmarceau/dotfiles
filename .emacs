@@ -91,17 +91,6 @@ there's a region, all lines that region covers will be duplicated."
 	(end-of-line) (delete-char 1) (just-one-space))
       (delete-char -1) (insert "\n"))))
 
-(defun count-words ()
-  (interactive)
-  (save-excursion
-    (if (< (mark) (point)) (exchange-point-and-mark))
-    (let ((end (mark)))
-      (message "%d words"
-               (while-break ((i 0))
-                 (if (not (re-search-forward "\\<" end t)) (break i)
-                   (setq i (+ 1 i))
-                   (forward-char 1)))))))
-
 (defun debug-on-error ()
   (interactive)
   (setq debug-on-error (not debug-on-error))
