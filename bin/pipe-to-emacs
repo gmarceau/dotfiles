@@ -26,7 +26,7 @@ import subprocess
 EMACS = 'emacsclient'
 OPTIONS = '-n'
 EVAL = '--eval'
-MAXLINE = 100
+MAXLINE = 1000
 
 def escape_filter(data):
     """Escape backslash.
@@ -49,11 +49,13 @@ def read_stdin(maxline=MAXLINE):
             buf = ''
     yield buf
 
+FNULL = open(os.devnull, 'w')
+
 def emacs_eval(lisp):
     """Launch emacs with code to evaluate.
     """
     cmd = [EMACS, OPTIONS, EVAL, lisp]
-    return subprocess.call(cmd, stdout=None)
+    return subprocess.call(cmd, stdout=FNULL)
 
 def create_buffer(name='*piped*'):
     elisp = '(pop-to-buffer (get-buffer-create "{}"))'.format(name)
@@ -70,7 +72,7 @@ def set_major_mode(name, mode):
 
 def main(mode=None):
     """Loop on stding and insert content into an new emacs buffer every `maxline`
-    linex (50 by default).
+    lines.
     """
     bufname = '*piped*'
     create_buffer(bufname)
@@ -80,7 +82,6 @@ def main(mode=None):
         set_major_mode(bufname, mode)
 
 if __name__ == '__main__':
-    print("pipe to emacs")
     args = sys.argv
     # Suppose this is just the name of the Emacs major-mode to apply
     if len(args) > 1:
