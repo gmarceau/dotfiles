@@ -1,6 +1,0 @@
-.idea
-node_modules
-.git
-public/js/lib
-build
-dist

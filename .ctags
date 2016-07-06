@@ -1,0 +1,8 @@
+--exclude=*.min.js
+--exclude=.git
+--exclude=node_modules
+--exclude=dev-tools
+--exclude=.idea
+--exclude=public/js/lib
+--exclude=build
+--exclude=dist

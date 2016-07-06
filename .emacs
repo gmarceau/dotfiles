@@ -232,8 +232,7 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key "\M-o" 'other-window)
 (global-set-key "\M-=" 'er/expand-region)
 (global-set-key "\M-+" 'er/contract-region)
-;; (global-set-key "\M-]" 'find-tag-at-point)
-(global-set-key [M-down-mouse-1] 'ggtags-find-tag-mouse)
+(global-set-key "\M-]" 'find-tag-at-point)
 (global-set-key "\M-[" 'pop-tag-mark)
 (global-set-key "\M-B" 'bring-sexp)
 
@@ -400,10 +399,6 @@ there's a region, all lines that region covers will be duplicated."
      (shell-command (concat "spread.js " (buffer-file-name) " &")))))
 
 
-(add-hook 'python-mode-hook 'ggtags-mode)
-(add-hook 'js-mode-hook 'ggtags-mode)
-
-
 (add-hook 'find-file-hook 'package-json-hook)
 (defun package-json-hook ()
   (when (string= (file-name-nondirectory (buffer-file-name)) "package.json")
@@ -422,9 +417,7 @@ there's a region, all lines that region covers will be duplicated."
 (eval-after-load "iedit"
   '(progn
      (define-key iedit-mode-keymap "\r" 'iedit-mode)))
-(eval-after-load "ggtags"
-  '(progn
-     (define-key ggtags-mode-map [M-down-mouse-1] 'ggtags-find-tag-mouse)))
+
 (eval-after-load "json-mode"
   '(progn
      (define-key json-mode-map "\C-c\C-p" 'compile)))
