@@ -358,10 +358,16 @@ there's a region, all lines that region covers will be duplicated."
      ("lock" "")
      ("gpg" ""))))
  '(repository-root-matchers (quote (repository-root-matcher/git)))
+ '(safe-local-eval-forms (quote ((text-scale-mode t))))
+ '(safe-local-variable-values
+   (quote
+    ((text-scale-mode-amount . 2)
+     (text-scale-mode-amount . 3))))
  '(save-packages-file "~/dotfiles/save-packages")
  '(server-mode t)
  '(split-width-threshold 260)
  '(sr-speedbar-right-side nil)
+ '(tags-add-tables nil)
  '(tags-revert-without-query t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
