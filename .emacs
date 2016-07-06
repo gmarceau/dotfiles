@@ -327,7 +327,10 @@ there's a region, all lines that region covers will be duplicated."
  '(compilation-scroll-output (quote first-error))
  '(compile-command "nose2 ")
  '(create-lockfiles nil)
- '(custom-enabled-themes (quote (tango-dark)))
+ '(custom-enabled-themes (quote (monokai)))
+ '(custom-safe-themes
+   (quote
+    ("70b51a849b665f50a97a028c44cec36b398398357d8f7c19d558fe832b91980f" default)))
  '(ido-auto-merge-work-directories-length -1)
  '(indent-tabs-mode nil)
  '(initial-scratch-message "")
