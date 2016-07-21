@@ -361,6 +361,7 @@ there's a region, all lines that region covers will be duplicated."
      (nil "lock" "gpg")
      ("lock" "")
      ("gpg" ""))))
+ '(realgud-safe-mode nil)
  '(repository-root-matchers (quote (repository-root-matcher/git)))
  '(safe-local-eval-forms (quote ((text-scale-mode t))))
  '(safe-local-variable-values
