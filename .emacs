@@ -396,7 +396,6 @@ there's a region, all lines that region covers will be duplicated."
   (exec-path-from-shell-initialize))
 
 
-;(add-hook 'python-mode-hook 'eldoc-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;(remove-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -414,21 +413,20 @@ there's a region, all lines that region covers will be duplicated."
   (when (string= (file-name-nondirectory (buffer-file-name)) "package.json")
     (setq-local js-indent-level 2)))
 
+(eval-after-load "python"
+  '(define-key python-mode-map "\C-c\C-p" 'compile))
 
 (eval-after-load "js"
-  '(progn
-     (define-key js-mode-map
+  '(define-key js-mode-map
        "\C-c>"
        (lambda () (interactive)
          (progn
            (end-of-line)
-           (insert " //-> 0 "))))))
+           (insert " //-> 0 ")))))
 
 (eval-after-load "iedit"
-  '(progn
-     (define-key iedit-mode-keymap "\r" 'iedit-mode)))
+  '(define-key iedit-mode-keymap "\r" 'iedit-mode))
 
 (eval-after-load "json-mode"
-  '(progn
-     (define-key json-mode-map "\C-c\C-p" 'compile)))
+  '(define-key json-mode-map "\C-c\C-p" 'compile))
 ;;
