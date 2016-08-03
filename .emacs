@@ -236,6 +236,7 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key "\M-]" 'find-tag-at-point)
 (global-set-key "\M-[" 'pop-tag-mark)
 (global-set-key "\M-B" 'bring-sexp)
+(global-set-key "\M-r" 'repeat)
 
 (defvar personal-map (make-sparse-keymap))
 (define-key global-map [(control c)] personal-map)
