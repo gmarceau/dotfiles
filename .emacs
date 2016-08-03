@@ -189,7 +189,7 @@ there's a region, all lines that region covers will be duplicated."
   (message "Building project tags")
   (let* ((tags-table-list '())
          (root (ack-guess-project-root))
-         (cmd "ctags -e -R --extra=+fq --exclude=.idea --exclude=node_modules --exclude=.git --exclude=lib -o ")
+         (cmd "ctags -eR --python-kinds=-iv --exclude=.idea --exclude=node_modules --exclude=.git --exclude=lib -o ")
          (tag-file (concat root "TAGS")))
     (shell-command (concat cmd tag-file " " root)))
   (visit-project-tags))
