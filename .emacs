@@ -1,6 +1,6 @@
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+             '("melpa-stable" . "http://stable.melpa.org/packages") t)
 
 
 (setenv "BODYLABS" "/Users/gmarceau/Documents/core")
