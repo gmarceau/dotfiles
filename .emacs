@@ -398,6 +398,12 @@ there's a region, all lines that region covers will be duplicated."
   (exec-path-from-shell-initialize))
 
 
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;(remove-hook 'before-save-hook 'delete-trailing-whitespace)
 
