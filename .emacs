@@ -421,6 +421,11 @@ there's a region, all lines that region covers will be duplicated."
   (when (string= (file-name-nondirectory (buffer-file-name)) "package.json")
     (setq-local js-indent-level 2)))
 
+(add-hook
+ 'markdown-mode-hook
+ (lambda ()
+   (define-key markdown-mode-map "\C-c-" 'text-scale-decrease)))
+
 (eval-after-load "python"
   '(define-key python-mode-map "\C-c\C-p" 'compile))
 
