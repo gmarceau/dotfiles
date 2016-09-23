@@ -1,4 +1,5 @@
 (ace-jump-mode
+ace-jump-mode
 ag
 anaconda-mode
 async
@@ -15,6 +16,7 @@ epl
 exec-path-from-shell
 expand-region
 f
+fill-column-indicator
 find-file-in-project
 flx
 flx-ido
@@ -30,6 +32,8 @@ json-reformat
 json-snatcher
 let-alist
 list-utils
+load-relative
+loc-changes
 magit
 magit-popup
 markdown-mode
@@ -49,6 +53,7 @@ pylint
 python-environment
 pythonic
 pyvenv
+realgud
 request
 request-deferred
 s
@@ -58,6 +63,7 @@ solarized-theme
 sr-speedbar
 swiper
 tern
+test-simple
 traad
 ucs-utils
 websocket
