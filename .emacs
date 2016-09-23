@@ -277,7 +277,8 @@ there's a region, all lines that region covers will be duplicated."
 (if window-system (define-key global-map "\C-z" 'indent-riffle))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
-(ido-mode)
+(ido-mode 1)
+(yas-global-mode 1)
 (show-paren-mode 1)
 
 
