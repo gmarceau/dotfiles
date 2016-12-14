@@ -49,7 +49,6 @@ php-mode
 pkg-info
 popup
 projectile
-pylint
 python-environment
 pythonic
 pyvenv
@@ -60,11 +59,9 @@ s
 seq
 smartrep
 solarized-theme
-sr-speedbar
 swiper
 tern
 test-simple
-traad
 ucs-utils
 websocket
 with-editor
