@@ -123,7 +123,7 @@ there's a region, all lines that region covers will be duplicated."
          ((current-column) (+ (current-column) 1))
          (t 1))))
 
-(require 'subr-x)
+;;(require 'subr-x)
 (defun bring-sexp (p)
   "Bring the sexp on the right of the current enclosing sexp to this location"
   (interactive "d")
@@ -436,15 +436,21 @@ there's a region, all lines that region covers will be duplicated."
 
 (eval-after-load "js"
   '(define-key js-mode-map
-       "\C-c>"
-       (lambda () (interactive)
-         (progn
-           (end-of-line)
-           (insert " //-> 0 ")))))
+     "\C-c>"
+     (lambda () (interactive)
+       (progn
+         (end-of-line)
+         (insert " //-> 0 ")))))
 
 (eval-after-load "iedit"
   '(define-key iedit-mode-keymap "\r" 'iedit-mode))
 
 (eval-after-load "json-mode"
   '(define-key json-mode-map "\C-c\C-p" 'compile))
+
+(eval-after-load "c++-mode"
+  '(define-key c++-mode-map "\C-c\C-p" 'compile))
+
+
+
 ;;
