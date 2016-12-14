@@ -166,7 +166,7 @@ there's a region, all lines that region covers will be duplicated."
   (interactive)
   (setq up-list-stack (cons (point) up-list-stack))
   (when (> (length up-list-stack) up-list-stack-max)
-      (setcdr (nthcdr (1- up-list-stack-max) up-list-stack) nil))
+    (setcdr (nthcdr (1- up-list-stack-max) up-list-stack) nil))
   (up-list)
   (backward-sexp))
 
@@ -218,7 +218,7 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key [f2] 'call-last-kbd-macro)
 (global-set-key [\M-f2] 'apply-macro-to-region-lines)
 (global-set-key "\C-hn" 'man)
-(global-set-key "\C-j" '(lambda () (interactive) (join-line -1)))
+(global-set-key "\C-j" (lambda () (interactive) (join-line -1)))
 (global-set-key "\C-x$" 'selective-display)
 (global-set-key [f3] 'next-buffer)
 (global-set-key [S-f3] 'previous-buffer)
@@ -260,7 +260,7 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "ff" 'find-file-at-point)
 (define-key personal-map "t" 'insert-time-stamp)
 (define-key personal-map "v" 'view-mode)
-(define-key personal-map "y" '(lambda () (interactive) (flyspell-mode) (flyspell-buffer)))
+(define-key personal-map "y" (lambda () (interactive) (flyspell-mode) (flyspell-buffer)))
 (define-key personal-map "." 'visit-tags-table)
 (define-key personal-map [up] 'up-list-backward-sexp)
 (define-key personal-map [down] 'up-list-pop)
@@ -294,17 +294,17 @@ there's a region, all lines that region covers will be duplicated."
 (setq mouse-wheel-progressive-speed nil)
 (setq inhibit-startup-message t)
 (fset 'yes-or-no-p 'y-or-n-p)
-(setq ring-bell-function '(lambda () ))
+(setq ring-bell-function (lambda () ))
 (column-number-mode t)
 (global-linum-mode t)
 (setq backup-directory-alist `(("." . "~/.emacs.d/autosaves")))
 
 (require 'compile)
 
-;(add-to-list
-; 'compilation-error-regexp-alist
-; '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
-;   1 2 nil (3 . 4)))
+                                        ;(add-to-list
+                                        ; 'compilation-error-regexp-alist
+                                        ; '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
+                                        ;   1 2 nil (3 . 4)))
 
 ;; Add NodeJS error format
 (add-to-list 'compilation-error-regexp-alist-alist
