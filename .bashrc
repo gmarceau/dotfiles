@@ -15,4 +15,8 @@ function ffe {
     find . -name \*.$1
 }
 
+function activate {
+    . venv/bin/activate
+}
+
 alias e='emacsclient -n'
