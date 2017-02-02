@@ -266,7 +266,7 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "md" 'global-unset-key)
 (define-key personal-map "l" 'font-lock-fontify-buffer)
 (define-key personal-map "ff" 'find-file-at-point)
-(define-key personal-map "t" 'insert-time-stamp)
+(define-key personal-map "t" 'auto-revert-tail-mode)
 (define-key personal-map "v" 'view-mode)
 (define-key personal-map "y" (lambda () (interactive) (flyspell-mode) (flyspell-buffer)))
 (define-key personal-map "." 'visit-tags-table)
