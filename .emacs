@@ -212,6 +212,14 @@ there's a region, all lines that region covers will be duplicated."
   (backward-char 2)
   (indent-for-tab-command))
 
+(defun open-line-better (arg)
+  (interactive "P")
+  (beginning-of-line)
+  (unless arg
+      (next-line))
+  (open-line 1)
+  (indent-according-to-mode))
+
 (global-set-key [(control down)] 'gcm-scroll-down)
 (global-set-key [(control up)]   'gcm-scroll-up)
 
@@ -238,10 +246,7 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key "\M-B" 'bring-sexp)
 (global-set-key "\M-r" 'repeat)
 (global-set-key "\M-j" 'ace-jump-word-mode)
-(global-set-key "\C-o" (lambda () (interactive)
-                         (next-line)
-                         (beginning-of-line)
-                         (open-line 1)))
+(global-set-key "\C-o" 'open-line-better)
 (defvar personal-map (make-sparse-keymap))
 (define-key global-map [(control c)] personal-map)
 
