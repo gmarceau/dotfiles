@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# set bash strict-mode, cf http://redsymbol.net/articles/unofficial-bash-strict-mode/
+set -veuo pipefail
+IFS=$'\n\t'
+
+for f in $*;
+do
+    OUT=${f/.MOV/}
+    OUT=${OUT/.mp4/}
+    OUT=${OUT}.avi
+    ffmpeg -i "$f" -vcodec mpeg4 -b:v 1200k -b:a 192k -flags +aic+mv4 "$OUT"
+    rm "$f"
+done
