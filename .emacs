@@ -123,10 +123,10 @@ there's a region, all lines that region covers will be duplicated."
          ((current-column) (+ (current-column) 1))
          (t 1))))
 
-;;(require 'subr-x)
 (defun bring-sexp (p)
   "Bring the sexp on the right of the current enclosing sexp to this location"
   (interactive "d")
+  (require 'subr-x) ;; for string-trim
   (let ((to-insert
          (save-excursion
            (up-list)
@@ -214,9 +214,9 @@ there's a region, all lines that region covers will be duplicated."
 
 (defun open-line-better (arg)
   (interactive "P")
+  (when arg
+      (next-line arg))
   (beginning-of-line)
-  (unless arg
-      (next-line))
   (open-line 1)
   (indent-according-to-mode))
 
