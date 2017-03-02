@@ -284,6 +284,9 @@ there's a region, all lines that region covers will be duplicated."
 (fset 'indent-riffle [tab down])
 (if window-system (define-key global-map "\C-z" 'indent-riffle))
 
+(fset 'isearch-forward-symbol-at-point-now "\M-s.\C-s")
+(global-set-key "\M-8" 'isearch-forward-symbol-at-point-now)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (ido-mode 1)
 (yas-global-mode 1)
