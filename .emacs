@@ -284,8 +284,24 @@ there's a region, all lines that region covers will be duplicated."
 (fset 'indent-riffle [tab down])
 (if window-system (define-key global-map "\C-z" 'indent-riffle))
 
-(fset 'isearch-forward-symbol-at-point-now "\M-s.\C-s")
-(global-set-key "\M-8" 'isearch-forward-symbol-at-point-now)
+(defadvice isearch-repeat (after isearch-autowrap)
+  (unless isearch-success
+    (ad-disable-advice 'isearch-repeat 'after 'isearch-autowrap)
+    (ad-activate 'isearch-repeat)
+    (isearch-repeat (if isearch-forward 'forward))
+    (ad-enable-advice 'isearch-repeat 'after 'isearch-autowrap)
+    (ad-activate 'isearch-repeat)))
+
+(defun isearch-forward-symbol-at-point-now ()
+  (interactive)
+  (isearch-forward-symbol-at-point)
+  (ad-enable-advice 'isearch-repeat 'after 'isearch-autowrap)
+  (ad-activate 'isearch-repeat)
+  (isearch-repeat-forward)
+  (ad-disable-advice 'isearch-repeat 'after 'isearch-autowrap)
+  (ad-activate 'isearch-repeat))
+
+(global-set-key "\M-'" 'isearch-forward-symbol-at-point-now)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (ido-mode 1)
