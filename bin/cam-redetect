@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Add to your .bashrc on Mac OSX, then run camfix in Terminal
+# if the Mac's built-in camera stops working.
+# Thanks to: http://osxdaily.com/2013/12/27/fix-there-is-no-connected-camera-error-mac/
+sudo killall VDCAssistant
+sudo killall AppleCameraAssistant
