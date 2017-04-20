@@ -306,6 +306,7 @@ there's a region, all lines that region covers will be duplicated."
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (ido-mode 1)
+(setq yas-snippet-dirs '("~/dotfiles/snippets"))
 (yas-global-mode 1)
 (show-paren-mode 1)
 

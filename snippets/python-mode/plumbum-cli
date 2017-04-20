@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: plumbum-cli
+# key: cli
+# --
+#!/usr/bin/env python
+from plumbum import cli, local
+
+class ${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`}(cli.Application):
+
+    switch = cli.SwitchAttr('--switch', argtype=str,
+                               help='Change this to a real switch')
+
+    flag = cli.Flag('--the-flag', help='Change this to a real flag')
+
+    def main(self, *args):  # pylint: disable=arguments-differ
+        $0pass
+
+if __name__ == '__main__':
+    $1.run()
