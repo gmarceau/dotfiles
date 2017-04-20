@@ -1,9 +1,10 @@
 (ace-jump-mode
-ace-jump-mode
 ag
 anaconda-mode
 async
 autopair
+cl-generic
+cmake-mode
 company
 company-anaconda
 company-math
@@ -12,6 +13,8 @@ cython-mode
 d-mode
 dash
 deferred
+ein
+elmacro
 epl
 exec-path-from-shell
 expand-region
@@ -22,6 +25,7 @@ flx
 flx-ido
 flycheck
 full-ack
+gh
 git-commit
 google-this
 highlight-indentation
@@ -34,7 +38,9 @@ let-alist
 list-utils
 load-relative
 loc-changes
+logito
 magit
+magit-gh-pulls
 magit-popup
 markdown-mode
 math-symbol-lists
@@ -47,8 +53,8 @@ pcache
 persistent-soft
 php-mode
 pkg-info
-popup
 projectile
+pylint
 python-environment
 pythonic
 pyvenv
@@ -59,6 +65,7 @@ s
 seq
 smartrep
 solarized-theme
+sr-speedbar
 swiper
 tern
 test-simple
