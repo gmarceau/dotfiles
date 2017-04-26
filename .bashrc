@@ -30,9 +30,15 @@ function pr {
         echo `xclip -o -selection c` copied to clipboard
 }
 
-function venv() {
+function venv {
     virtualenv -p python3.6 venv
     activate
+    (pip install -r requirements_dev.txt || pip install -r requirements.txt)
+}
+
+function venv-rebuild {
+    rm -rf venv
+    venv
 }
 
 alias e='emacsclient -n'
