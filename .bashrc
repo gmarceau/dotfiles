@@ -1,4 +1,5 @@
 
+bind "set completion-ignore-case on"
 
 export PATH=$HOME/bin:$PATH
 export EDITOR="emacsclient -ca"
