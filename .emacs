@@ -30,6 +30,7 @@
 (save-packages)
 
 (add-to-list 'auto-mode-alist '("\\.hjson\\'" . js-mode) t)
+(add-to-list 'auto-mode-alist '("\\.axn\\'" . ruby-mode) t)
 
 (defun gcm-scroll-down ()
   (interactive)
@@ -368,6 +369,8 @@ there's a region, all lines that region covers will be duplicated."
  '(indent-tabs-mode nil)
  '(initial-scratch-message "")
  '(ispell-program-name "/usr/local/bin/ispell")
+ '(ispell-program-name "/usr/bin/ispell")
+ '(js-indent-level 2)
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules")))
