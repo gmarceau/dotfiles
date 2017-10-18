@@ -404,6 +404,7 @@ there's a region, all lines that region covers will be duplicated."
     ((text-scale-mode-amount . 2)
      (text-scale-mode-amount . 3))))
  '(save-packages-file "~/dotfiles/save-packages")
+ '(scroll-margin 4)
  '(server-mode t)
  '(split-width-threshold 260)
  '(sr-speedbar-right-side nil)
