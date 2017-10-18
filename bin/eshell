@@ -1,0 +1,11 @@
+#!/bin/sh
+ELISP="
+(progn
+ (add-hook 'comint-exec-hook
+  (lambda () (set-process-query-on-exit-flag (get-buffer-process (current-buffer)) nil)))
+ (shell)
+ (delete-other-windows)
+ (menu-bar-mode 0))
+"
+
+exec emacs -nw --eval "$ELISP"
