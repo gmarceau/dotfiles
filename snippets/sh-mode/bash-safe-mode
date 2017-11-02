@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: bash-safe-mode
+# key: bsm
+# mode: sh-mode
+#
+# via http://redsymbol.net/articles/unofficial-bash-strict-mode/
+#
+# --
+#!/bin/sh
+set -euo pipefail
+IFS=$'\n\r'
+
+$0
