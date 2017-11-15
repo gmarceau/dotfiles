@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: rancher-health-check
+# key: health:
+# --
+  ${0:healthcheck-forward}:
+    health_check:
+      port: 5000
+      strategy: none
+      initializing_timeout: 10000
+      interval: 15000
+      request_line: GET / HTTP/1.0
