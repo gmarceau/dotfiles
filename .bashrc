@@ -22,5 +22,5 @@ function activate {
 
 alias e='emacsclient -n'
 
-GIT_PROMPT_ONLY_IN_REPO=1
+GIT_PROMPT_THEME_FILE=~/dotfiles/git_prompt_theme_file
 source ~/dotfiles/bash-git-prompt/gitprompt.sh
