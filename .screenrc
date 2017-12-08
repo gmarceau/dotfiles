@@ -1,0 +1,4 @@
+escape ^]^]
+shell "/bin/bash"
+term xterm-color
+caption always "%{= kc} ---- Screen session on %H (system load: %l) ---- %-28=%{= .m} "
