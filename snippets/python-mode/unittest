@@ -1,5 +1,6 @@
-# key: test
-# name: unit-test
+# -*- mode: snippet -*-
+# name: unittest
+# key: unittest
 # --
 import unittest
 
@@ -14,7 +15,7 @@ class ${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name))
     def test_$0(self):
         pass
 
+pass
 
-##
 if __name__ == '__main__':
     unittest.main()

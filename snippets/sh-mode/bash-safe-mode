@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: bash-safe-mode
-# key: bsm
+# key: shabang
 # mode: sh-mode
 #
 # via http://redsymbol.net/articles/unofficial-bash-strict-mode/

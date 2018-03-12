@@ -15,5 +15,6 @@ class ${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name))
     def main(self, *args):  # pylint: disable=arguments-differ
         $0pass
 
+pass
 if __name__ == '__main__':
     $1.run()
