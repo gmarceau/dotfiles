@@ -20,6 +20,21 @@ function activate {
     . venv/bin/activate
 }
 
+function wt {
+    watch -n 1 $*
+}
+
+function pr {
+    hub pull-request | grep https://github | \
+        xclip -selection c && \
+        echo `xclip -o -selection c` copied to clipboard
+}
+
+function venv() {
+    virtualenv -p python3.6 venv
+    activate
+}
+
 alias e='emacsclient -n'
 
 GIT_PROMPT_THEME_FILE=~/dotfiles/git_prompt_theme_file
