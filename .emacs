@@ -152,6 +152,28 @@ there's a region, all lines that region covers will be duplicated."
       (emacs-lisp-mode)
       (bury-buffer))))
 
+(defun insert-file-name (filename &optional args)
+  "Insert name of file FILENAME into buffer after point.
+
+  Prefixed with \\[universal-argument], expand the file name to
+  its fully canocalized path.  See `expand-file-name'.
+
+  Prefixed with \\[negative-argument], use relative path to file
+  name from current directory, `default-directory'.  See
+  `file-relative-name'.
+
+  The default with no prefix is to insert the file name exactly as
+  it appears in the minibuffer prompt."
+  ;; Based on insert-file in Emacs -- ashawley 20080926
+  (interactive "*fInsert file name: \nP")
+  (cond ((eq '- args)
+         (insert (file-relative-name filename)))
+        ((not (null args))
+         (insert (expand-file-name filename)))
+        (t
+         (insert filename))))
+
+
 
 (defun save-word-as-kill (arg) (interactive "p") (save-motion-as-kill 'forward-word arg))
 (defun save-sexp-as-kill (arg) (interactive "p") (save-motion-as-kill 'forward-sexp arg))
@@ -268,6 +290,7 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "md" 'global-unset-key)
 (define-key personal-map "l" 'font-lock-fontify-buffer)
 (define-key personal-map "ff" 'find-file-at-point)
+(define-key personal-map "fi" 'insert-file-name)
 (define-key personal-map "t" 'auto-revert-tail-mode)
 (define-key personal-map "v" 'view-mode)
 (define-key personal-map "y" (lambda () (interactive) (flyspell-mode) (flyspell-buffer)))
