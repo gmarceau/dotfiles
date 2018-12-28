@@ -1,9 +1,12 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 
 (setenv "PATH"
 	(concat
+	 ":/Users/gmarceau/bin"
 	 ":/Users/gmarceau/.local/bin"
 	 ":/usr/local/bin"
 	 ":"
@@ -17,6 +20,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.hjson\\'" . js-mode) t)
 (add-to-list 'auto-mode-alist '("\\.axn\\'" . ruby-mode) t)
+(add-to-list 'auto-mode-alist '("\\.tfstate\\'" . json-mode) t)
 
 (defun gcm-scroll-down ()
   (interactive)

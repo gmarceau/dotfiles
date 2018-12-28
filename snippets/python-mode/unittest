@@ -2,6 +2,7 @@
 # name: unittest
 # key: unittest
 # --
+#!/usr/bin/env python
 import unittest
 
 class ${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`}(unittest.TestCase):
@@ -15,7 +16,7 @@ class ${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name))
     def test_$0(self):
         pass
 
-pass
+    pass
 
 if __name__ == '__main__':
     unittest.main()

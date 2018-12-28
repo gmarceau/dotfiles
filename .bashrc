@@ -16,10 +16,6 @@ function ffe {
     find . -name \*.$1
 }
 
-function activate {
-    . venv/bin/activate
-}
-
 function wt {
     watch -n 1 $*
 }
@@ -30,8 +26,12 @@ function pr {
         echo `xclip -o -selection c` copied to clipboard
 }
 
-function venv {
-    virtualenv -p python3.6 venv
+function activate {
+    . venv/bin/activate
+}
+
+function venv() {
+    virtualenv -p python3.7 venv
     activate
     (pip install -r requirements_dev.txt || pip install -r requirements.txt)
 }
@@ -39,6 +39,10 @@ function venv {
 function venv-rebuild {
     rm -rf venv
     venv
+}
+
+function ptp {
+    ptpython
 }
 
 alias e='emacsclient -n'

@@ -2,8 +2,8 @@
 # name: plumbum-cli
 # key: cli
 # --
-#!/usr/bin/env python
-from plumbum import cli, local
+#!/usr/bin/env python3.7
+from plumbum import cli, local, FG, BG
 
 class ${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`}(cli.Application):
 
@@ -15,6 +15,7 @@ class ${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name))
     def main(self, *args):  # pylint: disable=arguments-differ
         $0pass
 
-pass
+    pass
+
 if __name__ == '__main__':
     $1.run()

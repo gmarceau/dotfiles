@@ -3,7 +3,6 @@ ag
 anaconda-mode
 async
 autopair
-cl-generic
 cmake-mode
 company
 company-anaconda
@@ -30,11 +29,11 @@ git-commit
 google-this
 highlight-indentation
 iedit
+ivy
 js2-mode
 json-mode
 json-reformat
 json-snatcher
-let-alist
 list-utils
 load-relative
 loc-changes
@@ -54,7 +53,6 @@ persistent-soft
 php-mode
 pkg-info
 projectile
-pylint
 python-environment
 pythonic
 pyvenv
@@ -62,7 +60,6 @@ realgud
 request
 request-deferred
 s
-seq
 smartrep
 solarized-theme
 sr-speedbar
