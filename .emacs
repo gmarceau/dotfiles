@@ -2,23 +2,9 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
-
-(setenv "BODYLABS" "/Users/gmarceau/Documents/core")
-
-(setenv "PYTHONPATH"
-	(concat
-	 (getenv "BODYLABS")
-	 ":/Users/gmarceau/Documents"
-	 ":/usr/local/lib/python2.7/site-packages"
-	 ":/Library/Python/2.7/site-packages"
-	 ":/Users/gmarceau/miniconda/lib/python2.7/site-packages"
-	 ":"
-	 (getenv "PYTHONPATH")))
-
 (setenv "PATH"
 	(concat
 	 ":/Users/gmarceau/.local/bin"
-	 ":/Users/gmarceau/miniconda/bin"
 	 ":/usr/local/bin"
 	 ":"
 	 (getenv "PATH")))
@@ -257,6 +243,7 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key [M-S-f3] 'bury-buffer)
 (global-set-key [f4] 'projectile-ag)
 (global-set-key [M-f6] 'iedit-mode)
+(global-set-key [3 59] 'iedit-mode) ; Ctrl-semicolon
 (global-set-key [f9] 'recompile)
 (global-set-key [M-f9] 'switch-to-compilation)
 (global-set-key "\C-j" 'join-line-backward)
@@ -427,7 +414,7 @@ there's a region, all lines that region covers will be duplicated."
     ((text-scale-mode-amount . 2)
      (text-scale-mode-amount . 3))))
  '(save-packages-file "~/dotfiles/save-packages")
- '(scroll-margin 4)
+ '(scroll-margin 3)
  '(server-mode t)
  '(split-width-threshold 260)
  '(sr-speedbar-right-side nil)
@@ -504,6 +491,9 @@ there's a region, all lines that region covers will be duplicated."
 (eval-after-load "c++-mode"
   '(define-key c++-mode-map "\C-c\C-p" 'compile))
 
+(eval-after-load "iedit"
+  '(progn
+     (define-key iedit-mode-keymap "\r" 'iedit-mode)))
 
 
 ;;
