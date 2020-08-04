@@ -377,14 +377,16 @@ there's a region, all lines that region covers will be duplicated."
  '(custom-enabled-themes (quote (monokai)))
  '(custom-safe-themes
    (quote
-    ("70b51a849b665f50a97a028c44cec36b398398357d8f7c19d558fe832b91980f" default)))
+    ("a2cde79e4cc8dc9a03e7d9a42fabf8928720d420034b66aecc5b665bbf05d4e9" "70b51a849b665f50a97a028c44cec36b398398357d8f7c19d558fe832b91980f" default)))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(ido-auto-merge-work-directories-length -1)
  '(indent-tabs-mode nil)
  '(initial-scratch-message "")
  '(ispell-program-name "/usr/local/bin/ispell")
- '(ispell-program-name "/usr/bin/ispell")
  '(js-indent-level 2)
+ '(package-selected-packages
+   (quote
+    (csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules")))
@@ -440,8 +442,8 @@ there's a region, all lines that region covers will be duplicated."
 (put 'edit-kbd-macro 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
-(projectile-global-mode t)
-(projectile-register-project-type 'npm '("package.json") "npm run lint" "npm run test" "npm start")
+(projectile-mode t)
+;(projectile-register-project-type 'npm '("package.json") "npm run lint" "npm run test" "npm start")
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
