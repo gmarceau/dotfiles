@@ -47,5 +47,6 @@ function ptp {
 
 alias e='emacsclient -n'
 
-GIT_PROMPT_THEME_FILE=~/dotfiles/git_prompt_theme_file
-source ~/dotfiles/bash-git-prompt/gitprompt.sh
+# GIT_PROMPT_THEME_FILE=~/dotfiles/git_prompt_theme_file
+# source ~/dotfiles/bash-git-prompt/gitprompt.sh
+source ~/dotfiles/bash-basic-git-prompt.sh
