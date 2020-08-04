@@ -267,6 +267,7 @@ there's a region, all lines that region covers will be duplicated."
 
 (define-key personal-map "d" 'duplicate-current-line-or-region)
 (define-key personal-map "\C-p" 'compile)
+(define-key personal-map "p" 'projectile-command-map)
 (define-key personal-map "a" 'magit-status)
 (define-key personal-map "o" 'occur)
 ;; (define-key personal-map "0" 'insert-console-log)
