@@ -247,7 +247,6 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key [M-S-f3] 'bury-buffer)
 (global-set-key [f4] 'projectile-ag)
 (global-set-key [M-f6] 'iedit-mode)
-(global-set-key [3 59] 'iedit-mode) ; Ctrl-semicolon
 (global-set-key [f9] 'recompile)
 (global-set-key [M-f9] 'switch-to-compilation)
 (global-set-key "\C-j" 'join-line-backward)
@@ -270,6 +269,7 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "p" 'projectile-command-map)
 (define-key personal-map "a" 'magit-status)
 (define-key personal-map "o" 'occur)
+(define-key personal-map "'" 'iedit-mode) ; Ctrl-c '
 ;; (define-key personal-map "0" 'insert-console-log)
 (define-key personal-map "i" 'set-fill-column)
 (define-key personal-map "j" 'json-reformat-region)
@@ -367,7 +367,7 @@ there's a region, all lines that region covers will be duplicated."
  ;; If there is more than one, they won't work right.
  '(ack-context 1)
  '(ack-prompt-for-directory t)
- '(auto-revert-interval 0.5)
+ '(auto-revert-interval 0.3)
  '(autopair-blink t)
  '(autopair-blink-delay 0.05)
  '(autopair-global-mode t)
@@ -385,9 +385,14 @@ there's a region, all lines that region covers will be duplicated."
  '(initial-scratch-message "")
  '(ispell-program-name "/usr/local/bin/ispell")
  '(js-indent-level 2)
+ '(magit-git-global-arguments
+   (quote
+    ("--no-pager" "--literal-pathspecs" "-c" "core.preloadindex=true" "-c" "log.showSignature=false" "-c" "status.showUntrackedFiles=no")))
+ '(magit-section-initial-visibility-alist (quote ((stashes . hide))))
+ '(ns-command-modifier (quote meta))
  '(package-selected-packages
    (quote
-    (csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
+    (terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules")))
