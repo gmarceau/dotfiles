@@ -7,7 +7,8 @@ Yellow='\[\033[0;33m\]'
 BoldGreen='\[\033[1;32m\]'
 ResetColor='\[\033[0;0m\]'
 BoldBlue='\[\033[1;34m\]'
-
+Blue='\[\033[0;34m\]'
+Time12a='$(date +%H:%M)'
 
 function git_prompt() {
     if [ -e ".git" ] || [ -e "../.git" ] || [ -e "../../.git" ] || [ -e "../../../.git" ] \
@@ -32,7 +33,11 @@ function git_prompt() {
 }
 
 function prompt() {
-    PS1="[ ${BoldYellow}\${?} ${BoldGreen}-- ${Time12a} \u@\h${ResetColor} ${BoldBlue}\w${ResetColor} $(git_prompt)] "
+    if [ $VIRTUAL_ENV ]; then
+        local VENV="($(basename $VIRTUAL_ENV)) "
+    fi
+    PS1="${BoldBlue}${VENV}${ResetColor}[ ${Yellow}\${?} ${BoldGreen}-- ${Time12a} ${BoldBlue}\w${ResetColor} $(git_prompt)] "
+    unset VENV
 }
 
 PROMPT_COMMAND=prompt
