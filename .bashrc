@@ -1,6 +1,8 @@
 
 bind "set completion-ignore-case on"
 
+
+export FZF_DEFAULT_COMMAND='ag -al'
 export PATH=$HOME/bin:$PATH
 export EDITOR="emacsclient -ca 'emacs -nw'"
 
@@ -46,6 +48,10 @@ function ptp {
 }
 
 alias e='emacsclient -n'
+
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && source "/usr/local/etc/profile.d/bash_completion.sh"
+[[ -f ~/dotfiles/.fzf.bash ]] && source ~/dotfiles/.fzf.bash
+
 
 # GIT_PROMPT_THEME_FILE=~/dotfiles/git_prompt_theme_file
 # source ~/dotfiles/bash-git-prompt/gitprompt.sh
