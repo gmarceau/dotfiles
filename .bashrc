@@ -1,5 +1,10 @@
 
 bind "set completion-ignore-case on"
+shopt -s histappend
+HISTFILESIZE=1000000
+HISTCONTROL=ignoredups
+HISTIGNORE='ls:bg:fg:history'
+HISTTIMEFORMAT='%F %T '
 
 
 export FZF_DEFAULT_COMMAND='ag -al'
@@ -56,3 +61,4 @@ alias e='emacsclient -n'
 # GIT_PROMPT_THEME_FILE=~/dotfiles/git_prompt_theme_file
 # source ~/dotfiles/bash-git-prompt/gitprompt.sh
 source ~/dotfiles/bash-basic-git-prompt.sh
+PROMPT_COMMAND="$PROMPT_COMMAND; history -a"
