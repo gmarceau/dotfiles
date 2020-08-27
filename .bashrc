@@ -34,7 +34,7 @@ function pr {
 }
 
 function activate {
-    . venv/bin/activate
+    . env3/bin/activate
 }
 
 function venv() {
