@@ -327,6 +327,7 @@ there's a region, all lines that region covers will be duplicated."
 (show-paren-mode 1)
 
 
+(setq shell-command-switch "-ic")
 (setq magit-last-seen-setup-instructions "1.4.0")
 (delete-selection-mode)
 
