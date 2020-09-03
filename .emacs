@@ -271,7 +271,7 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "o" 'occur)
 (define-key personal-map "'" 'iedit-mode) ; Ctrl-c '
 ;; (define-key personal-map "0" 'insert-console-log)
-(define-key personal-map "i" 'set-fill-column)
+(define-key personal-map "i" 'iedit-mode)
 (define-key personal-map "j" 'json-reformat-region)
 (define-key personal-map "r" (lambda () (interactive) (revert-buffer t t t)))
 (define-key personal-map "a" 'magit-status)
@@ -392,7 +392,7 @@ there's a region, all lines that region covers will be duplicated."
  '(ns-command-modifier (quote meta))
  '(package-selected-packages
    (quote
-    (terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
+    (groovy-mode terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules")))
