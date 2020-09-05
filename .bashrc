@@ -19,6 +19,12 @@ source ~/dotfiles/.bash-aliases.sh
 [[ -f ~/code/phacility/arcanist/support/shell/hooks/bash-completion.sh ]] && \
     source ~/code/phacility/arcanist/support/shell/hooks/bash-completion.sh # arcanist-shell-complete
 
+function cpu_temp {
+    sudo powermetrics --samplers smc |grep -i "CPU die temperature"
+}
+
+alias e='emacsclient -n'
+
 # GIT_PROMPT_THEME_FILE=~/dotfiles/git_prompt_theme_file
 # source ~/dotfiles/bash-git-prompt/gitprompt.sh
 source ~/dotfiles/bash-basic-git-prompt.sh

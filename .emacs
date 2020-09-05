@@ -373,19 +373,56 @@ there's a region, all lines that region covers will be duplicated."
  '(autopair-blink-delay 0.05)
  '(autopair-global-mode t)
  '(compilation-ask-about-save nil)
- '(compilation-scroll-output (quote first-error))
+ '(compilation-message-face (quote default))
+ '(compilation-scroll-output nil)
  '(compile-command "nose2 ")
  '(create-lockfiles nil)
- '(custom-enabled-themes (quote (monokai)))
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#657b83")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
+ '(custom-enabled-themes (quote (tango-dark)))
  '(custom-safe-themes
    (quote
     ("a2cde79e4cc8dc9a03e7d9a42fabf8928720d420034b66aecc5b665bbf05d4e9" "70b51a849b665f50a97a028c44cec36b398398357d8f7c19d558fe832b91980f" default)))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(fci-rule-color "#eee8d5")
+ '(fill-column 80)
+ '(flycheck-checkers
+   (quote
+    (ada-gnat asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint d-dmd emacs-lisp emacs-lisp-checkdoc erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy jade javascript-eslint javascript-jshint javascript-gjslint javascript-jscs javascript-standard json-jsonlint json-python-json less luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing puppet-parser puppet-lint python-pylint python-pycompile r-lintr racket rpm-rpmlint rst-sphinx rst ruby-rubocop ruby-rubylint ruby ruby-jruby rust-cargo rust sass scala scala-scalastyle scss-lint scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim sql-sqlint tex-chktex tex-lacheck texinfo verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby)))
+ '(flycheck-display-errors-delay 0.3)
+ '(flycheck-python-pylint-executable
+   "/Users/gmarceau/code/fannie-mea-lp-simulation/venv/bin/pylint")
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#fdf6e3" 0.25)
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-foreground-color "#586e75")
+ '(highlight-tail-colors
+   (quote
+    (("#eee8d5" . 0)
+     ("#B4C342" . 20)
+     ("#69CABF" . 30)
+     ("#69B7F0" . 50)
+     ("#DEB542" . 60)
+     ("#F2804F" . 70)
+     ("#F771AC" . 85)
+     ("#eee8d5" . 100))))
+ '(hl-bg-colors
+   (quote
+    ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
+ '(hl-fg-colors
+   (quote
+    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
  '(ido-auto-merge-work-directories-length -1)
  '(indent-tabs-mode nil)
  '(initial-scratch-message "")
  '(ispell-program-name "/usr/local/bin/ispell")
  '(js-indent-level 2)
+<<<<<<< Updated upstream
  '(magit-git-global-arguments
    (quote
     ("--no-pager" "--literal-pathspecs" "-c" "core.preloadindex=true" "-c" "log.showSignature=false" "-c" "status.showUntrackedFiles=no")))
@@ -394,6 +431,14 @@ there's a region, all lines that region covers will be duplicated."
  '(package-selected-packages
    (quote
     (groovy-mode terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
+=======
+ '(magit-diff-use-overlays nil)
+ '(nrepl-message-colors
+   (quote
+    ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
+ '(pos-tip-background-color "#eee8d5")
+ '(pos-tip-foreground-color "#586e75")
+>>>>>>> Stashed changes
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules")))
@@ -427,17 +472,51 @@ there's a region, all lines that region covers will be duplicated."
     ((text-scale-mode-amount . 2)
      (text-scale-mode-amount . 3))))
  '(save-packages-file "~/dotfiles/save-packages")
- '(scroll-margin 3)
+ '(scroll-margin 0)
  '(server-mode t)
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
  '(split-width-threshold 260)
  '(sr-speedbar-right-side nil)
  '(tags-add-tables nil)
- '(tags-revert-without-query t))
+ '(tags-revert-without-query t)
+ '(term-default-bg-color "#fdf6e3")
+ '(term-default-fg-color "#657b83")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#dc322f")
+     (40 . "#c85d17")
+     (60 . "#be730b")
+     (80 . "#b58900")
+     (100 . "#a58e00")
+     (120 . "#9d9100")
+     (140 . "#959300")
+     (160 . "#8d9600")
+     (180 . "#859900")
+     (200 . "#669b32")
+     (220 . "#579d4c")
+     (240 . "#489e65")
+     (260 . "#399f7e")
+     (280 . "#2aa198")
+     (300 . "#2898af")
+     (320 . "#2793ba")
+     (340 . "#268fc6")
+     (360 . "#268bd2"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (quote
+    (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496")))
+ '(xterm-color-names
+   ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"])
+ '(xterm-color-names-bright
+   ["#fdf6e3" "#cb4b16" "#93a1a1" "#839496" "#657b83" "#6c71c4" "#586e75" "#002b36"])
+ '(yas-also-auto-indent-first-line t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "nil" :family "Aurulent Sans Mono"))))
  '(ack-match ((t (:background "orange" :foreground "black")))))
 
 (put 'eval-expression 'disabled nil)
@@ -460,7 +539,7 @@ there's a region, all lines that region covers will be duplicated."
 (defun colorize-compilation-buffer ()
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;(remove-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -495,8 +574,6 @@ there's a region, all lines that region covers will be duplicated."
          (end-of-line)
          (insert " //-> 0 ")))))
 
-(eval-after-load "iedit"
-  '(define-key iedit-mode-keymap "\r" 'iedit-mode))
 
 (eval-after-load "json-mode"
   '(define-key json-mode-map "\C-c\C-p" 'compile))
