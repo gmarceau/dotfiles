@@ -380,7 +380,7 @@ there's a region, all lines that region covers will be duplicated."
  '(custom-enabled-themes (quote (tango-dark)))
  '(custom-safe-themes
    (quote
-    ("a2cde79e4cc8dc9a03e7d9a42fabf8928720d420034b66aecc5b665bbf05d4e9" "70b51a849b665f50a97a028c44cec36b398398357d8f7c19d558fe832b91980f" default)))
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "70b51a849b665f50a97a028c44cec36b398398357d8f7c19d558fe832b91980f" default)))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(fci-rule-color "#eee8d5")
  '(fill-column 80)
@@ -388,8 +388,6 @@ there's a region, all lines that region covers will be duplicated."
    (quote
     (ada-gnat asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint d-dmd emacs-lisp emacs-lisp-checkdoc erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy jade javascript-eslint javascript-jshint javascript-gjslint javascript-jscs javascript-standard json-jsonlint json-python-json less luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing puppet-parser puppet-lint python-pylint python-pycompile r-lintr racket rpm-rpmlint rst-sphinx rst ruby-rubocop ruby-rubylint ruby ruby-jruby rust-cargo rust sass scala scala-scalastyle scss-lint scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim sql-sqlint tex-chktex tex-lacheck texinfo verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby)))
  '(flycheck-display-errors-delay 0.3)
- '(flycheck-python-pylint-executable
-   "/Users/gmarceau/code/fannie-mea-lp-simulation/venv/bin/pylint")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
    (--map
@@ -576,6 +574,3 @@ there's a region, all lines that region covers will be duplicated."
 (eval-after-load "iedit"
   '(progn
      (define-key iedit-mode-keymap "\r" 'iedit-mode)))
-
-
-;;

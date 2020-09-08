@@ -8,10 +8,11 @@ HISTTIMEFORMAT='%F %T '
 
 
 export FZF_DEFAULT_COMMAND='ag -al'
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 export PATH=$HOME/bin:$PATH
 export EDITOR="emacsclient -ca 'emacs -nw'"
 
-source ~/dotfiles/.bash-aliases.sh
+[[ -f ~/dotfiles/.bash-aliases.sh ]] && source ~/dotfiles/.bash-aliases.sh
 
 # Bash completions
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && source "/usr/local/etc/profile.d/bash_completion.sh"

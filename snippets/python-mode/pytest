@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: pytest
+# key: pytest
+# --
+#!/usr/bin/env python
+import pytest
+
+class Test${1:`(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`}:
+
+    def test_$0(self):
+        pass
+
+    pass
+
+if __name__ == '__main__':
+    import sys
+    pytest.main(args=sys.argv)
