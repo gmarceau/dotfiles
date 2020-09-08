@@ -29,10 +29,6 @@
   (interactive)
   (scroll-down 3))
 
-(defun recompile ()
-  (interactive)
-  (compile compile-command))
-
 (defun join-line-backward ()
   (interactive)
   (join-line -1)
@@ -374,8 +370,8 @@ there's a region, all lines that region covers will be duplicated."
  '(autopair-global-mode t)
  '(compilation-ask-about-save nil)
  '(compilation-message-face (quote default))
- '(compilation-scroll-output nil)
- '(compile-command "nose2 ")
+ '(compilation-scroll-output (quote first-error))
+ '(compile-command "tg plan")
  '(create-lockfiles nil)
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#657b83")
@@ -422,7 +418,6 @@ there's a region, all lines that region covers will be duplicated."
  '(initial-scratch-message "")
  '(ispell-program-name "/usr/local/bin/ispell")
  '(js-indent-level 2)
-<<<<<<< Updated upstream
  '(magit-git-global-arguments
    (quote
     ("--no-pager" "--literal-pathspecs" "-c" "core.preloadindex=true" "-c" "log.showSignature=false" "-c" "status.showUntrackedFiles=no")))
@@ -431,14 +426,11 @@ there's a region, all lines that region covers will be duplicated."
  '(package-selected-packages
    (quote
     (groovy-mode terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
-=======
  '(magit-diff-use-overlays nil)
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(pos-tip-background-color "#eee8d5")
- '(pos-tip-foreground-color "#586e75")
->>>>>>> Stashed changes
  '(projectile-globally-ignored-directories
    (quote
     (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules")))
