@@ -205,15 +205,6 @@ there's a region, all lines that region covers will be duplicated."
   (interactive)
   (shell-command-on-region (region-beginning) (region-end) "python -m json.tool" t t))
 
-;; (defun insert-console-log ()
-;;   (interactive)
-;;   (beginning-of-line)
-;;   (open-line 1)
-;;   (insert (format "console.log('--%d', );" (line-number-at-pos)))
-;;   (insert (format "print '--%d', " (line-number-at-pos)))
-;;   (backward-char 2)
-;;   (indent-for-tab-command))
-
 (defun open-line-better (arg)
   (interactive "P")
   (when arg
@@ -230,8 +221,8 @@ there's a region, all lines that region covers will be duplicated."
 (global-set-key "\C-hn" 'man)
 (global-set-key "\C-j" (lambda () (interactive) (join-line -1)))
 (global-set-key "\C-x$" 'selective-display)
-(global-set-key [f3] 'next-buffer)
-(global-set-key [S-f3] 'previous-buffer)
+(global-set-key [f3] 'previous-buffer)
+(global-set-key [S-f3] 'next-buffer)
 (global-set-key [M-S-f3] 'bury-buffer)
 (global-set-key [f4] 'projectile-ag)
 (global-set-key [M-f6] 'iedit-mode)
@@ -408,18 +399,19 @@ there's a region, all lines that region covers will be duplicated."
  '(initial-scratch-message "")
  '(ispell-program-name "/usr/local/bin/ispell")
  '(js-indent-level 2)
+ '(magit-diff-use-overlays nil)
  '(magit-git-global-arguments
    (quote
     ("--no-pager" "--literal-pathspecs" "-c" "core.preloadindex=true" "-c" "log.showSignature=false" "-c" "status.showUntrackedFiles=no")))
  '(magit-section-initial-visibility-alist (quote ((stashes . hide))))
- '(ns-command-modifier (quote meta))
- '(magit-diff-use-overlays nil)
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
+ '(ns-command-modifier (quote meta))
  '(package-selected-packages
    (quote
     (pylint flymake-shellcheck persp-projectile perspective xterm-color groovy-mode terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
+ '(persp-state-default-file "~/.emacs.perspective")
  '(pos-tip-background-color "#eee8d5")
  '(projectile-globally-ignored-directories
    (quote
@@ -521,7 +513,11 @@ there's a region, all lines that region covers will be duplicated."
 (defun colorize-compilation-buffer ()
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
-; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(persp-state-load persp-state-default-file)
+
+(add-hook 'kill-emacs-hook #'persp-state-save)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;(remove-hook 'before-save-hook 'delete-trailing-whitespace)
