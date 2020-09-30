@@ -1,4 +1,5 @@
 #!/bin/sh
+shopt -s extglob
 
 function ff {
     find . -name $1
@@ -29,7 +30,7 @@ function activate {
 function venv() {
     virtualenv -p python3.7 env3
     activate
-    (pip install -r requirements_dev.txt || pip install -r requirements.txt)
+    (pip install -r ?(dev_)requirements?(_dev).txt || pip install -r requirements.txt)
 }
 
 function venv-rebuild {
@@ -46,11 +47,11 @@ function git-log-release-format {
 }
 
 function tg {
-    terragrunt "$@" | grep -v "Refreshing state..."
+    aws-okta exec mba -- terragrunt "$@" | grep -v "Refreshing state..."
 }
 
 function code {
-    if [ -z "$@"]
+    if [[ -z "$@" ]]
     then
         cd ~/code/flatiron
     else
