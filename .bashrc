@@ -1,6 +1,6 @@
-
 bind "set completion-ignore-case on"
 shopt -s histappend
+shopt -s extglob
 HISTFILESIZE=1000000
 HISTCONTROL=ignoredups
 HISTIGNORE='ls:bg:fg:history'
@@ -8,9 +8,7 @@ HISTTIMEFORMAT='%F %T '
 
 
 export FZF_DEFAULT_COMMAND='ag -al'
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-export PATH=$HOME/bin:$PATH
-export EDITOR="emacsclient -ca 'emacs -nw'"
+export EDITOR="emacsclient -a 'emacs -nw'"
 
 [[ -f ~/dotfiles/.bash-aliases.sh ]] && source ~/dotfiles/.bash-aliases.sh
 
