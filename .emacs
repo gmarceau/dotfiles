@@ -4,14 +4,6 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
-(setenv "PATH"
-	(concat
-	 ":/Users/gmarceau/bin"
-	 ":/Users/gmarceau/.local/bin"
-	 ":/usr/local/bin"
-	 ":"
-	 (getenv "PATH")))
-
 (add-to-list 'load-path "~/dotfiles/lisp")
 
 (package-initialize)
@@ -421,13 +413,13 @@ there's a region, all lines that region covers will be duplicated."
     ("--no-pager" "--literal-pathspecs" "-c" "core.preloadindex=true" "-c" "log.showSignature=false" "-c" "status.showUntrackedFiles=no")))
  '(magit-section-initial-visibility-alist (quote ((stashes . hide))))
  '(ns-command-modifier (quote meta))
- '(package-selected-packages
-   (quote
-    (groovy-mode terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
  '(magit-diff-use-overlays nil)
  '(nrepl-message-colors
    (quote
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
+ '(package-selected-packages
+   (quote
+    (pylint flymake-shellcheck persp-projectile perspective xterm-color groovy-mode terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
  '(pos-tip-background-color "#eee8d5")
  '(projectile-globally-ignored-directories
    (quote
