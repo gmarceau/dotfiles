@@ -13,6 +13,7 @@
 (add-to-list 'auto-mode-alist '("\\.hjson\\'" . js-mode) t)
 (add-to-list 'auto-mode-alist '("\\.axn\\'" . ruby-mode) t)
 (add-to-list 'auto-mode-alist '("\\.tfstate\\'" . json-mode) t)
+(add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-tail-mode) t)
 
 (defun gcm-scroll-down ()
   (interactive)
@@ -410,7 +411,7 @@ there's a region, all lines that region covers will be duplicated."
  '(ns-command-modifier (quote meta))
  '(package-selected-packages
    (quote
-    (pylint flymake-shellcheck persp-projectile perspective xterm-color groovy-mode terraform-mode bazel-mode csproj-mode yasnippet yaml-mode ucs-utils tern swiper sr-speedbar solarized-theme smartrep request-deferred realgud pyvenv python-environment projectile php-mode paredit nav-flash move-text monokai-theme mocha markdown-mode magit-gh-pulls json-mode iedit highlight-indentation google-this full-ack flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro ein d-mode cython-mode csharp-mode company-math company-anaconda cmake-mode autopair ag ace-jump-mode)))
+    (projectile magit perspective yasnippet yaml-mode xterm-color ucs-utils terraform-mode swiper solarized-theme smartrep request-deferred pyvenv python-environment pylint paredit move-text monokai-theme markdown-mode json-mode iedit groovy-mode full-ack flymake-shellcheck flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro dockerfile-mode bazel-mode autopair ag ace-jump-mode)))
  '(persp-state-default-file "~/.emacs.perspective")
  '(pos-tip-background-color "#eee8d5")
  '(projectile-globally-ignored-directories
@@ -540,6 +541,8 @@ there's a region, all lines that region covers will be duplicated."
  'markdown-mode-hook
  (lambda ()
    (define-key markdown-mode-map "\C-c-" 'text-scale-decrease)))
+
+;(define-key perspective-map "s" 'projectile-persp-switch-project)
 
 (eval-after-load "python"
   '(define-key python-mode-map "\C-c\C-p" 'compile))
