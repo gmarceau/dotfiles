@@ -28,9 +28,9 @@ function activate {
 }
 
 function venv() {
-    virtualenv -p python3.7 env3
-    activate
-    (pip install -r ?(dev_)requirements?(_dev).txt || pip install -r requirements.txt)
+    virtualenv -p python3.9 env3 && \
+        activate && \
+        (pip install -r ?(dev_)requirements?(_dev).txt || pip install -r requirements.txt)
 }
 
 function venv-rebuild {
@@ -46,14 +46,14 @@ function git-log-release-format {
     git log --pretty=format:"%Cred%h%Creset %s %Cgreen<%an>%Creset"
 }
 
-function tg {
-    aws-okta exec mba -- terragrunt "$@" | grep -v "Refreshing state..."
+function tf {
+    aws-okta exec mba -- terraform "$@"
 }
 
 function code {
     if [[ -z "$@" ]]
     then
-        cd ~/code/flatiron
+        cd ~/code/
     else
         cd ~/code/"$@"
     fi
@@ -63,6 +63,14 @@ function git-oldest-ancestor {
     diff -u <(git rev-list --first-parent $(git rev-parse HEAD)) \
          <(git rev-list --first-parent master) | \
         sed -ne 's/^ //p' | head -1
+}
+
+function mba {
+    aws-okta login mba
+}
+
+function sandbox {
+    aws-okta login sandbox
 }
 
 alias e='emacsclient -n'
