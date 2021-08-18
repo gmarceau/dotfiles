@@ -45,6 +45,7 @@ disable=line-too-long,
         RP0701,RP0401,RP0402,RP0101,
         no-member,
         import-error,
+        import-outside-toplevel
         fixme,
         locally-disabled,
         len-as-condition, # we don't really honor this one
