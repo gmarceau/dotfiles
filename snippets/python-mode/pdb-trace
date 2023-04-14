@@ -2,4 +2,4 @@
 # name: pdb-trace
 # key: pdb
 # --
-import ptpdb; ptpdb.set_trace()
+import pdb; pdb.set_trace()
