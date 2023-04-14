@@ -277,6 +277,7 @@ there's a region, all lines that region covers will be duplicated."
 (define-key personal-map "fd" 'find-name-dired)
 (define-key personal-map "fa" 'ag)
 (define-key personal-map "c" 'calculator)
+(define-key personal-map "n" 'flycheck-next-error)
 
 (fset 'indent-riffle [tab down])
 (if window-system (define-key global-map "\C-z" 'indent-riffle))
@@ -366,12 +367,13 @@ there's a region, all lines that region covers will be duplicated."
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "70b51a849b665f50a97a028c44cec36b398398357d8f7c19d558fe832b91980f" default)))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(elpy-syntax-check-command "pylint")
  '(fci-rule-color "#eee8d5")
  '(fill-column 80)
  '(flycheck-checkers
    (quote
     (ada-gnat asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint d-dmd emacs-lisp emacs-lisp-checkdoc erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy jade javascript-eslint javascript-jshint javascript-gjslint javascript-jscs javascript-standard json-jsonlint json-python-json less luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing puppet-parser puppet-lint python-pylint python-pycompile r-lintr racket rpm-rpmlint rst-sphinx rst ruby-rubocop ruby-rubylint ruby ruby-jruby rust-cargo rust sass scala scala-scalastyle scss-lint scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim sql-sqlint tex-chktex tex-lacheck texinfo verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby)))
- '(flycheck-display-errors-delay 0.3)
+ '(flycheck-display-errors-delay 0)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
    (--map
@@ -411,7 +413,7 @@ there's a region, all lines that region covers will be duplicated."
  '(ns-command-modifier (quote meta))
  '(package-selected-packages
    (quote
-    (projectile magit perspective yasnippet yaml-mode xterm-color ucs-utils terraform-mode swiper solarized-theme smartrep request-deferred pyvenv python-environment pylint paredit move-text monokai-theme markdown-mode json-mode iedit groovy-mode full-ack flymake-shellcheck flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro dockerfile-mode bazel-mode autopair ag ace-jump-mode)))
+    (elpy projectile magit perspective yasnippet yaml-mode xterm-color ucs-utils terraform-mode swiper solarized-theme smartrep request-deferred pyvenv python-environment pylint paredit move-text monokai-theme markdown-mode json-mode iedit groovy-mode full-ack flymake-shellcheck flycheck flx-ido find-file-in-project fill-column-indicator expand-region exec-path-from-shell elmacro dockerfile-mode bazel-mode autopair ag ace-jump-mode)))
  '(persp-state-default-file "~/.emacs.perspective")
  '(pos-tip-background-color "#eee8d5")
  '(projectile-globally-ignored-directories
@@ -444,7 +446,8 @@ there's a region, all lines that region covers will be duplicated."
  '(safe-local-eval-forms (quote ((text-scale-mode t))))
  '(safe-local-variable-values
    (quote
-    ((text-scale-mode-amount . 2)
+    ((flycheck-python-pylint-executable . "/Users/guillaume.marceau/code/oe-analytics-pipelines/env3/bin/pylint")
+     (text-scale-mode-amount . 2)
      (text-scale-mode-amount . 3))))
  '(save-packages-file "~/dotfiles/save-packages")
  '(scroll-margin 0)
@@ -503,7 +506,7 @@ there's a region, all lines that region covers will be duplicated."
 (put 'edit-kbd-macro 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
-(projectile-mode t)
+;(projectile-mode t)
 ;(projectile-register-project-type 'npm '("package.json") "npm run lint" "npm run test" "npm start")
 
 (when (memq window-system '(mac ns))
@@ -541,6 +544,15 @@ there's a region, all lines that region covers will be duplicated."
  'markdown-mode-hook
  (lambda ()
    (define-key markdown-mode-map "\C-c-" 'text-scale-decrease)))
+
+(add-hook 'python-mode-hook 'flycheck-mode)
+
+;(with-eval-after-load 'flycheck
+;  (put 'python-pylint
+;       (flycheck--checker-property-name 'working-directory)
+;        projectile-project-root
+;       ))
+
 
 ;(define-key perspective-map "s" 'projectile-persp-switch-project)
 

@@ -24,7 +24,7 @@ load-plugins=
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
 # multiple time. See also the "--disable" option for examples.
-#enable=
+enable=C0326
 
 # Disable the message, report, category or checker with the given id(s). You
 # can either give multiple identifiers separated by comma (,) or put this
@@ -49,15 +49,13 @@ disable=line-too-long,
         fixme,
         locally-disabled,
         len-as-condition, # we don't really honor this one
-        syntax-error # happens when pylint tries to process a build in place .so extension
-# We really do want no-member, but until https://bitbucket.org/logilab/pylint/issue/58/false-positive-no-member-on-numpy-imports is resolved, we get errors with every use of numpy.
 
 [REPORTS]
 
 # Set the output format. Available formats are text, parseable, colorized, msvs
 # (visual studio) and html. You can also give a reporter class, eg
 # mypackage.mymodule.MyReporterClass.
-#output-format=colorized
+output-format=colorized
 
 # Put messages in a separate file for each module / package specified on the
 # command line instead of printing them on stdout. Reports (if any) will be
@@ -135,7 +133,7 @@ docstring-min-length=-1
 [FORMAT]
 
 # Maximum number of characters on a single line.
-max-line-length=80
+max-line-length=140
 
 # Regexp for a line that is allowed to be longer than the limit.
 ignore-long-lines=^\s*(# )?<?https?://\S+>?$
