@@ -1,0 +1,9 @@
+#compdef jump
+#autoload
+
+_jump () {
+    local -a files
+    local current_word="$IPREFIX$PREFIX"
+    files=($(cd $JUMP_CODE_HOME; fd --type d --full-path --max-depth 4 --exclude docs -F ${current_word%/}))
+    _describe  'code directory files' files
+}
