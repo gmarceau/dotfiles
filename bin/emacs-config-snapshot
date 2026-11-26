@@ -1,0 +1,117 @@
+#!/usr/bin/env -S emacs -Q --script
+;;; emacs-config-snapshot --- Dump the effective state of ~/.emacs  -*- lexical-binding: t -*-
+
+;; Usage: emacs-config-snapshot > snapshot.txt
+;;        EMACS_SNAPSHOT_INIT=other-init.el emacs-config-snapshot > snapshot.txt
+;;
+;; Loads ~/.emacs (or $EMACS_SNAPSHOT_INIT) in batch mode, loads the
+;; libraries whose keymaps the config changes, runs the startup hooks,
+;; then prints, sorted:
+;;   key  every binding of every keymap variable
+;;   var  every variable with a printable value (long values as a hash)
+;;   fun  every function defined from ~/dotfiles, with its definition
+;;   adv  every advised function, with its advice
+;;   face every face with a saved or customized spec
+;;
+;; Two snapshots taken before and after a refactoring of the config
+;; should be identical.  Variables that change from run to run anyway
+;; are skipped, see `snapshot-volatile-variables'.
+
+(require 'cl-lib)
+(require 'nadvice)
+
+(defvar snapshot-mode-libraries
+  '(python js json-mode markdown-mode iedit eca eca-chat cc-mode compile
+           lsp-mode treesit apheleia claude-code monet agent-shell)
+  "Libraries loaded after the config, to run its `with-eval-after-load' forms.")
+
+(defvar snapshot-volatile-variables
+  (rx bos (or "features" "load-history" "load-file-name" "command-history"
+              "values" "obarray" "initial-environment" "timer-list" "timer-idle-list"
+              "gc-elapsed" "gcs-done" "before-init-time" "after-init-time"
+              (seq (* nonl) "-consed")
+              "current-load-list" "buffer-list" "process-list"
+              "message-log-max" "noninteractive"
+              (seq (* nonl) "-history")
+              (seq (* nonl) "--" (* nonl)))
+      eos)
+  "Variables that change from run to run, or are internal (contain \"--\").")
+
+(defvar snapshot-max-printed-length 2000
+  "Values printed longer than this are replaced by their SHA-1.")
+
+(defun snapshot-print (value)
+  (let ((print-length nil) (print-level nil) (print-circle t)
+        (print-escape-newlines t))
+    (prin1-to-string value)))
+
+(defun snapshot-value (value)
+  "Return VALUE printed, or its hash when too long, or nil when unprintable."
+  (let ((printed (ignore-errors (snapshot-print value))))
+    (cond ((null printed) nil)
+          ((string-match-p "#<" printed) nil)
+          ((> (length printed) snapshot-max-printed-length)
+           (format "sha1:%s len:%d" (secure-hash 'sha1 printed) (length printed)))
+          (t printed))))
+
+(defun snapshot-keymap-lines (name keymap)
+  (let (lines)
+    (cl-labels ((walk (map prefix)
+                  (map-keymap
+                   (lambda (event binding)
+                     (let ((keys (vconcat prefix (vector event))))
+                       (cond ((keymapp binding)
+                              (unless (> (length keys) 4)
+                                (walk binding keys)))
+                             (binding
+                              (push (format "key %s %s = %s" name
+                                            (key-description keys)
+                                            (or (snapshot-value binding) "<unprintable>"))
+                                    lines)))))
+                   map)))
+      (walk keymap []))
+    lines))
+
+(defun snapshot-dotfiles-file-p (file)
+  (and file (string-match-p "/dotfiles/" (file-truename file))))
+
+(defun snapshot ()
+  (setq user-init-file (expand-file-name (or (getenv "EMACS_SNAPSHOT_INIT") "~/.emacs")))
+  (setq process-environment
+        (cl-remove-if (lambda (entry) (string-prefix-p "EMACS_SNAPSHOT_INIT=" entry))
+                      process-environment))
+  (load user-init-file nil t t)
+  (dolist (library snapshot-mode-libraries)
+    (ignore-errors (require library nil t)))
+  (ignore-errors (run-hooks 'after-init-hook 'emacs-startup-hook))
+  (let (lines)
+    (mapatoms
+     (lambda (symbol)
+       (let ((name (symbol-name symbol)))
+         (when (and (boundp symbol) (keymapp (symbol-value symbol))
+                    (not (string-match-p "--" name)))
+           (setq lines (nconc (snapshot-keymap-lines name (symbol-value symbol)) lines)))
+         (when (and (boundp symbol) (not (keymapp (symbol-value symbol)))
+                    (not (string-match-p snapshot-volatile-variables name)))
+           (let ((printed (snapshot-value (symbol-value symbol))))
+             (when printed (push (format "var %s = %s" name printed) lines))))
+         (when (and (fboundp symbol)
+                    (snapshot-dotfiles-file-p (symbol-file symbol 'defun)))
+           (push (format "fun %s = %s" name
+                         (or (snapshot-value (symbol-function symbol)) "<unprintable>"))
+                 lines))
+         (when (and (fboundp symbol) (advice--p (advice--symbol-function symbol)))
+           (let (advices)
+             (advice-mapc (lambda (f props) (push (snapshot-print (list f props)) advices))
+                          symbol)
+             (push (format "adv %s = %s" name (string-join (sort advices #'string<) " "))
+                   lines)))
+         (when (facep symbol)
+           (dolist (prop '(saved-face customized-face))
+             (when (get symbol prop)
+               (push (format "face %s %s = %s" name prop (snapshot-print (get symbol prop)))
+                     lines)))))))
+    (princ (mapconcat #'identity (sort lines #'string<) "\n"))
+    (terpri)))
+
+(snapshot)
