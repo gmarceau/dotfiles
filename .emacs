@@ -8,6 +8,9 @@
 
 (add-to-list 'load-path "~/dotfiles/lisp")
 
+;; Log native-compiler warnings instead of popping up *Warnings*
+(setq native-comp-async-report-warnings-errors 'silent)
+
 (package-initialize)
 (exec-path-from-shell-copy-env "PATH")
 (require 'save-packages)
