@@ -15,19 +15,10 @@
 (setq custom-file "~/dotfiles/emacs/custom.el")
 
 (package-initialize)
-(exec-path-from-shell-copy-env "PATH")
+(exec-path-from-shell-initialize)
 (require 'save-packages)
                                         ;(require 'tsx-mode)
 (save-packages)
-
-
-(setenv "PATH" (concat (expand-file-name "~/bin:")
-                       (expand-file-name "~/.local/bin:")
-                       "/usr/local/bin:"
-                       (expand-file-name "~/.docker/bin:")
-                       (expand-file-name "~/user-python-venv/bin:")
-                       (expand-file-name "~/.nvm/versions/node/v18.20.5/bin:")
-                       (getenv "PATH")))
 
 
 (load "~/dotfiles/emacs/editing.el" nil t)
@@ -43,7 +34,6 @@
 (delete-selection-mode)
 
 (url-handler-mode)
-(setq mac-command-modifier 'control)
 (setq inhibit-splash-screen t)
 (setq visible-bell nil)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))

@@ -79,7 +79,7 @@ narrowed to region [BEG, END]."
 
 (defun indent-buffer ()
   (interactive)
-  (indent-region 0 (buffer-size) nil))
+  (indent-region (point-min) (point-max) nil))
 
 (defun set-tab-width (width)
   (interactive "p")
@@ -142,7 +142,7 @@ narrowed to region [BEG, END]."
   it appears in the minibuffer prompt."
   ;; Based on insert-file in Emacs -- ashawley 20080926
   (interactive "*fInsert file name: \nP")
-  (if (eq filename "")
+  (if (string-empty-p filename)
       (setq filename (buffer-file-name (window-buffer (minibuffer-selected-window)))))
 
   (cond ((eq '- args)

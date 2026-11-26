@@ -33,14 +33,10 @@
   (interactive)
   (switch-to-buffer "*compilation*"))
 
+;; Python binds C-c C-p to run-python; other modes reach the global
+;; C-c C-p in personal-map.
 (eval-after-load "python"
-  '(define-key python-mode-map "\C-c\C-p" 'compile))
-
-(eval-after-load "json-mode"
-  '(define-key json-mode-map "\C-c\C-p" 'compile))
-
-(eval-after-load "c++-mode"
-  '(define-key c++-mode-map "\C-c\C-p" 'compile))
+  '(define-key python-base-mode-map "\C-c\C-p" 'compile))
 
 ;;; Formatting
 

@@ -11,7 +11,7 @@
 
 ;;; Python
 
-(add-hook 'python-mode-hook 'flycheck-mode)
+(add-hook 'python-base-mode-hook 'flycheck-mode)
 
                                         ;(with-eval-after-load 'flycheck
                                         ;  (put 'python-pylint
@@ -21,13 +21,16 @@
 
 ;;; JavaScript and JSON
 
+(defun insert-js-result-marker ()
+  "Append \" //-> 0 \" to the current line."
+  (interactive)
+  (end-of-line)
+  (insert " //-> 0 "))
+
 (eval-after-load "js"
-  '(define-key js-mode-map
-               "\C-c>"
-               (lambda () (interactive)
-                 (progn
-                   (end-of-line)
-                   (insert " //-> 0 ")))))
+  '(define-key js-mode-map "\C-c>" 'insert-js-result-marker))
+(eval-after-load "typescript-ts-mode"
+  '(define-key typescript-ts-base-mode-map "\C-c>" 'insert-js-result-marker))
 
 (add-hook 'find-file-hook 'package-json-hook)
 (defun package-json-hook ()
