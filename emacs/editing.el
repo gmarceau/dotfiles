@@ -184,18 +184,7 @@ narrowed to region [BEG, END]."
   (find-tag (find-tag-default)))
 
 
-(defun insert-console-log ()
-  (interactive)
-  (beginning-of-line)
-  (open-line 1)
-  (insert (format "logger.info('~=%d', );" (line-number-at-pos)))
-  (backward-char 2)
-  (indent-for-tab-command))
 
-(defun json-reformat-region ()
-  "Send the region through `python -m json.tool`"
-  (interactive)
-  (shell-command-on-region (region-beginning) (region-end) "python -m json.tool" t t))
 
 (defun open-line-better (arg)
   (interactive "P")
@@ -312,3 +301,7 @@ narrowed to region [BEG, END]."
   (ad-activate 'isearch-repeat))
 
 (global-set-key "\M-'" 'isearch-forward-symbol-at-point-now)
+
+(eval-after-load "iedit"
+  '(progn
+     (define-key iedit-mode-keymap "\r" 'iedit-mode)))
