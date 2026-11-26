@@ -7,3 +7,6 @@
 [submodule "lisp/tsx-mode"]
 	path = lisp/tsx-mode
 	url = https://github.com/orzechowskid/tsx-mode.el.git
+[submodule "lisp/pycoverage"]
+	path = lisp/pycoverage
+	url = https://github.com/mattharrison/pycoverage.el.git

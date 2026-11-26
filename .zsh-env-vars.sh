@@ -2,6 +2,8 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=$HOME/user-python-venv/bin:$PATH
 export PATH="$HOME/.docker/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 

@@ -53,3 +53,11 @@ function smolvm-ls() {
 function less-r () {
     unbuffer $* |less -R
 }
+
+function cpu_temp {
+    sudo powermetrics --samplers smc |grep -i "CPU die temperature"
+}
+
+function sparkling {
+    mosh sparkling
+}
