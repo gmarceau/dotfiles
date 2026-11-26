@@ -53,9 +53,16 @@
   :config
   (setf (alist-get 'prettier-json apheleia-formatters)
         '("prettier" "--stdin-filepath" filepath))
+  (setf (alist-get 'markdown-mode apheleia-mode-alist) 'prettier)
+  (setf (alist-get 'terraform-mode apheleia-mode-alist) 'terraform)
   (apheleia-global-mode +1))
 
+(use-package prettier :defer t)
+
 ;;; Checking
+
+(use-package flycheck :defer t)
+(use-package coverlay :defer t)          ; M-x coverlay-watch-file on an lcov file
 
 ;; (use-package flycheck
 ;;   :ensure t
@@ -63,3 +70,9 @@
 ;;   :bind (:map flycheck-mode-map
 ;;               ("M-n" . flycheck-next-error) ; optional but recommended error navigation
 ;;               ("M-p" . flycheck-previous-error)))
+
+;;; Version control
+
+(use-package magit :defer t)
+(use-package difftastic :defer t)
+(use-package lab :defer t)

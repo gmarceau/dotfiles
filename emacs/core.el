@@ -1,48 +1,68 @@
 ;;; -*- lexical-binding: t -*-
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-
 (add-to-list 'load-path "~/dotfiles/lisp")
-
-;; Log native-compiler warnings instead of popping up *Warnings*
-(setq native-comp-async-report-warnings-errors 'silent)
 
 ;; Customize writes here instead of this file
 (setq custom-file "~/dotfiles/emacs/custom.el")
 
-(package-initialize)
-(exec-path-from-shell-initialize)
-(require 'save-packages)
-                                        ;(require 'tsx-mode)
-(save-packages)
+;;; Packages
+;; Every package is declared with `use-package' next to its config and
+;; installed on first use.  `package-selected-packages' is built from
+;; those declarations instead of being saved in custom.el, so
+;; `package-autoremove' removes whatever is no longer declared.
+
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+
+(defvar declared-packages nil
+  "Packages declared with `use-package', for `package-selected-packages'.")
+
+(defun ensure-and-record-package (name args state &optional no-refresh)
+  "Record the packages NAME's declaration installs, then install them."
+  (dolist (ensure args)
+    (let ((package (if (eq ensure t) (use-package-as-symbol name) ensure)))
+      (when package
+        (push (if (consp package) (car package) package) declared-packages))))
+  (use-package-ensure-elpa name args state no-refresh))
+(setq use-package-ensure-function #'ensure-and-record-package)
+
+;; :vc declarations skip `use-package-ensure-function'.
+(advice-add 'use-package-vc-install :before
+            (lambda (arg &rest _) (push (car arg) declared-packages))
+            '((name . record-declared-package)))
+
+;; Keep package.el from saving its list to custom.el.
+(advice-add 'package--save-selected-packages :override
+            (lambda (&optional value)
+              (when value (setq package-selected-packages value)))
+            '((name . selected-packages-not-in-custom-file)))
+
+(use-package exec-path-from-shell
+  :demand t
+  ;; PATH is set in .zshrc (via .zsh-env-vars.sh), hence the default -i;
+  ;; don't warn about it.
+  :custom (exec-path-from-shell-check-startup-files nil)
+  :config (exec-path-from-shell-initialize))
 
 
 (load "~/dotfiles/emacs/editing.el" nil t)
 
 (ido-mode 1)
-(setq yas-snippet-dirs '("~/dotfiles/snippets"))
-(yas-global-mode 1)
+(use-package yasnippet
+  :demand t
+  :init (setq yas-snippet-dirs '("~/dotfiles/snippets"))
+  :config (yas-global-mode 1))
 (show-paren-mode 1)
 (electric-pair-mode 1)
 
-(setq ffip-use-rust-fd t)
-(setq magit-last-seen-setup-instructions "1.4.0")
 (delete-selection-mode)
 
-(url-handler-mode)
-(setq inhibit-splash-screen t)
-(setq visible-bell nil)
+(setq inhibit-startup-screen t)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed nil)
-(setq inhibit-startup-message t)
 (defalias 'yes-or-no-p 'y-or-n-p)
-(setq ring-bell-function (lambda () ))
+(setq ring-bell-function #'ignore)
 ;; (global-linum-mode t)
-(setq backup-directory-alist `(("." . "~/.emacs.d/autosaves")))
 
 
 (load custom-file nil t)
@@ -71,13 +91,20 @@
 
 (setq shell-command-switch "-c") ;; removing "-i" otherwise zsh complain that the terminal is not interactive
 
-(setq company-minimum-prefix-length 1
-      company-idle-delay 0.2) ;; default is 0.2
-
 
                                         ;(persp-state-load persp-state-default-file)
 
-(add-hook 'kill-emacs-hook #'persp-state-save)
+(use-package perspective
+  :defer t
+  :custom (persp-suppress-no-prefix-key-warning t)
+  :init
+  (defun persp-save-state-on-quit ()
+    "Save perspectives on quit, turning `persp-mode' on first if needed,
+so `persp-state-load' can restore the last session."
+    (unless noninteractive
+      (unless (bound-and-true-p persp-mode) (persp-mode 1))
+      (persp-state-save)))
+  (add-hook 'kill-emacs-hook #'persp-save-state-on-quit))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
                                         ;(remove-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -93,3 +120,5 @@
 
 (dolist (init (file-expand-wildcards "~/dotfiles/*/init.el"))
   (load (file-name-sans-extension init) nil t))
+
+(setq package-selected-packages (sort (delete-dups declared-packages)))

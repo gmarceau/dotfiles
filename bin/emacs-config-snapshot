@@ -4,7 +4,8 @@
 ;; Usage: emacs-config-snapshot > snapshot.txt
 ;;        EMACS_SNAPSHOT_INIT=other-init.el emacs-config-snapshot > snapshot.txt
 ;;
-;; Loads ~/.emacs (or $EMACS_SNAPSHOT_INIT) in batch mode, loads the
+;; Loads ~/.emacs.d/early-init.el (or $EMACS_SNAPSHOT_EARLY_INIT), then
+;; ~/.emacs (or $EMACS_SNAPSHOT_INIT) in batch mode, loads the
 ;; libraries whose keymaps the config changes, runs the startup hooks,
 ;; then prints, sorted:
 ;;   key  every binding of every keymap variable
@@ -139,8 +140,11 @@ on which objects happen to be `eq'."
 (defun snapshot ()
   (setq user-init-file (expand-file-name (or (getenv "EMACS_SNAPSHOT_INIT") "~/.emacs")))
   (setq process-environment
-        (cl-remove-if (lambda (entry) (string-prefix-p "EMACS_SNAPSHOT_INIT=" entry))
+        (cl-remove-if (lambda (entry) (string-match-p "\\`EMACS_SNAPSHOT_\\(EARLY_\\)?INIT=" entry))
                       process-environment))
+  (load (expand-file-name (or (getenv "EMACS_SNAPSHOT_EARLY_INIT") "~/.emacs.d/early-init.el"))
+        t t t)
+  (package-initialize)
   (load user-init-file nil t t)
   (dolist (library snapshot-mode-libraries)
     (ignore-errors (require library nil t)))

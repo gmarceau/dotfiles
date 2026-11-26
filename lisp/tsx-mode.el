@@ -1,1 +1,0 @@
-tsx-mode/tsx-mode.el

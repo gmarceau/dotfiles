@@ -2,6 +2,19 @@
 
 ;;; File types
 
+(use-package csv-mode :defer t)
+(use-package dockerfile-mode :defer t)
+(use-package go-mode :defer t)
+(use-package json-mode :defer t)
+(use-package rust-mode :defer t)
+(use-package terraform-mode :defer t)
+(use-package yaml-mode :defer t)
+(use-package sql-indent :defer t)
+(use-package alloy-mode
+  :ensure nil
+  :load-path "~/dotfiles/lisp/alloy-mode"
+  :mode "\\.als\\'")
+
 (add-to-list 'auto-mode-alist '("\\.hjson\\'" . js-mode) t)
 (add-to-list 'auto-mode-alist '("\\.axn\\'" . ruby-mode) t)
 (add-to-list 'auto-mode-alist '("\\.tfstate\\'" . json-mode) t)
@@ -10,6 +23,8 @@
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode) t)
 
 ;;; Python
+
+(use-package pyvenv :defer t)
 
 (add-hook 'python-base-mode-hook 'flycheck-mode)
 
@@ -45,11 +60,6 @@
           (buffer-file-name))
      (shell-command (concat "spread.js " (buffer-file-name) " &")))))
 
-(defun nvm-which ()
-  (let ((output (shell-command-to-string "source ~/.nvm/nvm.sh; nvm which")))
-    (cadr (split-string output "[\n]+" t))))
-(setq nodejs-repl-command #'nvm-which)
-
 (defun insert-console-log ()
   (interactive)
   (beginning-of-line)
@@ -65,5 +75,6 @@
 
 ;;; Markdown
 
-(with-eval-after-load 'markdown-mode
-  (keymap-set markdown-mode-map "C-c -" #'text-scale-decrease))
+(use-package markdown-mode
+  :defer t
+  :config (keymap-set markdown-mode-map "C-c -" #'text-scale-decrease))

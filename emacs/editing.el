@@ -185,6 +185,23 @@ proceed."
   (open-line 1)
   (indent-according-to-mode))
 
+;;; Packages for the commands bound below
+
+(use-package ace-jump-mode :defer t)
+(use-package expand-region :defer t)
+(use-package move-text :defer t)
+(use-package fzf :defer t)
+(use-package ag :defer t)
+(use-package projectile :defer t)
+(use-package elmacro :defer t)
+(use-package ucs-utils :defer t)
+
+(use-package iedit
+  :defer t
+  :config (keymap-set iedit-mode-keymap "RET" #'iedit-mode))
+
+;;; Key bindings
+
 (keymap-global-set "C-<down>" #'gcm-scroll-down)
 (keymap-global-set "C-<up>"   #'gcm-scroll-up)
 
@@ -282,9 +299,6 @@ proceed."
     (isearch-repeat-forward)))
 
 (keymap-global-set "M-'" #'isearch-forward-symbol-at-point-now)
-
-(with-eval-after-load 'iedit
-  (keymap-set iedit-mode-keymap "RET" #'iedit-mode))
 
 (defun unmark-sexp ()
   "Undo the last `mark-sexp' extension."

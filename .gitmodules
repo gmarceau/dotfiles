@@ -1,12 +1,3 @@
 [submodule "lisp/alloy-mode"]
 	path = lisp/alloy-mode
 	url = https://github.com/dwwmmn/alloy-mode.git
-[submodule "lisp/tree-sitter-css-in-js"]
-	path = lisp/tree-sitter-css-in-js
-	url = https://github.com/orzechowskid/tree-sitter-css-in-js.git
-[submodule "lisp/tsx-mode"]
-	path = lisp/tsx-mode
-	url = https://github.com/orzechowskid/tsx-mode.el.git
-[submodule "lisp/pycoverage"]
-	path = lisp/pycoverage
-	url = https://github.com/mattharrison/pycoverage.el.git

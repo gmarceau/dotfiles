@@ -21,6 +21,7 @@
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (use-package treesit
+  :ensure nil
   :mode (("\\.tsx\\'" . tsx-ts-mode)
          ("\\.js\\'"  . typescript-ts-mode)
          ("\\.mjs\\'" . typescript-ts-mode)
@@ -139,6 +140,8 @@
   (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
   (lsp-diagnostics-provider :flycheck)
   )
+
+(use-package lsp-ui :defer t)            ; lsp-mode turns it on when installed
 
 ;; (add-to-list 'eglot-server-programs
 ;;              `(typescript-ts-mode . ("typescript-language-server" "--stdio"

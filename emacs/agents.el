@@ -17,6 +17,7 @@
   ;; Optionally define a repeat map so that "M" will cycle thru Claude auto-accept/plan/confirm modes after invoking claude-code-cycle-mode / C-c M.
   :bind
   (:repeat-map my-claude-code-map ("M" . claude-code-cycle-mode)))
+(use-package ghostel :defer t)
 (setq claude-code-terminal-backend 'ghostel)
 
 (defun osx-claude-notify (title message)
@@ -29,7 +30,9 @@
 (setq claude-code-optimize-window-resize nil)
 
 
-(with-eval-after-load 'eca
+(use-package eca
+  :defer t
+  :config
 
   (defun my-eca--graceful-process-stop (session)
     "Stop SESSION's process without defaulting to SIGKILL."
@@ -98,6 +101,7 @@
   (keymap-set eca-chat-mode-map "C-c C-l" #'eca-chat-clear-with-confirm)
   (keymap-set eca-chat-mode-map "C-c C-!" #'eca-chat-run-shell-command)
   )
+(use-package agent-shell :defer t)
 (setq agent-shell-elicitation--experimental-feature-enabled t)
 
 (require 'agent-tools)
