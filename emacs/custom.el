@@ -75,7 +75,6 @@
  '(eca-worktree-mode 'isolated)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(elpy-syntax-check-command "pylint")
- '(fci-rule-color "#eee8d5")
  '(fill-column 80)
  '(flycheck-checkers
    '(ada-gnat asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine
@@ -133,20 +132,20 @@
  '(package-selected-packages
    '(ace-jump-mode ag agent-shell aider apheleia bazel claude-code company corfu
                    coverlay csv-mode difftastic dockerfile-mode eca elmacro elpy
-                   exec-path-from-shell expand-region fill-column-indicator
-                   find-file-in-project flx-ido flycheck flymake-shellcheck
-                   full-ack fzf ghostel go-mode groovy-mode iedit json-mode lab
-                   lsp-mode lsp-ui magit markdown-mode monet monokai-theme
-                   move-text multi-term nodejs-repl origami paredit perspective
-                   prettier projectile pylint python-environment pyvenv
-                   request-deferred rust-mode smartparens smartrep
-                   smooth-scrolling solarized-theme sql-indent swiper
+                   exec-path-from-shell expand-region find-file-in-project
+                   flx-ido flycheck flymake-shellcheck full-ack fzf ghostel
+                   go-mode groovy-mode iedit json-mode lab lsp-mode lsp-ui magit
+                   markdown-mode monet monokai-theme move-text multi-term
+                   nodejs-repl origami paredit perspective prettier projectile
+                   pylint python-environment pyvenv request-deferred rust-mode
+                   smartparens smartrep solarized-theme sql-indent swiper
                    terraform-mode tree-sitter tree-sitter-langs typescript-mode
-                   ucs-utils which-key xterm-color yaml-mode yasnippet))
+                   ucs-utils xterm-color yaml-mode yasnippet))
  '(package-vc-selected-packages
    '((monet :url "https://github.com/stevemolitor/monet")
      (claude-code :url "https://github.com/stevemolitor/claude-code.el")))
  '(persp-state-default-file "~/.emacs.perspective")
+ '(pixel-scroll-precision-mode t)
  '(pos-tip-background-color "#eee8d5")
  '(projectile-completion-system 'auto)
  '(projectile-globally-ignored-directories
@@ -166,11 +165,10 @@
  '(safe-local-variable-values
    '((text-scale-mode-amount . 2) (text-scale-mode-amount . 3)))
  '(save-packages-file "~/dotfiles/save-packages")
- '(scroll-margin 3)
+ '(scroll-conservatively 101)
+ '(scroll-margin 5)
  '(server-mode t)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
- '(smooth-scroll-margin 5)
- '(smooth-scrolling-mode t)
  '(split-width-threshold 260)
  '(sql-mysql-program "~/bin/mysql")
  '(sr-speedbar-right-side nil)

@@ -67,15 +67,8 @@ narrowed to region [BEG, END]."
 	(end-of-line) (delete-char 1) (just-one-space))
       (delete-char -1) (insert "\n"))))
 
-(defun debug-on-error ()
-  (interactive)
-  (setq debug-on-error (not debug-on-error))
-  (message "debug-on-error is now %s" (if debug-on-error "ON" "OFF")))
-
-(defun truncate-lines ()
-  (interactive)
-  (setq truncate-lines (not truncate-lines))
-  (message "truncate-lines is now %s" (if truncate-lines "ON" "OFF")))
+(defalias 'debug-on-error #'toggle-debug-on-error)
+(defalias 'truncate-lines #'toggle-truncate-lines)
 
 (defun indent-buffer ()
   (interactive)
