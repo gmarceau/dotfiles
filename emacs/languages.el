@@ -27,10 +27,10 @@
   (end-of-line)
   (insert " //-> 0 "))
 
-(eval-after-load "js"
-  '(define-key js-mode-map "\C-c>" 'insert-js-result-marker))
-(eval-after-load "typescript-ts-mode"
-  '(define-key typescript-ts-base-mode-map "\C-c>" 'insert-js-result-marker))
+(with-eval-after-load 'js
+  (keymap-set js-mode-map "C-c >" #'insert-js-result-marker))
+(with-eval-after-load 'typescript-ts-mode
+  (keymap-set typescript-ts-base-mode-map "C-c >" #'insert-js-result-marker))
 
 (add-hook 'find-file-hook 'package-json-hook)
 (defun package-json-hook ()
@@ -65,7 +65,5 @@
 
 ;;; Markdown
 
-(add-hook
- 'markdown-mode-hook
- (lambda ()
-   (define-key markdown-mode-map "\C-c-" 'text-scale-decrease)))
+(with-eval-after-load 'markdown-mode
+  (keymap-set markdown-mode-map "C-c -" #'text-scale-decrease))

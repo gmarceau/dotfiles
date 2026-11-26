@@ -35,8 +35,8 @@
 
 ;; Python binds C-c C-p to run-python; other modes reach the global
 ;; C-c C-p in personal-map.
-(eval-after-load "python"
-  '(define-key python-base-mode-map "\C-c\C-p" 'compile))
+(with-eval-after-load 'python
+  (keymap-set python-base-mode-map "C-c C-p" #'compile))
 
 ;;; Formatting
 

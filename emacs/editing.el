@@ -114,18 +114,20 @@ narrowed to region [BEG, END]."
     (insert to-insert)
     (indent-region p (point))))
 
-(defadvice kill-buffer (around immortal-scratch-buffer activate)
-  (let* ((buf-or-name (ad-get-arg 0))
-         (buffer (if buf-or-name
-                     (get-buffer-create buf-or-name)
-                   (current-buffer)))
-         (name (buffer-name buffer))
-         (immortal (and (string= name "*scratch*")
-                        (not (buffer-file-name buffer)))))
-    (when (and ad-do-it immortal)
-      (switch-to-buffer (get-buffer-create "*scratch*"))
-      (emacs-lisp-mode)
-      (bury-buffer))))
+(defun immortal-scratch-buffer ()
+  "When *scratch* is killed, replace it with a fresh, buried one.
+Runs from `kill-buffer-query-functions': renames the buffer being
+killed out of the way, creates the new *scratch*, and lets the kill
+proceed."
+  (when (and (equal (buffer-name) "*scratch*") (not buffer-file-name))
+    (rename-buffer "*scratch*<killed>" t)
+    (let ((scratch (get-buffer-create "*scratch*")))
+      (with-current-buffer scratch (emacs-lisp-mode))
+      (bury-buffer scratch)))
+  t)
+;; Depth 90: run last, so no later query function can cancel the kill
+;; after the replacement exists.
+(add-hook 'kill-buffer-query-functions #'immortal-scratch-buffer 90)
 
 (defun insert-file-name (filename &optional args)
   "Insert name of file FILENAME into buffer after point. When no file name given,
@@ -178,10 +180,6 @@ narrowed to region [BEG, END]."
     (goto-char (car up-list-stack))
     (setq up-list-stack (cdr up-list-stack))))
 
-(defun find-tag-at-point ()
-  "Jump to the tag at point without prompting"
-  (interactive)
-  (find-tag (find-tag-default)))
 
 
 
@@ -189,120 +187,111 @@ narrowed to region [BEG, END]."
 (defun open-line-better (arg)
   (interactive "P")
   (when arg
-    (next-line arg))
+    (forward-line arg))
   (beginning-of-line)
   (open-line 1)
   (indent-according-to-mode))
 
-(global-set-key [(control down)] 'gcm-scroll-down)
-(global-set-key [(control up)]   'gcm-scroll-up)
+(keymap-global-set "C-<down>" #'gcm-scroll-down)
+(keymap-global-set "C-<up>"   #'gcm-scroll-up)
 
-(global-set-key [f2] 'call-last-kbd-macro)
-(global-set-key [\M-f2] 'apply-macro-to-region-lines)
-(global-set-key "\C-hn" 'man)
-(global-set-key "\C-x$" 'selective-display)
+(keymap-global-set "<f2>" #'call-last-kbd-macro)
+(keymap-global-set "M-<f2>" #'apply-macro-to-region-lines)
+(keymap-global-set "C-h n" #'man)
+(keymap-global-set "C-x $" #'selective-display)
 (with-eval-after-load 'tab-line
-  (define-key tab-line-mode-map (kbd "C-x <right>") nil)
-  (define-key tab-line-mode-map (kbd "C-x <left>") nil))
-(global-set-key [f4] 'projectile-ag)
-(global-set-key [f9] 'recompile)
-(global-set-key [M-f9] 'switch-to-compilation)
-(global-set-key "\C-j" 'join-line-backward)
-(global-set-key [M-S-up] 'move-text-up)
-(global-set-key [M-S-down] 'move-text-down)
-(global-set-key "\M-o" 'other-window)
-(global-set-key "\M-=" 'er/expand-region)
-(global-set-key "\M-+" 'er/contract-region)
-(global-set-key "\M-]" 'find-tag-at-point)
-(global-set-key "\M-[" 'pop-tag-mark)
-(global-set-key "\M-B" 'bring-sexp)
-(global-set-key "\M-r" 'repeat)
-(global-set-key "\M-j" 'ace-jump-word-mode)
-(global-set-key "\C-o" 'open-line-better)
-(global-set-key "\M-z" 'zap-up-to-char)
-(global-set-key [M-delete] 'kill-word)
-(global-set-key "\C-xni" 'narrow-to-region-indirect)
-(global-unset-key [(control wheel-up)])
-(global-unset-key [(control wheel-down)])
+  (keymap-unset tab-line-mode-map "C-x <right>")
+  (keymap-unset tab-line-mode-map "C-x <left>"))
+(keymap-global-set "<f4>" #'projectile-ag)
+(keymap-global-set "<f9>" #'recompile)
+(keymap-global-set "M-<f9>" #'switch-to-compilation)
+(keymap-global-set "C-j" #'join-line-backward)
+(keymap-global-set "M-S-<up>" #'move-text-up)
+(keymap-global-set "M-S-<down>" #'move-text-down)
+(keymap-global-set "M-o" #'other-window)
+(keymap-global-set "M-=" #'er/expand-region)
+(keymap-global-set "M-+" #'er/contract-region)
+(keymap-global-set "M-B" #'bring-sexp)
+(keymap-global-set "M-r" #'repeat)
+(keymap-global-set "M-j" #'ace-jump-word-mode)
+(keymap-global-set "C-o" #'open-line-better)
+(keymap-global-set "M-z" #'zap-up-to-char)
+(keymap-global-set "M-<delete>" #'kill-word)
+(keymap-global-set "C-x n i" #'narrow-to-region-indirect)
+(keymap-global-unset "C-<wheel-up>")
+(keymap-global-unset "C-<wheel-down>")
 
-(global-set-key (kbd "s-M-<right>") 'next-buffer)
-(global-set-key (kbd "s-M-<left>") 'previous-buffer)
+(keymap-global-set "M-s-<right>" #'next-buffer)
+(keymap-global-set "M-s-<left>" #'previous-buffer)
 
 
-(defvar personal-map (make-sparse-keymap))
-(define-key global-map [(control c)] personal-map)
+(defvar-keymap fzf-map
+  "f" #'fzf
+  "d" #'fzf-find-file-in-dir
+  "b" #'fzf-switch-buffer)
 
-(define-key personal-map "w" 'agent-shell-send-dwim)
-(define-key personal-map "d" 'duplicate-current-line-or-region)
-(define-key personal-map "\C-p" 'compile)
-(define-key personal-map "p" 'projectile-command-map)
-(define-key personal-map "a" 'magit-status)
-(define-key personal-map "bb" 'magit-blame)
-(define-key personal-map "o" 'occur)
-(define-key personal-map "'" 'iedit-mode) ; Ctrl-c '
-(define-key personal-map "0" 'insert-console-log)
-(define-key personal-map "i" 'iedit-mode)
-(define-key personal-map "j" 'json-reformat-region)
-(define-key personal-map "r" (lambda () (interactive) (revert-buffer t t t)))
-(define-key personal-map "fg" 'lgrep)
-(define-key personal-map "\C-q" 'fill-region)
-(define-key personal-map "q" 'unfill)
-(define-key personal-map "mb" 'bind-last-kdb-macro)
-(define-key personal-map "md" 'global-unset-key)
-(define-key personal-map "l" 'font-lock-fontify-buffer)
-(define-key personal-map "ff" 'find-file-at-point)
-(define-key personal-map "fi" 'insert-file-name)
-(define-key personal-map "fb" 'browse-url-at-point)
-(define-key personal-map "fd" 'find-name-dired)
-(define-key personal-map "fa" 'ag)
-(define-key personal-map "t" 'auto-revert-tail-mode)
-(define-key personal-map "v" 'view-mode)
-(define-key personal-map "y" (lambda () (interactive) (flyspell-mode) (flyspell-buffer)))
-(define-key personal-map [up] 'up-list-backward-sexp)
-(define-key personal-map [down] 'up-list-pop)
-(define-key personal-map "-" 'text-scale-decrease)
-(define-key personal-map "=" 'text-scale-increase)
-(define-key personal-map [tab] 'set-tab-width)
-(define-key personal-map "h" 'highlight-phrase)
-(define-key personal-map "\C-h" 'highlight-regexp)
-(define-key personal-map "c" 'calculator)
-(define-key personal-map "n" 'flycheck-next-error)
-(define-key personal-map "," 'lsp-find-references)
+(defvar-keymap personal-map
+  "w" #'agent-shell-send-dwim
+  "d" #'duplicate-current-line-or-region
+  "C-p" #'compile
+  "p" 'projectile-command-map
+  "a" #'magit-status
+  "b b" #'magit-blame
+  "o" #'occur
+  "'" #'iedit-mode                      ; Ctrl-c '
+  "0" #'insert-console-log
+  "i" #'iedit-mode
+  "j" #'json-reformat-region
+  "r" (lambda () (interactive) (revert-buffer t t t))
+  "f g" #'lgrep
+  "C-q" #'fill-region
+  "q" #'unfill
+  "m b" #'bind-last-kdb-macro
+  "m d" #'global-unset-key
+  "l" #'font-lock-update
+  "f f" #'find-file-at-point
+  "f i" #'insert-file-name
+  "f b" #'browse-url-at-point
+  "f d" #'find-name-dired
+  "f a" #'ag
+  "t" #'auto-revert-tail-mode
+  "v" #'view-mode
+  "y" (lambda () (interactive) (flyspell-mode) (flyspell-buffer))
+  "<up>" #'up-list-backward-sexp
+  "<down>" #'up-list-pop
+  "-" #'text-scale-decrease
+  "=" #'text-scale-increase
+  "<tab>" #'set-tab-width
+  "h" #'highlight-phrase
+  "C-h" #'highlight-regexp
+  "c" #'calculator
+  "n" #'flycheck-next-error
+  "," #'lsp-find-references
+  "f z" fzf-map
+  "f j" #'jump-to-code)
+(keymap-global-set "C-c" personal-map)
 
                                         ;(define-key ghostel-mode-map "l", 'ghostel-clear)
 
-(defvar fzf-map (make-sparse-keymap))
-(define-key fzf-map "f" 'fzf)
-(define-key fzf-map "d" 'fzf-find-file-in-dir)
-(define-key fzf-map "b" 'fzf-switch-buffer)
-(define-key personal-map "fz" fzf-map)
-(define-key personal-map "fj" #'jump-to-code)
-
-(fset 'indent-riffle [tab down])
-(if window-system (define-key global-map "\C-z" 'indent-riffle))
-
-(defadvice isearch-repeat (after isearch-autowrap)
-  (unless isearch-success
-    (ad-disable-advice 'isearch-repeat 'after 'isearch-autowrap)
-    (ad-activate 'isearch-repeat)
-    (isearch-repeat (if isearch-forward 'forward))
-    (ad-enable-advice 'isearch-repeat 'after 'isearch-autowrap)
-    (ad-activate 'isearch-repeat)))
+(defun indent-riffle (arg)
+  "Indent the current line and move to the next one, ARG times."
+  (interactive "p")
+  (dotimes (_ arg)
+    (indent-for-tab-command)
+    (forward-line 1)))
+(when window-system (keymap-global-set "C-z" #'indent-riffle))
 
 (defun isearch-forward-symbol-at-point-now ()
+  "Search forward for the next occurrence of the symbol at point, wrapping."
   (interactive)
   (isearch-forward-symbol-at-point)
-  (ad-enable-advice 'isearch-repeat 'after 'isearch-autowrap)
-  (ad-activate 'isearch-repeat)
-  (isearch-repeat-forward)
-  (ad-disable-advice 'isearch-repeat 'after 'isearch-autowrap)
-  (ad-activate 'isearch-repeat))
+  (let ((isearch-wrap-pause 'no-ding))
+    (isearch-repeat-forward)))
 
-(global-set-key "\M-'" 'isearch-forward-symbol-at-point-now)
+(keymap-global-set "M-'" #'isearch-forward-symbol-at-point-now)
 
-(eval-after-load "iedit"
-  '(progn
-     (define-key iedit-mode-keymap "\r" 'iedit-mode)))
+(with-eval-after-load 'iedit
+  (keymap-set iedit-mode-keymap "RET" #'iedit-mode))
 
 (defun unmark-sexp ()
   "Undo the last `mark-sexp' extension."

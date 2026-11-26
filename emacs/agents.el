@@ -52,8 +52,8 @@
 
   ;; Override only the process-kill step.
   (advice-add 'eca-process-stop :override #'my-eca--graceful-process-stop)
-  (global-set-key [S-f8] 'eca-chat-go-to-next-attention-in-project)
-  (global-set-key [f8] 'eca-chat-go-to-next-attention))
+  (keymap-global-set "S-<f8>" #'eca-chat-go-to-next-attention-in-project)
+  (keymap-global-set "<f8>" #'eca-chat-go-to-next-attention))
 
 (with-eval-after-load 'eca-chat
   (defun eca-chat-run-shell-command (command)
@@ -94,9 +94,9 @@
         (eca-chat--send-prompt session
                                (string-trim (concat "/compact " extra))))))
 
-  (define-key eca-chat-mode-map (kbd "C-c C-S-l") #'eca-chat-compact)
-  (define-key eca-chat-mode-map (kbd "C-c C-l") #'eca-chat-clear-with-confirm)
-  (define-key eca-chat-mode-map (kbd "C-c C-!") #'eca-chat-run-shell-command)
+  (keymap-set eca-chat-mode-map "C-c C-S-l" #'eca-chat-compact)
+  (keymap-set eca-chat-mode-map "C-c C-l" #'eca-chat-clear-with-confirm)
+  (keymap-set eca-chat-mode-map "C-c C-!" #'eca-chat-run-shell-command)
   )
 (setq agent-shell-elicitation--experimental-feature-enabled t)
 
