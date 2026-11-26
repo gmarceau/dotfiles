@@ -46,7 +46,7 @@
   :type 'file
   :group 'save-packages)
 
-(require 'cl)
+(require 'cl-lib)
 (eval-when-compile (require 'package))
 
 ;;;###autoload
@@ -70,10 +70,10 @@ by default), and offer to install the missing packages."
   (with-temp-buffer
     (insert-file-contents (or filename save-packages-file))
     (let* ((saved-package-list (car (read-from-string (buffer-string))))
-           (missing-package-list (remove-if 'package-installed-p saved-package-list))
-           (packages-to-install-list (remove-if-not (lambda (pkg)
-                                                      (y-or-n-p (format "Install package \"%s\"? " pkg)))
-                                                    missing-package-list)))
+           (missing-package-list (cl-remove-if 'package-installed-p saved-package-list))
+           (packages-to-install-list (cl-remove-if-not (lambda (pkg)
+                                                         (y-or-n-p (format "Install package \"%s\"? " pkg)))
+                                                       missing-package-list)))
       (if packages-to-install-list
           (mapc 'package-install packages-to-install-list)
         (message "Everything is up to date.")))))
