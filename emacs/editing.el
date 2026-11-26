@@ -1,9 +1,5 @@
 ;;; editing.el --- Editing and navigation commands and their key bindings  -*- lexical-binding: t -*-
 
-(defun display-ansi-colors ()
-  (interactive)
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
 
 (defun gcm-scroll-down ()
   (interactive)
@@ -17,9 +13,6 @@
   (join-line -1)
   (indent-for-tab-command))
 
-(defun switch-to-compilation ()
-  (interactive)
-  (switch-to-buffer "*compilation*"))
 
 (defun duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.

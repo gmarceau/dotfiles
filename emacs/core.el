@@ -85,21 +85,6 @@
 ;; (global-linum-mode t)
 (setq backup-directory-alist `(("." . "~/.emacs.d/autosaves")))
 
-(require 'compile)
-
-                                        ;(add-to-list
-                                        ; 'compilation-error-regexp-alist
-                                        ; '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
-                                        ;   1 2 nil (3 . 4)))
-
-;; Add NodeJS error format
-(add-to-list 'compilation-error-regexp-alist-alist
-             '(node "^[  ]+at \\(?:[^\(\n]+ \(\\)?\\([a-zA-Z\.0-9_/-]+\\):\\([0-9]+\\):\\([0-9]+\\)\)?$"
-                    1 ;; file
-                    2 ;; line
-                    3 ;; column
-                    ))
-(add-to-list 'compilation-error-regexp-alist 'node)
 
 (load custom-file nil t)
                                         ;(custom-set-faces
@@ -130,11 +115,6 @@
 (setq company-minimum-prefix-length 1
       company-idle-delay 0.2) ;; default is 0.2
 
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
                                         ;(persp-state-load persp-state-default-file)
 
@@ -173,8 +153,6 @@
 
                                         ;(define-key perspective-map "s" 'projectile-persp-switch-project)
 
-(eval-after-load "python"
-  '(define-key python-mode-map "\C-c\C-p" 'compile))
 
 (eval-after-load "js"
   '(define-key js-mode-map
@@ -185,11 +163,7 @@
                    (insert " //-> 0 ")))))
 
 
-(eval-after-load "json-mode"
-  '(define-key json-mode-map "\C-c\C-p" 'compile))
 
-(eval-after-load "c++-mode"
-  '(define-key c++-mode-map "\C-c\C-p" 'compile))
 
 (eval-after-load "iedit"
   '(progn
@@ -201,23 +175,8 @@
     (cadr (split-string output "[\n]+" t))))
 (setq nodejs-repl-command #'nvm-which)
 
-;; Apheleia and treesit setup from https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config
-;;
-;;; APHELEIA
-;; auto-format different source code files extremely intelligently
-;; https://github.com/radian-software/apheleia
-(use-package apheleia
-  :ensure apheleia
-  :diminish ""
-  :defines
-  apheleia-formatters
-  apheleia-mode-alist
-  :functions
-  apheleia-global-mode
-  :config
-  (setf (alist-get 'prettier-json apheleia-formatters)
-        '("prettier" "--stdin-filepath" filepath))
-  (apheleia-global-mode +1))
+(load "~/dotfiles/emacs/dev-tools.el" nil t)
+
 
 
 (use-package treesit
@@ -357,12 +316,6 @@
 
 
 
-;; (use-package flycheck
-;;   :ensure t
-;;   :init (global-flycheck-mode)
-;;   :bind (:map flycheck-mode-map
-;;               ("M-n" . flycheck-next-error) ; optional but recommended error navigation
-;;               ("M-p" . flycheck-previous-error)))
 
 
 

@@ -37,6 +37,12 @@
       eos)
   "Variables that change from run to run, or are internal (contain \"--\").")
 
+(defvar snapshot-unordered-variables
+  '(after-load-alist custom-current-group-alist minor-mode-list)
+  "Lists whose order follows load order and does not change behavior.
+They are printed sorted.  `minor-mode-map-alist' is not one: its order
+decides which minor mode's binding wins.")
+
 (defvar snapshot-max-printed-length 2000
   "Values printed longer than this are replaced by their SHA-1.")
 
@@ -149,7 +155,11 @@ on which objects happen to be `eq'."
          (when (and (boundp symbol) (not (keymapp (symbol-value symbol)))
                     (not (keywordp symbol))
                     (not (string-match-p snapshot-volatile-variables name)))
-           (let ((printed (snapshot-value (symbol-value symbol))))
+           (let ((printed (snapshot-value
+                           (if (memq symbol snapshot-unordered-variables)
+                               (sort (copy-sequence (symbol-value symbol))
+                                     (lambda (x y) (string< (snapshot-print x) (snapshot-print y))))
+                             (symbol-value symbol)))))
              (when printed (push (format "var %s = %s" name printed) lines))))
          (when (and (fboundp symbol)
                     (snapshot-dotfiles-file-p (symbol-file symbol 'defun)))
