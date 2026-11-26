@@ -235,3 +235,19 @@ same buffer waits for the first. Interactively, also signal
 
 (provide 'agent-tools)
 ;;; agent-tools.el ends here
+
+
+(require 'generic-x)
+(define-generic-mode allium-mode
+  '("--")
+  '("entity" "external" "value" "variant" "rule" "when" "requires" "ensures" "let" "for"
+    "in" "if" "else" "where" "with" "surface" "facing" "context" "exposes" "provides"
+    "contracts" "demands" "fulfils" "related" "timeout" "contract" "config" "default"
+    "invariant" "given" "use" "as" "deferred" "open" "question" "transitions" "terminal"
+    "actor" "identified_by" "within" "not" "and" "or" "implies" "exists"
+    "transitions_to" "becomes" "created" "this" "now")
+  '(("@[a-z]+" . font-lock-preprocessor-face)
+    ("\\_<[A-Z][A-Za-z0-9]*\\_>" . font-lock-type-face))
+  '("\\.allium\\'")
+  nil
+  "Major mode for Allium specification files.")
