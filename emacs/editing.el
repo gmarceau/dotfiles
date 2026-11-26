@@ -200,7 +200,6 @@ narrowed to region [BEG, END]."
 (global-set-key [f2] 'call-last-kbd-macro)
 (global-set-key [\M-f2] 'apply-macro-to-region-lines)
 (global-set-key "\C-hn" 'man)
-(global-set-key "\C-j" (lambda () (interactive) (join-line -1)))
 (global-set-key "\C-x$" 'selective-display)
 (with-eval-after-load 'tab-line
   (define-key tab-line-mode-map (kbd "C-x <right>") nil)
@@ -226,7 +225,6 @@ narrowed to region [BEG, END]."
 (global-unset-key [(control wheel-up)])
 (global-unset-key [(control wheel-down)])
 
-(setq mac-command-modifier 'super)
 (global-set-key (kbd "s-M-<right>") 'next-buffer)
 (global-set-key (kbd "s-M-<left>") 'previous-buffer)
 

@@ -32,21 +32,16 @@
 
 (load "~/dotfiles/emacs/editing.el" nil t)
 
-(defalias 'yes-or-no-p 'y-or-n-p)
 (ido-mode 1)
 (setq yas-snippet-dirs '("~/dotfiles/snippets"))
 (yas-global-mode 1)
 (show-paren-mode 1)
-(global-display-line-numbers-mode 1)
 (electric-pair-mode 1)
 
 (setq ffip-use-rust-fd t)
-(setq shell-command-switch "-ic")
 (setq magit-last-seen-setup-instructions "1.4.0")
 (delete-selection-mode)
 
-(tool-bar-mode 0)
-(blink-cursor-mode 0)
 (url-handler-mode)
 (setq mac-command-modifier 'control)
 (setq inhibit-splash-screen t)
@@ -54,9 +49,8 @@
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed nil)
 (setq inhibit-startup-message t)
-(fset 'yes-or-no-p 'y-or-n-p)
+(defalias 'yes-or-no-p 'y-or-n-p)
 (setq ring-bell-function (lambda () ))
-(column-number-mode t)
 ;; (global-linum-mode t)
 (setq backup-directory-alist `(("." . "~/.emacs.d/autosaves")))
 
