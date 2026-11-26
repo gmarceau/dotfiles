@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t -*-
 ;;; save-packages.el --- save and restore installed packages
 
 ;; Copyright (C) 2012 Peter Eisentraut
