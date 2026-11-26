@@ -581,9 +581,7 @@ narrowed to region [BEG, END]."
  '(repository-root-matchers '(repository-root-matcher/git))
  '(safe-local-eval-forms '((text-scale-mode t)))
  '(safe-local-variable-values
-   '((flycheck-python-pylint-executable
-      . "/Users/guillaume.marceau/code/oe-analytics-pipelines/env3/bin/pylint")
-     (text-scale-mode-amount . 2) (text-scale-mode-amount . 3)))
+   '((text-scale-mode-amount . 2) (text-scale-mode-amount . 3)))
  '(save-packages-file "~/dotfiles/save-packages")
  '(scroll-margin 3)
  '(server-mode t)
