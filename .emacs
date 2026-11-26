@@ -10,16 +10,17 @@
 
 (package-initialize)
 (exec-path-from-shell-copy-env "PATH")
-(require 'eca-smolvm)
 (require 'save-packages)
                                         ;(require 'tsx-mode)
 (save-packages)
 
 
-(setenv "PATH" (concat "/Users/guillaume/bin:/Users/guillaume/.local/bin:/usr/local/bin:"
-                       "/Users/guillaume/.docker/bin:"
-                       "/Users/guillaume/user-python-venv/bin:"
-                       "/Users/guillaume/.nvm/versions/node/v18.20.5/bin:"
+(setenv "PATH" (concat (expand-file-name "~/bin:")
+                       (expand-file-name "~/.local/bin:")
+                       "/usr/local/bin:"
+                       (expand-file-name "~/.docker/bin:")
+                       (expand-file-name "~/user-python-venv/bin:")
+                       (expand-file-name "~/.nvm/versions/node/v18.20.5/bin:")
                        (getenv "PATH")))
 
 (setq treesit-language-source-alist
@@ -461,9 +462,6 @@ narrowed to region [BEG, END]."
      (markdown-mode . prettier)))
  '(auto-revert-interval 0.3)
  '(auto-save-default nil)
- '(autopair-blink t)
- '(autopair-blink-delay 0.05)
- '(autopair-global-mode t)
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(compilation-ask-about-save nil)
@@ -486,7 +484,6 @@ narrowed to region [BEG, END]."
      "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
      "70b51a849b665f50a97a028c44cec36b398398357d8f7c19d558fe832b91980f" default))
  '(eca-chat-use-side-window nil)
- '(eca-custom-command '("~/code/eca-smolvm/bin/eca-smolvm"))
  '(eca-send-process-id t)
  '(eca-worktree-mode 'isolated)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -547,7 +544,7 @@ narrowed to region [BEG, END]."
      "#d33682" "#6c71c4"))
  '(ns-command-modifier 'meta)
  '(package-selected-packages
-   '(ace-jump-mode ag agent-shell aider apheleia autopair bazel-mode claude-code
+   '(ace-jump-mode ag agent-shell aider apheleia bazel claude-code
                    company corfu coverlay csv-mode difftastic dockerfile-mode
                    eca elmacro elpy exec-path-from-shell expand-region
                    fill-column-indicator find-file-in-project flx-ido flycheck

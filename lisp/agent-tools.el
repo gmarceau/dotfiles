@@ -105,7 +105,7 @@ ADDRESS is such as \"t6\", WHERE such as \"project / Tab\"."
 (defun read-pseudocode-terminal ()
   "Ask for a Claude terminal, with `pseudocode-claude-terminal' as the default.
 Each candidate is an address and its herdr tab, such as
-\"t6 eca-smolvm / Planner\", so typing a tab name finds its terminal.
+\"t6 dotfiles / Planner\", so typing a tab name finds its terminal.
 Save the address in `pseudocode-claude-terminal' and return it. Signal
 `user-error' on empty input when there is no default."
   (let* ((candidates (mapcar (lambda (terminal) (format "%s %s" (car terminal) (cdr terminal)))

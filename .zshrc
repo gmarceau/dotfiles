@@ -90,7 +90,7 @@ unsetopt share_history
 compdef _jump jump
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/guillaume/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/guillaume/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/guillaume/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/guillaume/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc"; fi

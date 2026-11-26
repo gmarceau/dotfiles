@@ -1,1 +1,1 @@
-/Users/guillaume/dotfiles/lisp/tsx-mode/tsx-mode.el
+tsx-mode/tsx-mode.el
