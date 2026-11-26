@@ -40,14 +40,69 @@
 (defvar snapshot-max-printed-length 2000
   "Values printed longer than this are replaced by their SHA-1.")
 
+(defvar snapshot-max-nodes 500000
+  "Values with more nodes than this print as :too-large.")
+
+(defun snapshot-normalize (value)
+  "Return a fresh, acyclic copy of VALUE for printing.
+Interpreted closures become lists minus the special variables in their
+environment: that list names the variables `defvar'ed earlier in the
+file that defined the closure, so moving a `defvar' to another file
+changes the closure without changing what it does.  Shared structure is
+copied out and cycles become :cycle, so the printed form does not depend
+on which objects happen to be `eq'."
+  (let ((active (make-hash-table :test #'eq))
+        (nodes 0))
+    (cl-labels
+        ((visit ()
+           (when (> (setq nodes (1+ nodes)) snapshot-max-nodes)
+             (throw 'too-large :too-large)))
+         (walk (v)
+           (cond ((gethash v active) :cycle)
+                 ((interpreted-function-p v)
+                  (visit)
+                  (puthash v t active)
+                  (prog1
+                      (cons :closure
+                            (cl-loop for i from 0
+                                     for slot = (condition-case nil (aref v i)
+                                                  (args-out-of-range :end))
+                                     until (eq slot :end)
+                                     collect (if (= i 2)
+                                                 (walk (cl-remove-if
+                                                        (lambda (e) (and (symbolp e) (not (eq e t))))
+                                                        slot))
+                                               (walk slot))))
+                    (remhash v active)))
+                 ((consp v)
+                  (let (cells items)
+                    (while (and (consp v) (not (gethash v active)))
+                      (visit)
+                      (puthash v t active)
+                      (push v cells)
+                      (push (walk (car v)) items)
+                      (setq v (cdr v)))
+                    (let ((result (walk v)))
+                      (dolist (cell cells) (remhash cell active))
+                      (dolist (item items result)
+                        (setq result (cons item result))))))
+                 ((and (vectorp v) (not (stringp v)))
+                  (visit)
+                  (puthash v t active)
+                  (prog1 (vconcat (mapcar #'walk v))
+                    (remhash v active)))
+                 (t v))))
+      (catch 'too-large (walk value)))))
+
 (defun snapshot-print (value)
-  (let ((print-length nil) (print-level nil) (print-circle t)
+  (let ((print-length nil) (print-level nil) (print-circle nil)
         (print-escape-newlines t))
-    (prin1-to-string value)))
+    (prin1-to-string (snapshot-normalize value))))
 
 (defun snapshot-value (value)
   "Return VALUE printed, or its hash when too long, or nil when unprintable."
-  (let ((printed (ignore-errors (snapshot-print value))))
+  (let ((printed (condition-case err (snapshot-print value)
+                   (error (format "<error %S>" err)))))
     (cond ((null printed) nil)
           ((string-match-p "#<" printed) nil)
           ((> (length printed) snapshot-max-printed-length)
@@ -92,6 +147,7 @@
                     (not (string-match-p "--" name)))
            (setq lines (nconc (snapshot-keymap-lines name (symbol-value symbol)) lines)))
          (when (and (boundp symbol) (not (keymapp (symbol-value symbol)))
+                    (not (keywordp symbol))
                     (not (string-match-p snapshot-volatile-variables name)))
            (let ((printed (snapshot-value (symbol-value symbol))))
              (when printed (push (format "var %s = %s" name printed) lines))))
