@@ -305,3 +305,9 @@ narrowed to region [BEG, END]."
 (eval-after-load "iedit"
   '(progn
      (define-key iedit-mode-keymap "\r" 'iedit-mode)))
+
+(defun unmark-sexp ()
+  "Undo the last `mark-sexp' extension."
+  (interactive)
+  (mark-sexp (if (> (mark) (point)) -1 1) t))
+(keymap-global-set "C-M-<return>" #'unmark-sexp)
