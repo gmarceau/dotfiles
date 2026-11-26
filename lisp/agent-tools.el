@@ -11,6 +11,7 @@
 (require 'exec-path-from-shell)
 (require 'ol)
 (require 'cl-lib)
+(require 'eieio)
 (exec-path-from-shell-copy-env "JUMP_CODE_HOME")
 
 ;;;; Jump to code
@@ -150,11 +151,7 @@ start, even when narrowed. Leave the temporary files unset."
   "Return the `/pseudocode' text that `hc send' types for REQUEST.
 It names the input file, the buffer's file name and line range when
 the buffer visits a file, and the output file."
-  (cl-with-accessors ((buffer pseudocode-request-buffer)
-                      (first-line pseudocode-request-first-line)
-                      (last-line pseudocode-request-last-line)
-                      (input pseudocode-request-input)
-                      (output pseudocode-request-output))
+  (with-slots (buffer first-line last-line input output)
       request
     (format "/pseudocode the code in %s%s. Write only the pseudocode to %s."
             input
@@ -171,15 +168,7 @@ output file has text, replace the lines with it, as one undo step, and
 delete the output file; otherwise keep it and name it in the message,
 with `hc''s output. Delete the input file, PROCESS's buffer and the
 markers."
-  (cl-with-accessors ((buffer pseudocode-request-buffer)
-                      (start pseudocode-request-start)
-                      (stop pseudocode-request-stop)
-                      (first-line pseudocode-request-first-line)
-                      (last-line pseudocode-request-last-line)
-                      (newline pseudocode-request-newline)
-                      (terminal pseudocode-request-terminal)
-                      (input pseudocode-request-input)
-                      (output pseudocode-request-output))
+  (with-slots (buffer start stop first-line last-line newline terminal input output)
       request
     (when (buffer-live-p buffer)
       (with-current-buffer buffer (setq buffer-read-only nil)))
@@ -225,12 +214,7 @@ same buffer waits for the first. Interactively, also signal
   (barf-if-buffer-read-only)
   (let ((request (pseudocode-make-request beg end terminal))
         (extension (and buffer-file-name (file-name-extension buffer-file-name))))
-    (cl-with-accessors ((start pseudocode-request-start)
-                        (stop pseudocode-request-stop)
-                        (first-line pseudocode-request-first-line)
-                        (last-line pseudocode-request-last-line)
-                        (input pseudocode-request-input)
-                        (output pseudocode-request-output))
+    (with-slots (start stop first-line last-line input output)
         request
       (setf input (make-temp-file "pseudocode-in-" nil
                                   (if extension (concat "." extension) ".txt")
