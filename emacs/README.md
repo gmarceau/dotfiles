@@ -45,6 +45,9 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
   Restore the last session with `M-x persp-state-load`.
 - **`C-x C-f` no longer opens `http://` URLs** (`url-handler-mode` is off).
 - **`.als` files** open in `alloy-mode`.
+- **TypeScript/TSX highlighting is complete again**: the grammars were
+  rebuilt from Emacs 31's own recipes (the old v0.20 pins didn't match
+  Emacs 31's font-lock rules).
 - The first frame opens without a toolbar and at its final size (no flash).
 
 ### Commands
@@ -84,6 +87,15 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
   `.el` file) need `:ensure nil`, or every start tries to install them.
 - If `~/.emacs.d/early-init.el` is missing, startup shows a `dotfiles`
   warning with the `ln -s` command: without it MELPA isn't configured.
+
+### Tree-sitter
+
+- Emacs 31 modes carry their own grammar recipes, pinned to commits that
+  match their highlighting. When a grammar is missing, Emacs **asks to
+  install it** the first time you open such a file (needs a C compiler).
+  Reinstall one by hand with `M-x treesit-install-language-grammar`.
+- There are no custom recipes. The old `os/setup-install-grammars`
+  (installed old pinned grammars at startup) is gone.
 
 ### Refactoring the config
 
