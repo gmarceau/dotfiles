@@ -187,11 +187,23 @@ proceed."
 
 ;;; Packages for the commands bound below
 
-(use-package ace-jump-mode :defer t)
+(use-package avy :defer t)
 (use-package expand-region :defer t)
 (use-package move-text :defer t)
 (use-package fzf :defer t)
 (use-package ag :defer t)
+
+;; Emacs's own regexp searches (C-x p g, dired-do-find-regexp) use ag.
+;; Emacs only ships grep/ripgrep/ugrep templates; ag ignores --null in
+;; match output, but xref parses its file:line: format.  So file names
+;; containing ':' are misread: skipped, or "Search failed" if first.
+(with-eval-after-load 'xref
+  (add-to-list 'xref-search-program-alist
+               ;; --silent: an unreadable file (e.g. a tracked file deleted but not
+               ;; staged) would otherwise put an error line first in the output,
+               ;; which xref reports as a failed search.
+               '(ag . "xargs -0 ag <C> --silent --nogroup --nocolor --filename --numbers -- <R>"))
+  (setq xref-search-program 'ag))
 (use-package elmacro :defer t)
 (use-package ucs-utils :defer t)
 
@@ -221,7 +233,7 @@ proceed."
 (keymap-global-set "M-+" #'er/contract-region)
 (keymap-global-set "M-B" #'bring-sexp)
 (keymap-global-set "M-r" #'repeat)
-(keymap-global-set "M-j" #'ace-jump-word-mode)
+(keymap-global-set "M-j" #'avy-goto-word-1)
 (keymap-global-set "C-o" #'open-line-better)
 (keymap-global-set "M-z" #'zap-up-to-char)
 (keymap-global-set "M-<delete>" #'kill-word)

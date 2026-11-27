@@ -26,6 +26,7 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 | `C-z` (GUI) macro: TAB then down | Same, now a command: `C-u 5 C-z` indents 5 lines |
 | `C-c l` `font-lock-fontify-buffer` | `font-lock-update` (same idea). In LSP buffers `C-c l` is the LSP prefix |
 | `M-'` symbol search | Same behaviour (jumps to next occurrence, wrapping) |
+| `M-j` ace-jump-word-mode | `avy-goto-word-1`: same feel (type the word's first char, then the label). Labels are home-row keys; `C-u M-j` limits to the current window (ace-jump ignored `C-u` here). ace-jump-mode was unmaintained since 2013 |
 
 ### Behaviour
 
@@ -43,6 +44,12 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 - **Quitting saves perspectives.** On quit, `persp-mode` is turned on if
   needed and the window/buffer layout is saved to `~/.emacs.perspective`.
   Restore the last session with `M-x persp-state-load`.
+- **`C-x p g` (`project-find-regexp`) and `dired-do-find-regexp` search with ag**
+  instead of grep (custom `xref-search-program` entry in `editing.el`).
+  Two differences from grep: use `\b` for word boundaries (`\<` and `\>`
+  silently match nothing under ag), and files with `:` in their name are
+  skipped, or make the search fail ("Search failed") when one of them
+  holds the first match.
 - **`C-x C-f` no longer opens `http://` URLs** (`url-handler-mode` is off).
 - **`.als` files** open in `alloy-mode`; **`.prisma`** files in `prisma-ts-mode`
   (it used to error).
@@ -153,7 +160,7 @@ To test a real startup in batch: `emacs --batch -u $USER --eval '…'`
 
 | Key | Command | Key | Command |
 |---|---|---|---|
-| `M-o` | other-window | `M-j` | ace-jump-word-mode |
+| `M-o` | other-window | `M-j` | avy-goto-word-1 (char, then label) |
 | `M-=` / `M-+` | expand / contract region | `M-S-<up>/<down>` | move line/region |
 | `M-B` | bring-sexp | `M-r` | repeat |
 | `M-z` | zap-up-to-char | `M-<delete>` | kill-word |
