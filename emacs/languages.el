@@ -46,6 +46,8 @@
 (with-eval-after-load 'typescript-ts-mode
   (keymap-set typescript-ts-base-mode-map "C-c >" #'insert-js-result-marker))
 
+(setopt js-indent-level 2)
+
 (add-hook 'find-file-hook 'package-json-hook)
 (defun package-json-hook ()
   (when (string= (file-name-nondirectory (buffer-file-name)) "package.json")

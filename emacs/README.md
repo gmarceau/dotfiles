@@ -7,12 +7,12 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 |---|---|
 | `early-init.el` | Before packages and the first frame: no toolbar, Menlo 18, package archives, native-comp silent |
 | `core.el` | Package machinery, defaults, perspective, loads the files below |
-| `editing.el` | Editing/navigation commands, global keys, `C-c` personal map |
+| `editing.el` | Editing/navigation commands, editing and UI settings, global keys, `C-c` personal map |
 | `dev-tools.el` | Compilation, apheleia formatting, flycheck, coverage, magit |
 | `languages.el` | File types and per-language settings |
 | `treesit-lsp.el` | Tree-sitter grammars and mode remapping, lsp-mode |
 | `agents.el` | Claude Code, ECA, agent-shell |
-| `custom.el` | Customize output (`custom-file`); don't hand-edit much |
+| `custom.el` | Customize output only (`custom-file`): theme, default face, safe local variables. Put settings in the files above |
 
 ## What changed (Nov 2026 modernization, epic dotfiles-117)
 

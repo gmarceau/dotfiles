@@ -185,13 +185,39 @@ proceed."
   (open-line 1)
   (indent-according-to-mode))
 
+;;; Settings
+
+(setq-default fill-column 80
+              indent-tabs-mode nil)
+
+;; Keep point 5 lines from the window edge; scroll a line at a time.
+(setopt scroll-margin 5
+        scroll-conservatively 101)
+(pixel-scroll-precision-mode 1)
+
+(blink-cursor-mode -1)
+(column-number-mode 1)
+(global-display-line-numbers-mode 1)
+
+(setopt ns-command-modifier 'meta
+        confirm-kill-emacs #'y-or-n-p
+        ;; Split side by side only on very wide frames.
+        split-width-threshold 260
+        auto-revert-interval 0.3
+        initial-major-mode 'text-mode
+        initial-scratch-message ""
+        ediff-window-setup-function #'ediff-setup-windows-plain
+        tags-add-tables nil
+        tags-revert-without-query t
+        ispell-program-name "~/bin/ispell")
+
 ;;; Packages for the commands bound below
 
 (use-package avy :defer t)
 (use-package expand-region :defer t)
 (use-package move-text :defer t)
-(use-package fzf :defer t)
-(use-package ag :defer t)
+(use-package fzf :defer t :custom (fzf/window-height 15))
+(use-package ag :defer t :custom (ag-ignore-list '("node_modules")))
 
 ;; Emacs's own regexp searches (C-x p g, dired-do-find-regexp) use ag.
 ;; Emacs only ships grep/ripgrep/ugrep templates; ag ignores --null in

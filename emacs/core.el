@@ -53,10 +53,12 @@ Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 
 (load "~/dotfiles/emacs/editing.el" nil t)
 
+(setopt ido-auto-merge-work-directories-length -1) ; don't search other dirs
 (ido-mode 1)
 (use-package yasnippet
   :demand t
   :init (setq yas-snippet-dirs '("~/dotfiles/snippets"))
+  :custom (yas-also-auto-indent-first-line t)
   :config (yas-global-mode 1))
 (show-paren-mode 1)
 (electric-pair-mode 1)
@@ -69,6 +71,13 @@ Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq ring-bell-function #'ignore)
 ;; (global-linum-mode t)
+
+;; No backup files, auto-save files or lock files next to my files.
+(setopt make-backup-files nil
+        auto-save-default nil
+        create-lockfiles nil)
+
+(server-mode 1)
 
 
 (load custom-file nil t)
@@ -102,7 +111,9 @@ Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 
 (use-package perspective
   :defer t
-  :custom (persp-suppress-no-prefix-key-warning t)
+  :custom
+  (persp-suppress-no-prefix-key-warning t)
+  (persp-state-default-file "~/.emacs.perspective")
   :init
   (defun persp-save-state-on-quit ()
     "Save perspectives on quit, turning `persp-mode' on first if needed,

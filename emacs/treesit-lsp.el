@@ -87,6 +87,7 @@
   :custom
   (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
   (lsp-diagnostics-provider :flycheck)
+  (lsp-enable-indentation nil)          ; indent with the major mode
   ;; TypeScript 7 no longer ships tsserver.js, which ts-ls
   ;; (typescript-language-server) wraps; use tsgo, TS 7's native server
   ;; (M-x lsp-install-server RET tsgo).  jsts-ls is the unmaintained
