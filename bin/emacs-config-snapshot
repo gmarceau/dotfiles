@@ -139,11 +139,13 @@ on which objects happen to be `eq'."
 
 (defun snapshot ()
   (setq user-init-file (expand-file-name (or (getenv "EMACS_SNAPSHOT_INIT") "~/.emacs")))
-  (setq process-environment
-        (cl-remove-if (lambda (entry) (string-match-p "\\`EMACS_SNAPSHOT_\\(EARLY_\\)?INIT=" entry))
-                      process-environment))
-  (load (expand-file-name (or (getenv "EMACS_SNAPSHOT_EARLY_INIT") "~/.emacs.d/early-init.el"))
-        t t t)
+  ;; Read before the variables are removed from the environment below.
+  (let ((early-init (expand-file-name (or (getenv "EMACS_SNAPSHOT_EARLY_INIT")
+                                          "~/.emacs.d/early-init.el"))))
+    (setq process-environment
+          (cl-remove-if (lambda (entry) (string-match-p "\\`EMACS_SNAPSHOT_\\(EARLY_\\)?INIT=" entry))
+                        process-environment))
+    (load early-init t t t))
   (package-initialize)
   (load user-init-file nil t t)
   (dolist (library snapshot-mode-libraries)

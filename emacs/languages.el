@@ -68,10 +68,6 @@
   (backward-char 2)
   (indent-for-tab-command))
 
-(defun json-reformat-region ()
-  "Send the region through `python -m json.tool`"
-  (interactive)
-  (shell-command-on-region (region-beginning) (region-end) "python -m json.tool" t t))
 
 ;;; Markdown
 

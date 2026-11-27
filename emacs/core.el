@@ -2,6 +2,12 @@
 
 (add-to-list 'load-path "~/dotfiles/lisp")
 
+(unless (bound-and-true-p dotfiles-early-init-loaded)
+  (display-warning
+   'dotfiles
+   "~/.emacs.d/early-init.el was not loaded: MELPA is missing, so packages may fail to install.
+Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
+
 ;; Customize writes here instead of this file
 (setq custom-file "~/dotfiles/emacs/custom.el")
 

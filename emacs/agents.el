@@ -54,9 +54,11 @@
             (ignore-errors (kill-process proc)))))))
 
   ;; Override only the process-kill step.
-  (advice-add 'eca-process-stop :override #'my-eca--graceful-process-stop)
-  (keymap-global-set "S-<f8>" #'eca-chat-go-to-next-attention-in-project)
-  (keymap-global-set "<f8>" #'eca-chat-go-to-next-attention))
+  (advice-add 'eca-process-stop :override #'my-eca--graceful-process-stop))
+
+;; Bound at startup: both commands are autoloaded from eca.
+(keymap-global-set "S-<f8>" #'eca-chat-go-to-next-attention-in-project)
+(keymap-global-set "<f8>" #'eca-chat-go-to-next-attention)
 
 (with-eval-after-load 'eca-chat
   (defun eca-chat-run-shell-command (command)
@@ -101,7 +103,7 @@
   (keymap-set eca-chat-mode-map "C-c C-l" #'eca-chat-clear-with-confirm)
   (keymap-set eca-chat-mode-map "C-c C-!" #'eca-chat-run-shell-command)
   )
-(use-package agent-shell :defer t)
+(use-package agent-shell :commands agent-shell-send-dwim)
 (setq agent-shell-elicitation--experimental-feature-enabled t)
 
 (require 'agent-tools)

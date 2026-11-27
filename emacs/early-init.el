@@ -3,6 +3,9 @@
 ;; Emacs reads this from ~/.emacs.d/early-init.el, which is a symlink to
 ;; this file (see README.md).
 
+(defvar dotfiles-early-init-loaded t
+  "Non-nil once this file has run; core.el warns when it hasn't.")
+
 ;; Log native-compiler warnings instead of popping up *Warnings*
 (setq native-comp-async-report-warnings-errors 'silent)
 

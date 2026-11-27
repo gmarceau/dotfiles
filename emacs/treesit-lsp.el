@@ -131,6 +131,7 @@
 (use-package lsp-mode
   :diminish "LSP"
   :ensure t
+  :commands lsp-find-references          ; C-c , before any LSP buffer
   :hook ((lsp-mode . lsp-diagnostics-mode)
          (lsp-mode . lsp-enable-which-key-integration)
          ((tsx-ts-mode
@@ -142,6 +143,13 @@
   )
 
 (use-package lsp-ui :defer t)            ; lsp-mode turns it on when installed
+
+;; lsp-mode turns company on in LSP buffers when it's installed.
+(use-package company
+  :defer t
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.2))
 
 ;; (add-to-list 'eglot-server-programs
 ;;              `(typescript-ts-mode . ("typescript-language-server" "--stdio"

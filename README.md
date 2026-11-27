@@ -3,7 +3,9 @@ Assorted Linux Configuration Files
 
 ## Emacs setup
 
-The config lives in `emacs/`. Link it from the home directory:
+The config lives in `emacs/` (details in `emacs/README.md`). After cloning,
+fetch the submodules (`git submodule update --init`), then link it from the
+home directory:
 
 ```sh
 ln -s dotfiles/.emacs ~/.emacs                                  # .emacs -> emacs/core.el

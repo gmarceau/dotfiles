@@ -180,7 +180,7 @@ proceed."
 (defun open-line-better (arg)
   (interactive "P")
   (when arg
-    (forward-line arg))
+    (forward-line (prefix-numeric-value arg)))
   (beginning-of-line)
   (open-line 1)
   (indent-according-to-mode))
@@ -192,7 +192,6 @@ proceed."
 (use-package move-text :defer t)
 (use-package fzf :defer t)
 (use-package ag :defer t)
-(use-package projectile :defer t)
 (use-package elmacro :defer t)
 (use-package ucs-utils :defer t)
 
@@ -212,7 +211,6 @@ proceed."
 (with-eval-after-load 'tab-line
   (keymap-unset tab-line-mode-map "C-x <right>")
   (keymap-unset tab-line-mode-map "C-x <left>"))
-(keymap-global-set "<f4>" #'projectile-ag)
 (keymap-global-set "<f9>" #'recompile)
 (keymap-global-set "M-<f9>" #'switch-to-compilation)
 (keymap-global-set "C-j" #'join-line-backward)
@@ -244,19 +242,18 @@ proceed."
   "w" #'agent-shell-send-dwim
   "d" #'duplicate-current-line-or-region
   "C-p" #'compile
-  "p" 'projectile-command-map
   "a" #'magit-status
   "b b" #'magit-blame
   "o" #'occur
   "'" #'iedit-mode                      ; Ctrl-c '
   "0" #'insert-console-log
   "i" #'iedit-mode
-  "j" #'json-reformat-region
+  "j" #'json-pretty-print
   "r" (lambda () (interactive) (revert-buffer t t t))
   "f g" #'lgrep
   "C-q" #'fill-region
   "q" #'unfill
-  "m b" #'bind-last-kdb-macro
+  "m b" #'kmacro-bind-to-key
   "m d" #'global-unset-key
   "l" #'font-lock-update
   "f f" #'find-file-at-point

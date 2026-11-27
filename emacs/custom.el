@@ -44,18 +44,6 @@
      (claude-code :url "https://github.com/stevemolitor/claude-code.el")))
  '(persp-state-default-file "~/.emacs.perspective")
  '(pixel-scroll-precision-mode t)
- '(projectile-completion-system 'auto)
- '(projectile-globally-ignored-directories
-   '(".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn"
-     ".stack-work" "node_modules"))
- '(projectile-other-file-alist
-   '(("spec.js" "js" "impl.js") ("impl.js" "spec.js" "js")
-     ("js" "impl.js" "spec.js") ("cpp" "h" "hpp" "ipp") ("ipp" "h" "hpp" "cpp")
-     ("hpp" "h" "ipp" "cpp" "cc") ("cxx" "h" "hxx" "ixx")
-     ("ixx" "h" "hxx" "cxx") ("hxx" "h" "ixx" "cxx") ("c" "h") ("m" "h")
-     ("mm" "h") ("h" "c" "cpp" "ipp" "hpp" "cxx" "ixx" "hxx" "m" "mm")
-     ("cc" "hh" "hpp") ("hh" "cc") ("vert" "frag") ("frag" "vert")
-     (nil "lock" "gpg") ("lock" "") ("gpg" "")))
  '(safe-local-eval-forms '((text-scale-mode t)))
  '(safe-local-variable-values
    '((text-scale-mode-amount . 2) (text-scale-mode-amount . 3)))

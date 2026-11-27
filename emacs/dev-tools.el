@@ -61,7 +61,7 @@
 
 ;;; Checking
 
-(use-package flycheck :defer t)
+(use-package flycheck :commands flycheck-next-error)
 (use-package coverlay :defer t)          ; M-x coverlay-watch-file on an lcov file
 
 ;; (use-package flycheck
