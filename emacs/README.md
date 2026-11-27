@@ -24,7 +24,9 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 | `C-c >` only in old `js-mode` | Also works in `.js` / `.ts` / `.tsx` buffers (inserts ` //-> 0 ` at end of line) |
 | `C-c C-p` in Python ran `run-python` | Runs `compile`, like everywhere else. Start a REPL with `M-x run-python`; `C-c C-z` switches to it |
 | `C-z` (GUI) macro: TAB then down | Same, now a command: `C-u 5 C-z` indents 5 lines |
-| `C-c l` `font-lock-fontify-buffer` | `font-lock-update` (same idea). In LSP buffers `C-c l` is the LSP prefix |
+| `C-c l` `font-lock-fontify-buffer` | **Unbound** (font-lock keeps up on its own now). In LSP buffers `C-c l` is the LSP prefix |
+| `C-c c` Claude Code prefix (shadowed `calculator`) | `C-c c` is `calculator` again; Claude Code moved to **`C-c k`** |
+| `C-c <tab>` set tab width (GUI only) | `C-c TAB`: same command, now also in terminal Emacs |
 | `M-'` symbol search | Same behaviour (jumps to next occurrence, wrapping) |
 | `M-j` ace-jump-word-mode | `avy-goto-word-1`: same feel (type the word's first char, then the label). Labels are home-row keys; `C-u M-j` limits to the current window (ace-jump ignored `C-u` here). ace-jump-mode was unmaintained since 2013 |
 
@@ -160,17 +162,17 @@ To test a real startup in batch: `emacs --batch -u $USER --eval '…'`
 | Key | Command | Key | Command |
 |---|---|---|---|
 | `C-c a` | magit-status | `C-c b b` | magit-blame |
-| `C-c c` | Claude Code prefix | `C-c d` | duplicate line/region |
+| `C-c c` | calculator | `C-c d` | duplicate line/region |
 | `C-c i`, `C-c '` | iedit-mode (`RET` exits) | `C-c j` | json-pretty-print (region) |
 | `C-c n` | flycheck-next-error | `C-c o` | occur |
 | `C-c q` / `C-c C-q` | unfill / fill-region | | |
 | `C-c r` | revert buffer, no questions | `C-c t` | auto-revert-tail-mode |
 | `C-c v` | view-mode | `C-c w` | agent-shell-send-dwim |
 | `C-c y` | flyspell buffer | `C-c 0` | insert console log line |
-| `C-c h` / `C-c C-h` | highlight phrase / regexp | | (`calculator` on `C-c c` is shadowed by Claude Code) |
+| `C-c h` / `C-c C-h` | highlight phrase / regexp | `C-c k` | Claude Code prefix |
 | `C-c ,` | lsp-find-references | `C-c C-p` | compile |
-| `C-c -` / `C-c =` | text scale down / up | `C-c <tab>` | set tab width (prefix arg; GUI only) |
-| `C-c <up>` / `C-c <down>` | up-list (pushes) / pop back | `C-c l` | font-lock-update |
+| `C-c -` / `C-c =` | text scale down / up | `C-c TAB` | set tab width (prefix arg) |
+| `C-c <up>` / `C-c <down>` | up-list (pushes) / pop back | | |
 | `C-c m b` | bind last macro to a key (session; `C-x C-k b`) | `C-c m d` | global-unset-key |
 
 `C-c f` — files and search:

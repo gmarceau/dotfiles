@@ -267,7 +267,6 @@ proceed."
   "q" #'unfill
   "m b" #'kmacro-bind-to-key
   "m d" #'global-unset-key
-  "l" #'font-lock-update
   "f f" #'find-file-at-point
   "f i" #'insert-file-name
   "f b" #'browse-url-at-point
@@ -280,7 +279,7 @@ proceed."
   "<down>" #'up-list-pop
   "-" #'text-scale-decrease
   "=" #'text-scale-increase
-  "<tab>" #'set-tab-width
+  "TAB" #'set-tab-width                 ; TAB, not <tab>: works in a terminal too
   "h" #'highlight-phrase
   "C-h" #'highlight-regexp
   "c" #'calculator
