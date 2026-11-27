@@ -31,7 +31,6 @@
          ("\\.jsx\\'" . tsx-ts-mode)
          ("\\.json\\'" .  json-ts-mode)
          ("\\.Dockerfile\\'" . dockerfile-ts-mode)
-         ("\\.prisma\\'" . prisma-ts-mode)
          ;; More modes defined here...
          )
   :preface
