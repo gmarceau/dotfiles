@@ -230,7 +230,6 @@ proceed."
                ;; which xref reports as a failed search.
                '(ag . "xargs -0 ag <C> --silent --nogroup --nocolor --filename --numbers -- <R>"))
   (setq xref-search-program 'ag))
-(use-package elmacro :defer t)
 (use-package ucs-utils :defer t)
 
 (use-package iedit

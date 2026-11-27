@@ -124,7 +124,6 @@ every formatter Apheleia would run on this buffer."
   (add-hook 'apheleia-inhibit-functions #'my/apheleia-no-project-formatter-p)
   (apheleia-global-mode +1))
 
-(use-package prettier :defer t)
 
 ;;; Checking
 
@@ -180,5 +179,10 @@ every formatter Apheleia would run on this buffer."
    '("--no-pager" "--literal-pathspecs" "-c" "core.preloadindex=true" "-c"
      "log.showSignature=false" "-c" "status.showUntrackedFiles=no"))
   (magit-section-initial-visibility-alist '((stashes . hide))))
-(use-package difftastic :defer t)
+;; Syntax-aware diffs (needs the difft binary: brew install difftastic).
+;; Adds M-d (diff) and M-c (show) to magit's diff menu (d), M-RET in
+;; magit-blame, M-d in magit-file-dispatch, and M-= in dired.
+(use-package difftastic
+  :defer t
+  :init (difftastic-bindings-mode 1))
 (use-package lab :defer t)

@@ -8,7 +8,7 @@
 (use-package rust-mode :defer t)
 (use-package terraform-mode :defer t)
 (use-package yaml-mode :defer t)
-(use-package sql-indent :defer t)
+(use-package sql-indent :hook (sql-mode . sqlind-minor-mode))
 (use-package prisma-ts-mode :mode "\\.prisma\\'")
 (use-package alloy-mode
   :ensure nil

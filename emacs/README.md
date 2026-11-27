@@ -32,6 +32,12 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 
 ### Behaviour
 
+- **Difftastic in magit** (structural diffs, needs `difft`:
+  `brew install difftastic`): in magit's diff menu (`d`), `M-d` diffs and
+  `M-c` shows a commit; `M-RET` in `magit-blame`; `M-d` in the file
+  menu (`C-c M-g`); `M-=` in dired diffs the file at point.
+- **SQL buffers indent by syntax** (`sql-indent`'s `sqlind-minor-mode`
+  turns on in `sql-mode`).
 - **ido completes every prompt**, not just files and buffers: `C-h f`,
   `C-h v`, magit, lsp and other `completing-read` prompts
   (`ido-completing-read+`), and `M-x`, with recently used commands first
@@ -83,7 +89,7 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 | `M-x multi-term` | Removed: use ghostel |
 | `M-x nodejs-repl`, `M-x pylint`, elpy, aider, paredit, smartparens, origami | Removed |
 | `C-c w`, `C-c n`, `<f8>`, `S-<f8>` | Now work right after startup (they used to do nothing until agent-shell / flycheck / ECA had loaded) |
-| Other removed packages | groovy-mode, bazel, typescript-mode (typescript-ts-mode is used), tree-sitter + tree-sitter-langs (built-in treesit is used), flymake-shellcheck (flycheck has shellcheck), flx-ido, corfu, xterm-color, smartrep, fill-column-indicator, smooth-scrolling, the ELPA which-key (built in, still off), monokai and solarized themes |
+| Other removed packages | groovy-mode, bazel, typescript-mode (typescript-ts-mode is used), tree-sitter + tree-sitter-langs (built-in treesit is used), flymake-shellcheck (flycheck has shellcheck), flx-ido, corfu, prettier.el (apheleia runs Prettier), elmacro, xterm-color, smartrep, fill-column-indicator, smooth-scrolling, the ELPA which-key (built in, still off), monokai and solarized themes |
 | pycoverage | Removed: `coverage lcov`, then `M-x coverlay-watch-file` on the `.lcov` file (highlights uncovered lines, refreshes when the file changes; works for JS/TS too) |
 
 ### Packages
@@ -101,6 +107,9 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
   Declare its packages with `use-package` too, before running
   `package-autoremove` there. Libraries that aren't on ELPA (a local
   `.el` file) need `:ensure nil`, or every start tries to install them.
+- **Packages kept for M-x only** (no binding on purpose): `lab`
+  (GitLab: `M-x lab-…`), `ucs-utils`, `pyvenv` (`M-x pyvenv-activate`,
+  needed for dape's `debugpy`), `coverlay` (`M-x coverlay-watch-file`).
 - If `~/.emacs.d/early-init.el` is missing, startup shows a `dotfiles`
   warning with the `ln -s` command: without it MELPA isn't configured.
 
@@ -388,5 +397,11 @@ lsp-mode and grammars loaded).
     `js-debug/` folder). `~/.emacs.d/debug-adapters/js-debug/src/dapDebugServer.js`
     should exist afterwards. Python needs nothing global: each project
     adds debugpy itself (`uv add --dev debugpy`).
+
+11. **difft for difftastic**: `brew install difftastic` if `which difft`
+    finds nothing (the magit `M-d` diff needs it).
+12. **Removed packages** (Nov 27): if `prettier`, `nvm` or `elmacro` are
+    still installed, step 5's `package-autoremove` lists them; they are
+    no longer declared.
 
 Nothing here needs committing: these are machine-local steps.
