@@ -113,6 +113,31 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
   `json-mode` maps to `json-ts-mode`. YAML, Go, Rust, TOML, Markdown keep
   their regular modes.
 
+### TypeScript language server
+
+TypeScript 7 (July 2026) is the Go rewrite and no longer ships
+`tsserver.js`, so `typescript-language-server` (lsp-mode's `ts-ls`)
+can't start with it. The config disables `ts-ls` and uses **tsgo**,
+TypeScript 7's native server. On each machine:
+
+1. `M-x package-refresh-contents`, then `M-x package-upgrade RET lsp-mode`
+   — lsp-mode needs to be from
+   Oct 2026 or later (PR #5113); older versions send `null` fields that
+   tsgo rejects ("cannot unmarshal … inlineCompletion").
+2. `M-x lsp-install-server RET tsgo` — installs `@typescript/native-preview`
+   under `~/.emacs.d/.cache/lsp/`.
+
+Then opening a `.ts`/`.tsx`/`.js`/`.jsx` file starts tsgo: completion
+(company), `C-c ,` / `M-?` references, `M-.` definitions, flycheck
+diagnostics.
+
+tsgo always checks with its own TypeScript 7, never the project's
+installed version. A repo still on TypeScript 5 can show errors for
+options TS 7 removed, e.g. `TS5102 Option 'baseUrl' has been removed`,
+`TS5108 Option 'target=ES5' has been removed`, `moduleResolution: node`,
+`esModuleInterop: false`. Those are real TS 7 incompatibilities in the
+project's `tsconfig.json`, not an Emacs problem.
+
 ### Refactoring the config
 
 `bin/emacs-config-snapshot` prints every binding, variable, dotfiles
@@ -172,3 +197,4 @@ To test a real startup in batch: `emacs --batch -u $USER --eval '…'`
 | `C-x n i` | narrow to indirect buffer | `C-x $` | selective display at column |
 | `C-h n` | man | `C-z` (GUI) | indent line, next line |
 | `M-.` / `M-,` | xref definition / back | `C-c l` (LSP buffers) | LSP prefix |
+

@@ -87,6 +87,11 @@
   :custom
   (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
   (lsp-diagnostics-provider :flycheck)
+  ;; TypeScript 7 no longer ships tsserver.js, which ts-ls
+  ;; (typescript-language-server) wraps; use tsgo, TS 7's native server
+  ;; (M-x lsp-install-server RET tsgo).  jsts-ls is the unmaintained
+  ;; sourcegraph server, which would otherwise outrank tsgo.
+  (lsp-disabled-clients '(ts-ls jsts-ls))
   )
 
 (use-package lsp-ui :defer t)            ; lsp-mode turns it on when installed
