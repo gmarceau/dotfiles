@@ -44,7 +44,8 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
   needed and the window/buffer layout is saved to `~/.emacs.perspective`.
   Restore the last session with `M-x persp-state-load`.
 - **`C-x C-f` no longer opens `http://` URLs** (`url-handler-mode` is off).
-- **`.als` files** open in `alloy-mode`.
+- **`.als` files** open in `alloy-mode`; **`.prisma`** files in `prisma-ts-mode`
+  (it used to error).
 - **TypeScript/TSX highlighting is complete again**: the grammars were
   rebuilt from Emacs 31's own recipes (the old v0.20 pins didn't match
   Emacs 31's font-lock rules).
@@ -94,8 +95,9 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
   match their highlighting. When a grammar is missing, Emacs **asks to
   install it** the first time you open such a file (needs a C compiler).
   Reinstall one by hand with `M-x treesit-install-language-grammar`.
-- There are no custom recipes. The old `os/setup-install-grammars`
-  (installed old pinned grammars at startup) is gone.
+- The only custom recipe left is prisma (`treesit-lsp.el`). The old
+  `os/setup-install-grammars` (installed old pinned grammars at startup)
+  is gone.
 
 ### Refactoring the config
 

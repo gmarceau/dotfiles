@@ -4,7 +4,11 @@
 
 ;; Emacs 31 modes ship their own grammar recipes, pinned to commits that
 ;; match their font-lock rules, and offer to install a missing grammar on
-;; first use (`treesit-auto-install-grammar').
+;; first use (`treesit-auto-install-grammar').  Only grammars Emacs has no
+;; recipe for are listed here.
+(with-eval-after-load 'treesit
+  (add-to-list 'treesit-language-source-alist
+               '(prisma "https://github.com/victorhqc/tree-sitter-prisma")))
 
 (use-package treesit
   :ensure nil

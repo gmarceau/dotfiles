@@ -10,6 +10,7 @@
 (use-package terraform-mode :defer t)
 (use-package yaml-mode :defer t)
 (use-package sql-indent :defer t)
+(use-package prisma-ts-mode :mode "\\.prisma\\'")
 (use-package alloy-mode
   :ensure nil
   :load-path "~/dotfiles/lisp/alloy-mode"
