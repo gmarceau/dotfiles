@@ -3,7 +3,6 @@
 ;;; File types
 
 (use-package csv-mode :defer t)
-(use-package dockerfile-mode :defer t)
 (use-package go-mode :defer t)
 (use-package json-mode :defer t)
 (use-package rust-mode :defer t)
@@ -21,7 +20,6 @@
 (add-to-list 'auto-mode-alist '("\\.tfstate\\'" . json-mode) t)
 (add-to-list 'auto-mode-alist '("log\\'" . auto-revert-tail-mode) t)
 (add-to-list 'auto-mode-alist '("\\.env\\'" . sh-mode) t)
-(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode) t)
 
 ;;; Python
 

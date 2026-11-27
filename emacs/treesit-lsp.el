@@ -30,7 +30,7 @@
   (funcall (get 'treesit-enabled-modes 'custom-set)
            'treesit-enabled-modes
            '(python-ts-mode css-ts-mode typescript-ts-mode c-ts-mode c++-ts-mode
-             c-or-c++-ts-mode bash-ts-mode json-ts-mode))
+             c-or-c++-ts-mode bash-ts-mode json-ts-mode dockerfile-ts-mode))
   ;; Not in Emacs's remap table: JavaScript is parsed with the TypeScript
   ;; grammar, and json-mode is a MELPA package.
   (add-to-list 'major-mode-remap-alist '(js-mode . typescript-ts-mode))

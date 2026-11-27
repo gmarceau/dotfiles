@@ -46,6 +46,8 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 - **`C-x C-f` no longer opens `http://` URLs** (`url-handler-mode` is off).
 - **`.als` files** open in `alloy-mode`; **`.prisma`** files in `prisma-ts-mode`
   (it used to error).
+- **Dockerfiles** (`Dockerfile`, `*.Dockerfile`) open in the built-in
+  `dockerfile-ts-mode`; the `dockerfile-mode` package is gone.
 - **TypeScript/TSX highlighting is complete again**: the grammars were
   rebuilt from Emacs 31's own recipes (the old v0.20 pins didn't match
   Emacs 31's font-lock rules).
@@ -99,7 +101,7 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
   `os/setup-install-grammars` (installed old pinned grammars at startup)
   is gone.
 - Which languages use tree-sitter modes is set by `treesit-enabled-modes`:
-  Python, CSS, TypeScript, C/C++, Bash, JSON. JavaScript (`.js`, `.mjs`,
+  Python, CSS, TypeScript, C/C++, Bash, JSON, Dockerfile. JavaScript (`.js`, `.mjs`,
   `.cjs`, `.jsx`, and `js-mode`) still opens in the TypeScript modes, and
   `json-mode` maps to `json-ts-mode`. YAML, Go, Rust, TOML, Markdown keep
   their regular modes.
