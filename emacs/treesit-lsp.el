@@ -12,6 +12,7 @@
 
 (use-package treesit
   :ensure nil
+  :demand t
   :mode (("\\.tsx\\'" . tsx-ts-mode)
          ("\\.js\\'"  . typescript-ts-mode)
          ("\\.mjs\\'" . typescript-ts-mode)
@@ -22,25 +23,18 @@
          ("\\.json\\'" .  json-ts-mode)
          ;; More modes defined here...
          )
-  :preface
-  ;; Optional, but recommended. Tree-sitter enabled major modes are
-  ;; distinct from their ordinary counterparts.
-  ;;
-  ;; You can remap major modes with `major-mode-remap-alist'. Note
-  ;; that this does *not* extend to hooks! Make sure you migrate them
-  ;; also
-  (dolist (mapping
-           '((python-mode . python-ts-mode)
-             (css-mode . css-ts-mode)
-             (typescript-mode . typescript-ts-mode)
-             (js-mode . typescript-ts-mode)
-             (c-mode . c-ts-mode)
-             (c++-mode . c++-ts-mode)
-             (c-or-c++-mode . c-or-c++-ts-mode)
-             (json-mode . json-ts-mode)
-             (js-json-mode . json-ts-mode)
-             (sh-mode . bash-ts-mode)))
-    (add-to-list 'major-mode-remap-alist mapping)))
+  :config
+  ;; Visit these languages in their tree-sitter modes.  The option's :set
+  ;; function does the remapping; it's called directly because `setopt'
+  ;; and `customize-set-variable' load the Customize UI at startup.
+  (funcall (get 'treesit-enabled-modes 'custom-set)
+           'treesit-enabled-modes
+           '(python-ts-mode css-ts-mode typescript-ts-mode c-ts-mode c++-ts-mode
+             c-or-c++-ts-mode bash-ts-mode json-ts-mode))
+  ;; Not in Emacs's remap table: JavaScript is parsed with the TypeScript
+  ;; grammar, and json-mode is a MELPA package.
+  (add-to-list 'major-mode-remap-alist '(js-mode . typescript-ts-mode))
+  (add-to-list 'major-mode-remap-alist '(json-mode . json-ts-mode)))
 
 ;;; LSP and completion
 

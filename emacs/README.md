@@ -98,6 +98,11 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 - The only custom recipe left is prisma (`treesit-lsp.el`). The old
   `os/setup-install-grammars` (installed old pinned grammars at startup)
   is gone.
+- Which languages use tree-sitter modes is set by `treesit-enabled-modes`:
+  Python, CSS, TypeScript, C/C++, Bash, JSON. JavaScript (`.js`, `.mjs`,
+  `.cjs`, `.jsx`, and `js-mode`) still opens in the TypeScript modes, and
+  `json-mode` maps to `json-ts-mode`. YAML, Go, Rust, TOML, Markdown keep
+  their regular modes.
 
 ### Refactoring the config
 
