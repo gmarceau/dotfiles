@@ -199,3 +199,146 @@ To test a real startup in batch: `emacs --batch -u $USER --eval '…'`
 | `C-h n` | man | `C-z` (GUI) | indent line, next line |
 | `M-.` / `M-,` | xref definition / back | `C-c l` (LSP buffers) | LSP prefix |
 
+## For an agent setting up another machine (e.g. the work laptop)
+
+The Nov 2026 modernization (beads epic `dotfiles-117`) changed things that
+live outside the repo. After `git pull` on a machine that ran the old
+config, do these steps in order, and report what you did. Ask the user
+before deleting or installing anything not listed here.
+
+**How to run things.** Use batch Emacs with the real startup:
+`emacs --batch -u $USER --eval '…'` (plain `--batch` skips early-init and
+package activation). Every command below is written to paste as is: the
+Lisp uses `(quote x)` and `(function f)` instead of `'x` / `#'f`, which
+would break the shell's single quotes. Ignore "Unable to start the Emacs
+server" when an Emacs is already running. If the user's interactive
+Emacs is open, ask them to restart it after steps 6–8 (it keeps the old
+lsp-mode and grammars loaded).
+
+**Prerequisites**: `ag`, `node`/`npm`, a C compiler (`cc`), network access.
+
+1. **Submodules**: `git submodule update --init`. `git submodule status`
+   should list only `lisp/alloy-mode`. Old submodule folders
+   (`lisp/tsx-mode`, `lisp/tree-sitter-css-in-js`, `lisp/pycoverage`) may
+   be left behind as untracked files: harmless (not on `load-path`); ask
+   the user before deleting them.
+2. **early-init.el**: if `~/.emacs.d/early-init.el` is missing,
+   `ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el`.
+   Without it startup shows a `dotfiles` warning and MELPA is missing.
+3. **Machine-specific packages**: packages are now declared with
+   `use-package`, and `package-selected-packages` is generated from those
+   declarations. Before step 5, make sure every package the machine's
+   `~/dotfiles/<name>/init.el` uses is declared there with `use-package`
+   (`:ensure nil` for local `.el` files). Ask the user if unsure.
+4. **Refresh the package archives, then start once** so missing packages
+   install (an old archive cache points at versions MELPA has deleted):
+
+   ```sh
+   emacs --batch -u $USER --eval '(package-refresh-contents)'
+   emacs --batch -u $USER --eval '(princ "ok\n")'
+   ```
+
+   The first may print package download errors (startup runs before the
+   refresh); what matters is that the second prints `ok` with no
+   `Warning`/`Error` lines except the server one.
+5. **Remove packages the config no longer declares.** List them:
+
+   ```sh
+   emacs --batch -u $USER --eval '(princ (format "%S\n" (mapcar (function package-desc-name) (package--removable-packages))))'
+   ```
+
+   Show the list to the user; once they approve, delete them:
+   `emacs --batch -u $USER --eval '(package-autoremove t)'`.
+6. **lsp-mode must be from Oct 2026 or later.** (The `dotfiles` warning
+   only appears when lsp-mode loads, not at startup, so check
+   explicitly.)
+
+   ```sh
+   emacs --batch -u $USER --eval '(princ (format "%S\n" (package-desc-version (cadr (assq (quote lsp-mode) package-alist)))))'
+   ```
+
+   If the first number is below `20261001`:
+   `emacs --batch -u $USER --eval '(progn (package-refresh-contents) (package-upgrade (quote lsp-mode)))'`.
+7. **TypeScript server (tsgo).** The install runs npm asynchronously, so
+   the command waits for it:
+
+   ```sh
+   emacs --batch -u $USER --eval '(progn (require (quote lsp-javascript)) (lsp-install-server nil (quote tsgo)) (let ((n 0)) (while (and (< n 300) (seq-some (lambda (p) (and (eq (process-type p) (quote real)) (process-live-p p))) (process-list))) (accept-process-output nil 1) (setq n (1+ n)))) (princ (format "tsgo: %S\n" (ignore-errors (lsp-package-path (quote tsgo))))))'
+   ```
+
+   It should print a path to `tsgo`, usually ending in
+   `@typescript/native-preview/bin/tsgo`; a `tsgo` already on `PATH`
+   (e.g. `/opt/homebrew/bin/tsgo`) is fine too. `nil` means it failed.
+   (Give the command a timeout of a few minutes.)
+   A stale ts-ls install in `~/.emacs.d/.cache/lsp/npm/`
+   (`typescript-language-server`, `typescript`) is unused (ts-ls is
+   disabled); ask before deleting it.
+8. **Tree-sitter grammars.** The old config installed `typescript` and
+   `tsx` from v0.20 pins that don't match Emacs 31's font-lock rules, and
+   never installed `dockerfile`. Build these from Emacs's own recipes
+   (needs `cc`); `python` is included so step 9 can't stop on an install
+   prompt:
+
+   ```sh
+   emacs --batch -u $USER --eval '(progn (require (quote typescript-ts-mode)) (require (quote dockerfile-ts-mode)) (dolist (l (quote (typescript tsx dockerfile python))) (treesit-install-language-grammar l)))'
+   ```
+
+   Other grammars install on first use, after Emacs asks (interactive
+   Emacs only).
+9. **Verify.** Save this as `/tmp/verify-emacs.el` and run
+   `emacs --batch -u $USER -l /tmp/verify-emacs.el </dev/null`:
+
+   ```elisp
+   ;;; -*- lexical-binding: t -*-
+   (require 'lsp-mode)           ; before binding its variables in let*
+   (let* ((dir (make-temp-file "verify-ts" t))
+          (lsp-session-file (expand-file-name "lsp-session" dir))
+          (lsp-auto-guess-root t)
+          (lsp-enable-suggest-server-download nil) ; no prompt if no server
+          (lsp-restart 'ignore))        ; no prompt if the server crashes
+     (with-temp-file (expand-file-name "package.json" dir) (insert "{}"))
+     (with-temp-file (expand-file-name "a.ts" dir) (insert "const x: number = 1;\n"))
+     (with-current-buffer (find-file-noselect (expand-file-name "a.ts" dir))
+       (lsp)
+       (let ((n 0))
+         (while (and (< n 60) lsp--buffer-workspaces
+                     (not (and lsp--buffer-workspaces
+                               (eq (lsp--workspace-status (car lsp--buffer-workspaces))
+                                   'initialized))))
+           (accept-process-output nil 0.5) (setq n (1+ n))))
+       (let ((ws (car lsp--buffer-workspaces)))
+         (princ (format "ts: mode=%S server=%S status=%S company=%S\n" major-mode
+                        (and ws (lsp--client-server-id (lsp--workspace-client ws)))
+                        (and ws (lsp--workspace-status ws))
+                        (bound-and-true-p company-mode))))
+       (font-lock-ensure)
+       (ignore-errors (lsp-workspace-shutdown (car lsp--buffer-workspaces))))
+     (delete-directory dir t))
+   (with-temp-buffer
+     (setq buffer-file-name "/tmp/verify.py") (set-auto-mode)
+     (princ (format "py: mode=%S flycheck=%S\n" major-mode (bound-and-true-p flycheck-mode)))
+     (setq buffer-file-name nil))
+   (with-temp-buffer
+     (setq buffer-file-name "/tmp/Dockerfile") (set-auto-mode)
+     (princ (format "docker: mode=%S\n" major-mode))
+     (setq buffer-file-name nil))
+   (princ (format "font-lock mismatch warning: %S\n"
+                  (and (get-buffer "*Warnings*")
+                       (with-current-buffer "*Warnings*"
+                         (string-match-p "treesit-font-lock-rules-mismatch" (buffer-string)))
+                       t)))
+   ```
+
+   Expected: `ts: mode=typescript-ts-mode server=tsgo status=initialized company=t`,
+   `py: mode=python-ts-mode flycheck=t`, `docker: mode=dockerfile-ts-mode`,
+   `font-lock mismatch warning: nil`. If something's off, report it:
+   - `server=nil`: tsgo isn't installed (redo step 7), or it crashed on
+     start (a "tsgo has exited (exited abnormally …)" line appears above;
+     check that the binary runs: `<path from step 7> --version`).
+   - `server=tsgo status=starting`: tsgo rejected the connection, usually
+     lsp-mode too old (redo step 6).
+   - another server, e.g. `graphql-lsp` or `eslint`: those are add-on
+     clients that only show up when tsgo isn't running, so this also
+     means tsgo is missing (redo step 7).
+
+Nothing here needs committing: these are machine-local steps.
