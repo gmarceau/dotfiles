@@ -145,6 +145,40 @@ options TS 7 removed, e.g. `TS5102 Option 'baseUrl' has been removed`,
 `esModuleInterop: false`. Those are real TS 7 incompatibilities in the
 project's `tsconfig.json`, not an Emacs problem.
 
+### Debugging (dape)
+
+`M-x dape` (`C-x C-a d`) starts a debug session; `C-x C-a b` toggles a
+breakpoint. Once a session runs, `n` (next), `s` (step in), `o` (out),
+`c` (continue) repeat without the prefix (`repeat-mode`). Modified
+buffers are saved first. Configs to type at the prompt:
+
+| Config | For |
+|---|---|
+| `js-debug-node` / `js-debug-node-ts` | A `.js` / `.ts` file run by node (node 22.18+ runs TypeScript itself) |
+| `js-debug-tsx`, `js-debug-ts-node` | TypeScript through `tsx` / `ts-node` (must be installed) |
+| `js-debug-node-attach` | A running `node --inspect` process (port 9229) |
+| `debugpy` | Python; needs `uv add --dev debugpy` in the project and its venv active (`M-x pyvenv-activate`) |
+
+**Walkthrough**
+
+- *TypeScript / Node file*: open the `.ts` (or `.js`) file, put point on a
+  line and `C-x C-a b`, then `C-x C-a d` and pick `js-debug-node-ts`
+  (`js-debug-node` for `.js`). Step with `n` / `s` / `o` / `c`; the
+  info and REPL windows open on the right, and variable values show
+  inline in the buffer.
+- *A Node server already running*: start it with `node --inspect …`,
+  set breakpoints in the `.ts` sources (source maps map them), then
+  `C-x C-a d` and pick `js-debug-node-attach`.
+- *Python*: in the project, `uv add --dev debugpy` once; in Emacs,
+  `M-x pyvenv-activate` and pick its `.venv`. Then a breakpoint with
+  `C-x C-a b`, and `C-x C-a d`, `debugpy`.
+- *Done*: `C-x C-a q` quits the session (`dape-quit`).
+
+Override options after the name, e.g. `js-debug-node-ts :program "src/main.ts"`.
+To fix a project's default, set `dape-command` in its `.dir-locals.el`.
+The JS adapter lives in `~/.emacs.d/debug-adapters/js-debug` (machine-local;
+see step 10 under "For an agent setting up another machine").
+
 ### Refactoring the config
 
 `bin/emacs-config-snapshot` prints every binding, variable, dotfiles
@@ -346,5 +380,13 @@ lsp-mode and grammars loaded).
    - another server, e.g. `graphql-lsp` or `eslint`: those are add-on
      clients that only show up when tsgo isn't running, so this also
      means tsgo is missing (redo step 7).
+
+10. **Debug adapter for Node/TypeScript** (dape). Download the
+    `js-debug-dap-v*.tar.gz` asset of the latest
+    [vscode-js-debug release](https://github.com/microsoft/vscode-js-debug/releases)
+    and extract it into `~/.emacs.d/debug-adapters/` (the tarball holds a
+    `js-debug/` folder). `~/.emacs.d/debug-adapters/js-debug/src/dapDebugServer.js`
+    should exist afterwards. Python needs nothing global: each project
+    adds debugpy itself (`uv add --dev debugpy`).
 
 Nothing here needs committing: these are machine-local steps.

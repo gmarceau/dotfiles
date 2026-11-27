@@ -142,6 +142,33 @@ every formatter Apheleia would run on this buffer."
 ;;               ("M-n" . flycheck-next-error) ; optional but recommended error navigation
 ;;               ("M-p" . flycheck-previous-error)))
 
+;;; Debugging
+
+;; Debug Adapter Protocol client.  M-x dape (C-x C-a d) asks for a config:
+;;   js-debug-node, js-debug-node-ts   Node, TypeScript (node 22.18+)
+;;   js-debug-tsx, js-debug-ts-node    TypeScript via tsx / ts-node
+;;   js-debug-node-attach              attach to node --inspect
+;;   debugpy                           Python (uv add --dev debugpy)
+;; C-x C-a b toggles a breakpoint; then n/s/c repeat without the prefix.
+;; Adapters live in ~/.emacs.d/debug-adapters (see emacs/README.md).
+(use-package dape
+  :defer t
+  :custom
+  (dape-buffer-window-arrangement 'right)
+  (dape-inlay-hints t)
+  :config
+  ;; Node 22.18+ runs .ts files itself, so offer plain node in TS buffers
+  ;; (dape's ts configs need tsx or ts-node installed).
+  (let ((config (copy-tree (alist-get 'js-debug-node dape-configs))))
+    (setf (plist-get config 'modes) '(typescript-mode typescript-ts-mode))
+    (add-to-list 'dape-configs (cons 'js-debug-node-ts config)))
+  ;; Save modified buffers without asking before a session starts, so the
+  ;; program runs the code on screen.
+  (advice-add 'dape :before (lambda (&rest _) (save-some-buffers t))
+              '((name . save-buffers-before-debugging))))
+
+(repeat-mode 1)
+
 ;;; Version control
 
 (use-package magit
