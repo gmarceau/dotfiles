@@ -92,7 +92,17 @@
   ;; (M-x lsp-install-server RET tsgo).  jsts-ls is the unmaintained
   ;; sourcegraph server, which would otherwise outrank tsgo.
   (lsp-disabled-clients '(ts-ls jsts-ls))
-  )
+  :config
+  ;; tsgo rejects the null fields older lsp-mode sends ("cannot unmarshal
+  ;; ... inlineCompletion"); fixed in lsp-mode PR #5113 (Oct 2026).
+  ;; Assumes a package.el install: a :vc checkout's version comes from its
+  ;; Version: header, so this would warn wrongly there.
+  (let ((desc (cadr (assq 'lsp-mode package-alist))))
+    (when (and desc (version-list-< (package-desc-version desc) '(20261001)))
+      (display-warning
+       'dotfiles
+       (format "lsp-mode %s is too old for tsgo (TypeScript 7). Fix: M-x package-upgrade RET lsp-mode"
+               (package-version-join (package-desc-version desc)))))))
 
 (use-package lsp-ui :defer t)            ; lsp-mode turns it on when installed
 

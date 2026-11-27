@@ -129,7 +129,8 @@ TypeScript 7's native server. On each machine:
 
 Then opening a `.ts`/`.tsx`/`.js`/`.jsx` file starts tsgo: completion
 (company), `C-c ,` / `M-?` references, `M-.` definitions, flycheck
-diagnostics.
+diagnostics. If lsp-mode is too old, a `dotfiles` warning says so when it
+loads.
 
 tsgo always checks with its own TypeScript 7, never the project's
 installed version. A repo still on TypeScript 5 can show errors for
