@@ -55,6 +55,15 @@ Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 
 (setopt ido-auto-merge-work-directories-length -1) ; don't search other dirs
 (ido-mode 1)
+(ido-everywhere 1)                      ; ido for file/buffer args in any command
+;; ido for every other completing-read prompt (C-h f, magit, lsp...).
+(use-package ido-completing-read+
+  :demand t
+  :config (ido-ubiquitous-mode 1))
+;; ido for M-x, most recently used commands first.
+(use-package amx
+  :demand t
+  :config (amx-mode 1))
 (use-package yasnippet
   :demand t
   :init (setq yas-snippet-dirs '("~/dotfiles/snippets"))

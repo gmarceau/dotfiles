@@ -32,6 +32,10 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 
 ### Behaviour
 
+- **ido completes every prompt**, not just files and buffers: `C-h f`,
+  `C-h v`, magit, lsp and other `completing-read` prompts
+  (`ido-completing-read+`), and `M-x`, with recently used commands first
+  (`amx`). `C-f` inside an ido prompt still falls back to plain completion.
 - **Python buffers have flycheck on** (it was silently off since `.py` opens in
   `python-ts-mode`). `C-c n` jumps to the next error. Flycheck now knows
   all current checkers: ruff, flake8, mypy, pyright, tflint, yamllint,
