@@ -112,8 +112,16 @@ so `persp-state-load' can restore the last session."
       (persp-state-save)))
   (add-hook 'kill-emacs-hook #'persp-save-state-on-quit))
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-                                        ;(remove-hook 'before-save-hook 'delete-trailing-whitespace)
+;; Strip trailing whitespace only on lines I edited, so saving a file in
+;; someone else's repo doesn't turn into a whole-file whitespace diff.
+;; (Apheleia reformats the whole buffer anyway where a project has a
+;; formatter; see dev-tools.el.)
+(use-package ws-butler
+  :diminish
+  :hook ((prog-mode text-mode conf-mode) . ws-butler-mode))
+
+;; Always end files with a newline.
+(setq require-final-newline t)
 
 
                                         ;(define-key perspective-map "s" 'projectile-persp-switch-project)
