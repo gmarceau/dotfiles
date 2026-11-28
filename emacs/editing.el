@@ -190,9 +190,9 @@ proceed."
 (setq-default fill-column 80
               indent-tabs-mode nil)
 
-;; Keep point 5 lines from the window edge; scroll a line at a time.
-(setopt scroll-margin 5
-        scroll-conservatively 101)
+;; Scroll a line at a time.  No scroll-margin: it fights
+;; pixel-scroll-precision-mode and snaps the window back during slow scrolls.
+(setopt scroll-conservatively 101)
 (pixel-scroll-precision-mode 1)
 
 (blink-cursor-mode -1)
