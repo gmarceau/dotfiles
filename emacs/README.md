@@ -12,7 +12,7 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
 | `languages.el` | File types and per-language settings |
 | `treesit-lsp.el` | Tree-sitter grammars and mode remapping, lsp-mode |
 | `agents.el` | Claude Code, ECA, agent-shell |
-| `custom.el` | Customize output only (`custom-file`): theme, default face, safe local variables. Put settings in the files above |
+| `custom.el` | Owned by Customize (`custom-file`, loaded first): every user option, theme, default face, safe local variables. Edit with `M-x customize-variable`; don't use `setopt` / `use-package :custom` in the other files (Customize would write them back as duplicates) |
 
 ## What changed (Nov 2026 modernization, epic dotfiles-117)
 
@@ -47,8 +47,9 @@ Emacs 31. `~/.emacs` → `.emacs` → `emacs/core.el`; `~/.emacs.d/early-init.el
   all current checkers: ruff, flake8, mypy, pyright, tflint, yamllint,
   hadolint, markdownlint…
 - **Killing `*scratch*`** still leaves a fresh, empty one behind (buried).
-- **Scrolling**: point keeps 5 lines from the window edge, and the screen
-  moves a line at a time (built-in, replaces `smooth-scrolling`).
+- **Scrolling**: the screen moves a line at a time (built-in, replaces
+  `smooth-scrolling`). There is no `scroll-margin`: it fought
+  `pixel-scroll-precision-mode` and snapped the window back during slow scrolls.
   Trackpad/mouse scrolling is pixel-smooth (`pixel-scroll-precision-mode`).
   `C-<up>` / `C-<down>` still scroll 3 lines.
 - **Compilation colours** are applied only to new output, so long builds stay fast.

@@ -8,8 +8,13 @@
    "~/.emacs.d/early-init.el was not loaded: MELPA is missing, so packages may fail to install.
 Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 
-;; Customize writes here instead of this file
+;; Customize owns every user option (variables, themes, faces): they live
+;; in custom.el, loaded first so packages see them as they load.  Don't set
+;; options with `setopt', `customize-set-variable' or use-package `:custom'
+;; in the other files: Customize would write them back here as duplicates.
+;; Plain `setq' is fine for things that aren't options.
 (setq custom-file "~/dotfiles/emacs/custom.el")
+(load custom-file nil t)
 
 ;;; Packages
 ;; Every package is declared with `use-package' next to its config and
@@ -45,15 +50,11 @@ Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 
 (use-package exec-path-from-shell
   :demand t
-  ;; PATH is set in .zshrc (via .zsh-env-vars.sh), hence the default -i;
-  ;; don't warn about it.
-  :custom (exec-path-from-shell-check-startup-files nil)
   :config (exec-path-from-shell-initialize))
 
 
 (load "~/dotfiles/emacs/editing.el" nil t)
 
-(setopt ido-auto-merge-work-directories-length -1) ; don't search other dirs
 (ido-mode 1)
 (ido-everywhere 1)                      ; ido for file/buffer args in any command
 ;; ido for every other completing-read prompt (C-h f, magit, lsp...).
@@ -67,7 +68,6 @@ Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 (use-package yasnippet
   :demand t
   :init (setq yas-snippet-dirs '("~/dotfiles/snippets"))
-  :custom (yas-also-auto-indent-first-line t)
   :config (yas-global-mode 1))
 (show-paren-mode 1)
 (electric-pair-mode 1)
@@ -81,15 +81,6 @@ Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 (setq ring-bell-function #'ignore)
 ;; (global-linum-mode t)
 
-;; No backup files, auto-save files or lock files next to my files.
-(setopt make-backup-files nil
-        auto-save-default nil
-        create-lockfiles nil)
-
-(server-mode 1)
-
-
-(load custom-file nil t)
                                         ;(custom-set-faces
                                         ; ;; custom-set-faces was added by Custom.
                                         ; ;; If you edit it by hand, you could mess it up, so be careful.
@@ -120,9 +111,6 @@ Fix: ln -s ../dotfiles/emacs/early-init.el ~/.emacs.d/early-init.el"))
 
 (use-package perspective
   :defer t
-  :custom
-  (persp-suppress-no-prefix-key-warning t)
-  (persp-state-default-file "~/.emacs.perspective")
   :init
   (defun persp-save-state-on-quit ()
     "Save perspectives on quit, turning `persp-mode' on first if needed,
@@ -139,6 +127,8 @@ so `persp-state-load' can restore the last session."
 (use-package ws-butler
   :diminish
   :hook ((prog-mode text-mode conf-mode) . ws-butler-mode))
+
+
 
 ;; Always end files with a newline.
 (setq require-final-newline t)

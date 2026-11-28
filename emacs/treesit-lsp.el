@@ -84,15 +84,6 @@
          ((tsx-ts-mode
            typescript-ts-mode
            js-ts-mode) . lsp-deferred))
-  :custom
-  (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
-  (lsp-diagnostics-provider :flycheck)
-  (lsp-enable-indentation nil)          ; indent with the major mode
-  ;; TypeScript 7 no longer ships tsserver.js, which ts-ls
-  ;; (typescript-language-server) wraps; use tsgo, TS 7's native server
-  ;; (M-x lsp-install-server RET tsgo).  jsts-ls is the unmaintained
-  ;; sourcegraph server, which would otherwise outrank tsgo.
-  (lsp-disabled-clients '(ts-ls jsts-ls))
   :config
   ;; tsgo rejects the null fields older lsp-mode sends ("cannot unmarshal
   ;; ... inlineCompletion"); fixed in lsp-mode PR #5113 (Oct 2026).
@@ -108,11 +99,7 @@
 (use-package lsp-ui :defer t)            ; lsp-mode turns it on when installed
 
 ;; lsp-mode turns company on in LSP buffers when it's installed.
-(use-package company
-  :defer t
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.2))
+(use-package company :defer t)
 
 ;; (add-to-list 'eglot-server-programs
 ;;              `(typescript-ts-mode . ("typescript-language-server" "--stdio"

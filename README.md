@@ -26,6 +26,7 @@ this line to `~/dotfiles/<name>/init.el`:
 (setq-default compile-command "tg plan")
 ```
 
-The other settings that were in `custom.el` now live in the topic files
-(`core.el`, `editing.el`, `dev-tools.el`, …); `custom.el` only holds what
-Customize writes (theme, font, safe local variables).
+Every other option lives in `custom.el`, which Customize owns (variables,
+theme, font, safe local variables). Change them with `M-x customize-variable`
+(or `setopt` in a machine-specific `init.el`), not with `setopt` or
+`use-package :custom` in the shared topic files.

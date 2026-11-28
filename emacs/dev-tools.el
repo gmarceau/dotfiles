@@ -4,10 +4,6 @@
 
 (require 'compile)
 
-(setopt compilation-ask-about-save nil   ; save all buffers without asking
-        compilation-scroll-output 'first-error
-        compilation-message-face 'default)
-
                                         ;(add-to-list
                                         ; 'compilation-error-regexp-alist
                                         ; '("^\\([^ \n]+\\)(\\([0-9]+\\)): \\(?:error\\|.\\|warnin\\(g\\)\\|remar\\(k\\)\\)"
@@ -128,10 +124,7 @@ every formatter Apheleia would run on this buffer."
 ;;; Checking
 
 (use-package flycheck
-  :commands flycheck-next-error
-  :custom
-  (flycheck-display-errors-delay 0)
-  (flycheck-sql-sqlint-executable "/opt/homebrew/bin/sql-lint"))
+  :commands flycheck-next-error)
 (use-package coverlay :defer t)          ; M-x coverlay-watch-file on an lcov file
 
 ;; (use-package flycheck
@@ -152,9 +145,6 @@ every formatter Apheleia would run on this buffer."
 ;; Adapters live in ~/.emacs.d/debug-adapters (see emacs/README.md).
 (use-package dape
   :defer t
-  :custom
-  (dape-buffer-window-arrangement 'right)
-  (dape-inlay-hints t)
   :config
   ;; Node 22.18+ runs .ts files itself, so offer plain node in TS buffers
   ;; (dape's ts configs need tsx or ts-node installed).
@@ -171,14 +161,7 @@ every formatter Apheleia would run on this buffer."
 ;;; Version control
 
 (use-package magit
-  :defer t
-  :custom
-  ;; Faster status in big repos: preload the index, skip signature checks
-  ;; and untracked files.
-  (magit-git-global-arguments
-   '("--no-pager" "--literal-pathspecs" "-c" "core.preloadindex=true" "-c"
-     "log.showSignature=false" "-c" "status.showUntrackedFiles=no"))
-  (magit-section-initial-visibility-alist '((stashes . hide))))
+  :defer t)
 ;; Syntax-aware diffs (needs the difft binary: brew install difftastic).
 ;; Adds M-d (diff) and M-c (show) to magit's diff menu (d), M-RET in
 ;; magit-blame, M-d in magit-file-dispatch, and M-= in dired.

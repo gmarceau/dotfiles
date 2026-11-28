@@ -32,10 +32,6 @@
 
 (use-package eca
   :defer t
-  :custom
-  (eca-chat-use-side-window nil)
-  (eca-send-process-id t)
-  (eca-worktree-mode 'isolated)
   :config
 
   (defun my-eca--graceful-process-stop (session)
